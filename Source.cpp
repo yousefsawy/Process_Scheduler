@@ -44,7 +44,7 @@ bool InputF(void)
 			InputFile >> IO_R;
 			InputFile.ignore();
 			InputFile >> IO_D;
-
+			InputFile.ignore();
 			//TODO: Add I/O Request to Process
 			tempProcess->AddRequest(IO_R, IO_D);
 
