@@ -52,5 +52,4 @@ bool InputF(void)
 			if (j != N - 1)
 				InputFile.ignore();
 		}
-		return true;
 	}
