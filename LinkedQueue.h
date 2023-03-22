@@ -20,6 +20,7 @@ public:
 	bool dequeue(T&);
 	bool peek(T&)  const;
 	~LinkedQueue();
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,7 +37,7 @@ LinkedQueue<T>::LinkedQueue() {
 template<typename T>
 bool LinkedQueue<T>::isEmpty() const {
 
-	return (front == back == nullptr);
+	return (front == nullptr && back == nullptr);
 
 }
 

@@ -21,9 +21,13 @@
     <ClInclude Include="LinkedQueue.h">
       <Filter>Data_Structures\Implementation</Filter>
     </ClInclude>
-    <ClInclude Include="PriNode.h" />
-    <ClInclude Include="PriQueue.h" />
     <ClInclude Include="Process.h" />
+    <ClInclude Include="PriNode.h">
+      <Filter>Data_Structures\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="PriQueue.h">
+      <Filter>Data_Structures\Implementation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />

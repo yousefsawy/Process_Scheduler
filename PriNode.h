@@ -15,6 +15,7 @@ public:
 	void setPriority(int);
 	int getPriority();
 	void setNext(PriNode<T>*);
+
 };
 
 
