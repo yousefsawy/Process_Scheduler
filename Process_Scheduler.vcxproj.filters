@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Data_Structures">
+      <UniqueIdentifier>{85e4a5f6-0361-47ee-85f1-28d3f7be64d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data_Structures\Interface">
+      <UniqueIdentifier>{ba81560d-f666-4a53-8a91-3072717fdf54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data_Structures\Implementation">
+      <UniqueIdentifier>{aff796b5-2239-45a2-9dce-cbf9c39b7113}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="QueueADT.h">
+      <Filter>Data_Structures\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Data_Structures\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedQueue.h">
+      <Filter>Data_Structures\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="PriNode.h" />
+    <ClInclude Include="PriQueue.h" />
+    <ClInclude Include="Process.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source.cpp" />
+  </ItemGroup>
+</Project>
