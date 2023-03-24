@@ -15,6 +15,7 @@ public:
 	void setPriority(int);
 	int getPriority();
 	void setNext(PriNode<T>*);
+
 };
 
 
@@ -22,7 +23,7 @@ public:
 //IMPLEMENTATIONS
 
 template<typename T>
- PriNode<T> :: PriNode(const T& data, PriNode<T>* next, int pri):(data,next)
+ PriNode<T> :: PriNode(const T& data, PriNode<T>* next, int pri) :(data,next)
 
 {
 	prior = pri;

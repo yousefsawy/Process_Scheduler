@@ -1,4 +1,3 @@
-#pragma once
 #ifndef PRI_QUEUE_H
 #define PRI_QUEUE_H
 
@@ -9,40 +8,42 @@ template<typename T>
 class PriQueue :public QueueADT<T> {
 
 private:
+
 	PriNode<T>* front;
+
 public:
 
 	PriQueue();
 	bool isEmpty() const;
 	bool dequeue(T& dequeuedData);
 	bool peek(T& frontData)  const;
-	bool enqueue(const T&);
+	bool enqueue(const T&,int);
 	~PriQueue();
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //IMPLEMENTATIONS
 
 template<typename T>
-PriQueue<T>::PriQueue() {
-
-
+PriQueue<T>::PriQueue() 
+{
+	front = nullptr;
 }
 
 
 
 template<typename T>
-bool PriQueue<T>::isEmpty() const {
-
-	return (front == back == nullptr);
-
+bool PriQueue<T>::isEmpty() const 
+{
+	return (front == nullptr);
 }
 
 
 template<typename T>
-bool PriQueue<T>::enqueue(const T& data) {
-
-	PriNode<T>* newNode = new PriNode<T>(data);
+bool PriQueue<T>::enqueue(const T& data,int pri) 
+{
+	PriNode<T>* newNode = new PriNode<T>(data,nullptr,pri);
 
 	if (isEmpty()) {
 
