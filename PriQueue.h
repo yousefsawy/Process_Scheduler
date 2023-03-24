@@ -42,9 +42,9 @@ bool PriQueue<T>::isEmpty() const {
 
 
 template<typename T>
-bool PriQueue<T>::enqueue(const T& data,int pri) {
-
-	PriNode<T>* newNode = new PriNode<T>(pri,data);
+bool PriQueue<T>::enqueue(const T& data,int pri) 
+{
+	PriNode<T>* newNode = new PriNode<T>(data,nullptr,pri);
 
 	if (isEmpty()) {
 
