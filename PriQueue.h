@@ -16,7 +16,7 @@ public:
 	bool isEmpty() const;
 	bool dequeue(T& dequeuedData);
 	bool peek(T& frontData)  const;
-	bool enqueue(const T&);
+	bool enqueue(const T&,int);
 	~PriQueue();
 };
 
@@ -24,9 +24,9 @@ public:
 //IMPLEMENTATIONS
 
 template<typename T>
-PriQueue<T>::PriQueue() {
-
-
+PriQueue<T>::PriQueue() 
+{
+	front = nullptr;
 }
 
 
@@ -40,9 +40,9 @@ bool PriQueue<T>::isEmpty() const {
 
 
 template<typename T>
-bool PriQueue<T>::enqueue(const T& data) {
+bool PriQueue<T>::enqueue(const T& data,int pri) {
 
-	PriNode<T>* newNode = new PriNode<T>(data);
+	PriNode<T>* newNode = new PriNode<T>(pri,data);
 
 	if (isEmpty()) {
 

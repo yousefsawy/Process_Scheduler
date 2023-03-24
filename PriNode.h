@@ -22,7 +22,7 @@ public:
 //IMPLEMENTATIONS
 
 template<typename T>
- PriNode<T> :: PriNode(const T& data, PriNode<T>* next, int pri):(data,next)
+ PriNode<T> :: PriNode(int pri, const T& data, PriNode<T>* next):(data,next)
 
 {
 	prior = pri;
