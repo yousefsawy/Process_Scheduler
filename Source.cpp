@@ -40,16 +40,13 @@ bool InputF(void)
 		for (int j = 0; j < N; j++)
 		{
 			int IO_R, IO_D; // I/O Request time, I/O Duration time
-			InputFile.ignore();
+			InputFile.ignore(2);
 			InputFile >> IO_R;
 			InputFile.ignore();
 			InputFile >> IO_D;
-			InputFile.ignore();
 			//TODO: Add I/O Request to Process
 			tempProcess->AddRequest(IO_R, IO_D);
 
-			if (j != N - 1)
-				InputFile.ignore();
+			InputFile.ignore();
 		}
-		return true;
 	}

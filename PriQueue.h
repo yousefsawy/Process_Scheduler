@@ -34,10 +34,9 @@ PriQueue<T>::PriQueue()
 
 
 template<typename T>
-bool PriQueue<T>::isEmpty() const {
-
-	return (front == nullptr );
-
+bool PriQueue<T>::isEmpty() const 
+{
+	return (front == nullptr);
 }
 
 
