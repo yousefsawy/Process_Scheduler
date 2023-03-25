@@ -7,7 +7,8 @@ enum Status {
 	RDY,
 	RUN,
 	BLK,
-	TRM
+	TRM,
+	ORPH
 };
 
 struct IO_Request //QUESTION: IS THE REQUEST SORTED?
@@ -18,23 +19,27 @@ struct IO_Request //QUESTION: IS THE REQUEST SORTED?
 
 class Process {
 private:
-	int PID;
-	int AT;
-	int CT;
-	int N;
-	int TT;
-	int RT;
-	int TRT;
-	int WT;
-	Status Pstatus;
+	int PID; //Process ID
+	int PT; //Processed time
+	int AT; //Arrival time
+	int CT; //CPU time
+	int N; //number of IO requests
+	int TT; //Termination time
+	int RT; //Response time
+	int TRT; //Turnaround time
+	int WT; //Waiting time
+	Status Pstatus; //processor status
 	LinkedQueue<IO_Request> ReqQueue; //Queue with the requests !!!ADD PRIQUEUE IF NOT SORTED
 public:
+	Process(){}
 
 	Process(int p, int a, int c, int n) {
 		PID = p;
 		AT = a;
 		CT = c;
 		N = n;
+		PT = 0;
+		RT = -1; //ToDo: check if it was not set before set it else leave it
 		Pstatus = NEW;
 	}
 	void setPID(int id) {
@@ -59,6 +64,9 @@ public:
 		ReqQueue.enqueue(tempReq); //THIS IS SENT BY VALUE!! MAY BE NEEDED TO CHANGE
 	}
 
-
+	int getAT()
+	{
+		return AT;
+	}
 
 };

@@ -132,9 +132,11 @@
     <ClInclude Include="PriNode.h" />
     <ClInclude Include="PriQueue.h" />
     <ClInclude Include="Process.h" />
+    <ClInclude Include="ProcessSch.h" />
     <ClInclude Include="QueueADT.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ProcessSch.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
