@@ -28,8 +28,10 @@
     <ClInclude Include="PriQueue.h">
       <Filter>Data_Structures\Implementation</Filter>
     </ClInclude>
+    <ClInclude Include="ProcessSch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="ProcessSch.cpp" />
   </ItemGroup>
 </Project>
