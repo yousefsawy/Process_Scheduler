@@ -1,7 +1,8 @@
+// This file contains some definitions to be used in the project
 #ifndef DEFS_H
 #define DEFS_H
-// This file contains some definitions to be used in the project
 
+//Enum for process status
 enum Status
 {
 	NEW,
@@ -11,12 +12,6 @@ enum Status
 	TRM
 };
 
-struct IO_Request //QUESTION: IS THE REQUEST SORTED?
-{
-	int IO_R; //Request Time
-	int IO_D; //Request Duration
-};
-
 //Enum for processor state
 enum State
 {
@@ -24,5 +19,10 @@ enum State
 	BUSY
 };
 
+struct IO_Request //QUESTION: IS THE REQUEST SORTED?
+{
+	int IO_R; //Request Time
+	int IO_D; //Request Duration
+};
 
 #endif
