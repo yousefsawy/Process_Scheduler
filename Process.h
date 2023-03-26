@@ -1,21 +1,6 @@
 #pragma once
-#include "QueueADT.h"
 #include "LinkedQueue.h"
-
-enum Status {
-	NEW,
-	RDY,
-	RUN,
-	BLK,
-	TRM,
-	ORPH
-};
-
-struct IO_Request //QUESTION: IS THE REQUEST SORTED?
-{
-	int IO_R; //Request Time
-	int IO_D; //Request Duration
-};
+#include"DEFS.h"
 
 class Process {
 private:
