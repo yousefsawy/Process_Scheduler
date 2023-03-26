@@ -5,6 +5,8 @@ Processor::Processor() {
 	currentState = IDLE;
 	expectedFinishTime = 0;
 	running = nullptr;
+	Terminated = nullptr;
+	Blocked = nullptr;
 
 }
 

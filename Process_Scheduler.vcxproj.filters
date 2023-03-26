@@ -35,11 +35,18 @@
       <Filter>Processor</Filter>
     </ClInclude>
     <ClInclude Include="DEFS.h" />
+    <ClInclude Include="FCFS_Processor.h">
+      <Filter>Processor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Processor.cpp">
       <Filter>Processor</Filter>
     </ClCompile>
+    <ClCompile Include="FCFS.cpp">
+      <Filter>Processor</Filter>
+    </ClCompile>
+    <ClCompile Include="Process.cpp" />
   </ItemGroup>
 </Project>
