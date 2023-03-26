@@ -22,16 +22,16 @@ int Processor::getExpectedFinishTime() const {
 
 Process* Processor::RequestBlocked() {
 
-	Process* temp = running;
-	running = nullptr;
+	Process* temp = Blocked;
+	Blocked = nullptr;
 	return temp;
 
 }
 
 Process* Processor::RequestTerminated() {
 
-	Process* temp = running;
-	running = nullptr;
+	Process* temp = Terminated;
+	Terminated = nullptr;
 	return temp;
 
 }
