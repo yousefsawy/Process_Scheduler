@@ -18,7 +18,7 @@ public:
 	bool isIdle() const; //Returns true if the processor has no processes
 	int getExpectedFinishTime() const; //Returns expected time to finish all process
 	virtual void ScheduleAlgo() = 0;
-	Process* RequestBlocked(); //
+	Process* RequestBlocked();
 	Process* RequestTerminated();
 	~Processor(); //Destructor
 
