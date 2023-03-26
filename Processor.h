@@ -6,7 +6,7 @@
 
 class Processor {
 
-private:
+protected:
 
 	State currentState; //Processor current state
 	int expectedFinishTime; //Expected time to finish all process
