@@ -127,14 +127,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DEFS.h" />
     <ClInclude Include="LinkedQueue.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="PriNode.h" />
     <ClInclude Include="PriQueue.h" />
     <ClInclude Include="Process.h" />
+    <ClInclude Include="Processor.h" />
     <ClInclude Include="QueueADT.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Processor.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

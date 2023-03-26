@@ -10,6 +10,9 @@
     <Filter Include="Data_Structures\Implementation">
       <UniqueIdentifier>{aff796b5-2239-45a2-9dce-cbf9c39b7113}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Processor">
+      <UniqueIdentifier>{6b1ddb75-6ec3-4173-ad85-024967e4db86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QueueADT.h">
@@ -28,8 +31,15 @@
     <ClInclude Include="PriQueue.h">
       <Filter>Data_Structures\Implementation</Filter>
     </ClInclude>
+    <ClInclude Include="Processor.h">
+      <Filter>Processor</Filter>
+    </ClInclude>
+    <ClInclude Include="DEFS.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Processor.cpp">
+      <Filter>Processor</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
