@@ -12,7 +12,7 @@ ProcessSch::ProcessSch()
 
 void ProcessSch::Simulate()
 {
-	while ( !New.isEmpty() && !Blocked.isEmpty() ) //TODO: while processor lists are empty loop
+	while ( !New.isEmpty() || !Blocked.isEmpty() || !AreIdle()) //TODO: while processor lists are empty loop
 	{
 		Process* temp1; //checks if AT first  process in New is equal to timestep
 		New.peek(temp1);
@@ -21,25 +21,30 @@ void ProcessSch::Simulate()
 			NewToReady();
 			New.peek(temp1);
 		}
-		
-			for (int j = 0; j < FCFS; j++) {
-				ProcessorSim(AllProcessors[0][j]);
-			}
-			for (int j = 0; j < SJF; j++) {
-				ProcessorSim(AllProcessors[1][j]);
 
+		//check if process in Run goes to blocked or terminatted
+		//if processor Run is empty adds one from ready queue
+		
+			for (int j = 0; j < FCFS; j++) 
+			{
+				ProcessorSim(FCFSList[j]);
+			}
+			/*
+			for (int j = 0; j < SJF; j++) 
+			{
+				ProcessorSim(AllProcessors[1][j]);
 			}
 			for (int j = 0; j < RR; j++) {
 				ProcessorSim(AllProcessors[2][j]);
 			}
+			*/
 		
-		//ToDO: check if process in Run goes to blocked or terminatted
-		//ToDo: if processor Run is empty adds one from ready queue
 		//ToDo: Stealing,Migration,Killing,Forking
 		timestep++;
 		//ToDo: interface mode action
 	}
 	//ToDo: Produce the output file
+	OutputF();
 }
 
 bool ProcessSch::InputF(void)
@@ -82,11 +87,24 @@ bool ProcessSch::InputF(void)
 
 			InputFile.ignore();
 		}
-
-		Processes.enqueue(*tempProcess);  //Adds the process to processes list
 		New.enqueue(tempProcess); //Adds the process to new list
 	}
 	return true;
+}
+
+void ProcessSch::OutputF()
+{
+	string s = "test1"; //File name
+	ofstream OutputFile(s + ".txt");
+
+	if (!OutputFile.is_open())
+		return;
+	Process* temp;
+	while (Terminated.dequeue(temp))
+	{
+		OutputFile << temp->getAT()<<endl;
+	}
+
 }
 
 
@@ -94,29 +112,84 @@ void ProcessSch::NewToReady()
 {
 	Process* temp2;  //Temporary value to hold the data while transfer
 	New.dequeue(temp2);
-	//ToDo: Enquque data to suitable processor using scheduling algorithm
+	int MinExp= FCFSList[0].getExpectedFinishTime();
+	Processor* temp = nullptr;
+	//ToDo: Enqueque data to suitable processor using scheduling algorithm
+	for (int j = 0; j < FCFS; j++)
+	{
+		if(FCFSList[j].getExpectedFinishTime()<MinExp)
+		{
+			MinExp = FCFSList[j].getExpectedFinishTime();
+			temp = &FCFSList[j];
+		}
+	}
+	/*
+	for (int j = 0; j < SJF; j++)
+	{
+		if (AllProcessors[1][j].getExpectedFinishTime() < MinExp)
+		{
+			MinExp = AllProcessors[1][j].getExpectedFinishTime();
+			temp = &AllProcessors[1][j];
+		}
+	}
+	for (int j = 0; j < RR; j++) 
+	{
+		if (AllProcessors[2][j].getExpectedFinishTime() < MinExp)
+		{
+			MinExp = AllProcessors[2][j].getExpectedFinishTime();
+			temp = &AllProcessors[2][j];
+		}
+	}
+	*/
+	temp->AddProcess(temp2);
 }
 
-void ProcessSch::RuntoTerm(Process* p)
-{
-	Terminated.enqueue(p);
-	p = nullptr;
-	
-}
 
 void ProcessSch::ProcessorSim(Processor& p)
 {
-	if (p.getRun()->getRemtime() == 0) {
-		p.getRun()->changestatus(TRM);
-		RuntoTerm(p.getRun());
-		p.ScheduleAlgo();
+	p.ScheduleAlgo();
+	Process* tempTer = p.RequestTerminated();
+	Process* tempBlk = p.RequestBlocked();
+	if (tempTer)
+	{
+		Terminated.enqueue(tempTer);
+	}
+	if (tempBlk)
+	{
+		Blocked.enqueue(tempBlk);
+	}
+}
+
+bool ProcessSch::AreIdle()
+{
+	for (int j = 0; j < FCFS; j++)
+	{
+		if (!FCFSList[j].isIdle())
+		{
+			return true;
+		}
+	}
+	/*
+	for (int j = 0; j < SJF; j++)
+	{
+		if (!AllProcessors[1][j].isIdle())
+		{
+			return true;
+		}
+	}
+	for (int j = 0; j < RR; j++) 
+	{
+		if (!AllProcessors[2][j].isIdle())
+		{
+			return true;
+		}
 		
 	}
-	else if(p.RequestBlocked()) {
-		//TODO:from running to blocked
-	}
-	else
-		p.getRun()->IncrementRunT();
+	*/
+	return true;
 }
+
+
+
 
 ProcessSch::~ProcessSch(){}

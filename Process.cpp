@@ -98,7 +98,17 @@ void Process::changestatus(Status s)
 }
 
 int Process ::getRemtime() {
-	return CT - RunT;
+	if(!ReqQueue.isEmpty())
+	{
+		IO_Request* temp=nullptr;
+		ReqQueue.peek(temp);
+		return temp->IO_R - RunT;
+	}
+	else
+	{
+		return CT - RunT;
+	}
+	
 }
 
 

@@ -6,6 +6,7 @@ FCFS_Processor::FCFS_Processor()
 void FCFS_Processor::AddProcess(Process* NewPrcs)
 {
 	Ready.enqueue(NewPrcs);
+	expectedFinishTime += NewPrcs->getRemtime();
 }
 
 void FCFS_Processor::ScheduleAlgo()
