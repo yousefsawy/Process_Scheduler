@@ -31,7 +31,6 @@ public:
 	bool isTerminated(); //Checks if process is terminated or not
 	bool isIORequest(); //Checks if there is an IORequest
 	void IncrementIO_D(); //Increments the IO Duration
-	void changestatus(Status s);
 	int getRemtime();
 
 

@@ -23,7 +23,7 @@ public:
 	void Simulate();
 	bool InputF(void);
 	void OutputF();
-	void NewToReady();
+	void ToReady(LinkedQueue<Process*>& List);
 	void ProcessorSim(Processor& p);
 	bool AreIdle();
 	~ProcessSch();

@@ -1,4 +1,5 @@
 #include "ProcessSch.h"
+#include <iostream>
 #include <fstream> //Needed for the Input/Output function
 using namespace std;
 
@@ -12,36 +13,46 @@ ProcessSch::ProcessSch()
 
 void ProcessSch::Simulate()
 {
-	while ( !New.isEmpty() || !Blocked.isEmpty() || !AreIdle()) //TODO: while processor lists are empty loop
+	while (!(New.isEmpty() && Blocked.isEmpty() && AreIdle())) //TODO: while processor lists are empty loop
 	{
 		Process* temp1; //checks if AT first  process in New is equal to timestep
 		New.peek(temp1);
-		while (temp1->getAT() == timestep) //Puts data in the RDY queues of processors
+		while (temp1->getAT() == timestep && !New.isEmpty()) //Puts data in the RDY queues of processors
 		{
-			NewToReady();
+			ToReady(New);
 			New.peek(temp1);
 		}
 
 		//check if process in Run goes to blocked or terminatted
 		//if processor Run is empty adds one from ready queue
-		
-			for (int j = 0; j < FCFS; j++) 
+
+		for (int j = 0; j < FCFS; j++)
+		{
+			ProcessorSim(FCFSList[j]);
+		}
+		/*
+		for (int j = 0; j < SJF; j++)
+		{
+			ProcessorSim(AllProcessors[1][j]);
+		}
+		for (int j = 0; j < RR; j++) {
+			ProcessorSim(AllProcessors[2][j]);
+		}
+		*/
+		Process* temp2=nullptr;
+		Blocked.peek(temp2); //checks if Blocked list first at each timestep
+		if (temp2)
+		{
+			temp2->IncrementIO_D();
+			if (!temp2->isIORequest())
 			{
-				ProcessorSim(FCFSList[j]);
+					ToReady(Blocked);
 			}
-			/*
-			for (int j = 0; j < SJF; j++) 
-			{
-				ProcessorSim(AllProcessors[1][j]);
-			}
-			for (int j = 0; j < RR; j++) {
-				ProcessorSim(AllProcessors[2][j]);
-			}
-			*/
-		
+		}
 		//ToDo: Stealing,Migration,Killing,Forking
 		timestep++;
 		//ToDo: interface mode action
+		cout << timestep << endl;
 	}
 	//ToDo: Produce the output file
 	OutputF();
@@ -102,25 +113,25 @@ void ProcessSch::OutputF()
 	Process* temp;
 	while (Terminated.dequeue(temp))
 	{
-		OutputFile << temp->getAT()<<endl;
+		OutputFile << temp->getAT() << endl;
 	}
 
 }
 
 
-void ProcessSch::NewToReady()
+void ProcessSch::ToReady(LinkedQueue<Process*>& List)
 {
-	Process* temp2;  //Temporary value to hold the data while transfer
-	New.dequeue(temp2);
-	int MinExp= FCFSList[0].getExpectedFinishTime();
-	Processor* temp = nullptr;
+	Process* temp2=nullptr;  //Temporary value to hold the data while transfer
+	List.dequeue(temp2);
+	int MinExp = FCFSList[0].getExpectedFinishTime();
+	int temp;
 	//ToDo: Enqueque data to suitable processor using scheduling algorithm
 	for (int j = 0; j < FCFS; j++)
 	{
-		if(FCFSList[j].getExpectedFinishTime()<MinExp)
+		if (FCFSList[j].getExpectedFinishTime() <= MinExp)
 		{
 			MinExp = FCFSList[j].getExpectedFinishTime();
-			temp = &FCFSList[j];
+			temp = j;
 		}
 	}
 	/*
@@ -132,7 +143,7 @@ void ProcessSch::NewToReady()
 			temp = &AllProcessors[1][j];
 		}
 	}
-	for (int j = 0; j < RR; j++) 
+	for (int j = 0; j < RR; j++)
 	{
 		if (AllProcessors[2][j].getExpectedFinishTime() < MinExp)
 		{
@@ -141,7 +152,7 @@ void ProcessSch::NewToReady()
 		}
 	}
 	*/
-	temp->AddProcess(temp2);
+	FCFSList[temp].AddProcess(temp2);
 }
 
 
@@ -166,7 +177,7 @@ bool ProcessSch::AreIdle()
 	{
 		if (!FCFSList[j].isIdle())
 		{
-			return true;
+			return false;
 		}
 	}
 	/*
@@ -177,13 +188,13 @@ bool ProcessSch::AreIdle()
 			return true;
 		}
 	}
-	for (int j = 0; j < RR; j++) 
+	for (int j = 0; j < RR; j++)
 	{
 		if (!AllProcessors[2][j].isIdle())
 		{
 			return true;
 		}
-		
+
 	}
 	*/
 	return true;
@@ -192,4 +203,4 @@ bool ProcessSch::AreIdle()
 
 
 
-ProcessSch::~ProcessSch(){}
+ProcessSch::~ProcessSch() {}

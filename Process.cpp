@@ -50,7 +50,7 @@ void Process::IncrementRunT()
 		Pstatus = TRM;
 		return;
 	}
-	IO_Request* temp;
+	IO_Request* temp=nullptr;
 	ReqQueue.peek(temp);
 
 	if (!temp)
@@ -92,10 +92,6 @@ void Process::IncrementIO_D()
 	}
 }
 
-void Process::changestatus(Status s)
-{
-	Pstatus = s;
-}
 
 int Process ::getRemtime() {
 	if(!ReqQueue.isEmpty())
