@@ -12,9 +12,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="QueueADT.h">
-      <Filter>Data_Structures\Interface</Filter>
-    </ClInclude>
     <ClInclude Include="Node.h">
       <Filter>Data_Structures\Implementation</Filter>
     </ClInclude>
@@ -28,7 +25,16 @@
     <ClInclude Include="PriQueue.h">
       <Filter>Data_Structures\Implementation</Filter>
     </ClInclude>
-    <ClInclude Include="ProcessSch.h" />
+    <ClInclude Include="Processor.h">
+      <Filter>Processor</Filter>
+    </ClInclude>
+    <ClInclude Include="DEFS.h" />
+    <ClInclude Include="FCFS_Processor.h">
+      <Filter>Processor</Filter>
+    </ClInclude>
+    <ClInclude Include="QueueADT.h">
+      <Filter>Data_Structures\Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
