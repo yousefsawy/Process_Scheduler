@@ -25,6 +25,7 @@ void FCFS_Processor::ScheduleAlgo()
 	{
 		Terminated = running;
 		running = nullptr;
+		return;
 	}
 
 	if (running->isIORequest())
