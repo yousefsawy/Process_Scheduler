@@ -7,19 +7,19 @@ using namespace std;
 ProcessSch::ProcessSch()
 {
 	timestep = 0;
+	InputF();
 }
 
 void ProcessSch::Simulate()
 {
-	InputF();
 	while ( !New.isEmpty() && !Blocked.isEmpty() ) //TODO: while processor lists are empty loop
 	{
 		Process* temp1; //checks if AT first  process in New is equal to timestep
-		New.peek(*temp1);
+		New.peek(temp1);
 		while (temp1->getAT() == timestep) //Puts data in the RDY queues of processors
 		{
 			NewToReady();
-			New.peek(*temp1);
+			New.peek(temp1);
 		}
 		//ToDO: check if process in Run goes to blocked or terminatted
 		//ToDo: if processor Run is empty adds one from ready queue
@@ -38,17 +38,16 @@ bool ProcessSch::InputF(void)
 	if (!InputFile.is_open())
 		return false;
 
-	int FCFS, SJF, RR; //Number of Processors of each type (FCFS, SJF, RR)
-
-	int TS_RR; //Time slice for RR
-
-	int RTF, MAXW; //Process Migration related
 
 	int NumOfProcess; //Number of process
 
 	InputFile >> FCFS >> SJF >> RR >> TS_RR >> RTF >> MAXW >> NumOfProcess;
 
-	//TODO: Declare Processors
+	//Declare Processors
+
+	FCFSList = new FCFS_Processor[FCFS];
+	//SJFList = new SJF_Processor[SJF];
+	//RRList = new RR_Processor[RR];
 
 	for (int i = 0; i < NumOfProcess; i++)
 	{
@@ -72,7 +71,8 @@ bool ProcessSch::InputF(void)
 			InputFile.ignore();
 		}
 
-		New.enqueue(*tempProcess);  //Adds the process to new list
+		Processes.enqueue(*tempProcess);  //Adds the process to processes list
+		New.enqueue(tempProcess); //Adds the process to new list
 	}
 	return true;
 }
@@ -80,7 +80,7 @@ bool ProcessSch::InputF(void)
 
 void ProcessSch::NewToReady()
 {
-	Process temp2;  //Temporary value to hold the data while transfer
+	Process* temp2;  //Temporary value to hold the data while transfer
 	New.dequeue(temp2);
 	//ToDo: Enquque data to suitable processor using scheduling algorithm
 }
