@@ -38,6 +38,7 @@
     <ClInclude Include="FCFS_Processor.h">
       <Filter>Processor</Filter>
     </ClInclude>
+    <ClInclude Include="ProcessSch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
@@ -48,5 +49,6 @@
       <Filter>Processor</Filter>
     </ClCompile>
     <ClCompile Include="Process.cpp" />
+    <ClCompile Include="ProcessSch.cpp" />
   </ItemGroup>
 </Project>
