@@ -41,3 +41,9 @@ Process* Processor::RequestTerminated() {
 Processor::~Processor() {
 
 }
+
+Process* Processor::getRun()
+{
+	return running;
+}
+

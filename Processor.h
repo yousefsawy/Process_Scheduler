@@ -23,8 +23,10 @@ public:
 	virtual void ScheduleAlgo() = 0; 
 	Process* RequestBlocked();
 	Process* RequestTerminated();
+	Process* getRun();
 	~Processor(); //Destructor
-
+	
+	
 };
 
 #endif
