@@ -20,7 +20,7 @@ public:
 	virtual void AddProcess(Process*) = 0; //Adds Process to Processor 
 	bool isIdle() const; //Returns true if the processor has no processes
 	int getExpectedFinishTime() const; //Returns expected time to finish all process
-	virtual void ScheduleAlgo() = 0; 
+	virtual void ScheduleAlgo(int time) = 0; 
 	Process* RequestBlocked();
 	Process* RequestTerminated();
 	Process* getRun();

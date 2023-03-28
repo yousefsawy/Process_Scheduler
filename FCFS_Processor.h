@@ -11,6 +11,6 @@ private:
 public:
     FCFS_Processor();
     virtual void AddProcess(Process* );
-    virtual void ScheduleAlgo();
+    virtual void ScheduleAlgo(int time);
 };
 

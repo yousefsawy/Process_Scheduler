@@ -9,19 +9,21 @@ void FCFS_Processor::AddProcess(Process* NewPrcs)
 	expectedFinishTime += NewPrcs->getRemtime();
 }
 
-void FCFS_Processor::ScheduleAlgo()
+void FCFS_Processor::ScheduleAlgo(int time)
 {
 	if (!running)
+	{
 		Ready.dequeue(running);
-
+	}
+		
 	if (!running)
 	{
 		currentState = IDLE;
 		return;
 	}
-
+	running->setRT(time/*timestep*/);
 	running->IncrementRunT();
-
+	currentState = BUSY;
 	if (running->isTerminated())
 	{
 		Terminated = running;

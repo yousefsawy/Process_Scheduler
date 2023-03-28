@@ -11,6 +11,7 @@ private:
 	int FCFS, SJF, RR; //Number of Processors of each type (FCFS, SJF, RR)
 	int TS_RR; //Time slice for RR
 	int RTF, MAXW; //Process Migration related
+	int NumOfProcess; //Number of process
 	LinkedQueue<Process*> New;  //Recieves all process from file
 	LinkedQueue<Process*> Blocked;  //Contains blocked processes
 	LinkedQueue<Process*> Terminated;  //Contains terminated processes
@@ -24,7 +25,7 @@ public:
 	bool InputF(void);
 	void OutputF();
 	void ToReady(LinkedQueue<Process*>& List);
-	void ProcessorSim(Processor& p);
+	void ProcessorSim(Processor& p,int time);
 	bool AreIdle();
 	~ProcessSch();
 };

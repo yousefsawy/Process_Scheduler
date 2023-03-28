@@ -1,6 +1,8 @@
 #pragma once
 #include "LinkedQueue.h"
 #include"DEFS.h"
+#include <fstream>
+using namespace std;
 
 class Process {
 private:
@@ -13,6 +15,7 @@ private:
 	int TRT; //Turnaround time
 	int WT; //Waiting time
 	int RunT; //Running time (inside CPU)
+	int IO_Ds; //Total duration of IO_Ds
 	Status Pstatus; //processor status
 	LinkedQueue<IO_Request*> ReqQueue; //Queue with the requests !!!ADD PRIQUEUE IF NOT SORTED
 	IO_Request* CurrentReq; //Current IO_Request
@@ -32,6 +35,7 @@ public:
 	bool isIORequest(); //Checks if there is an IORequest
 	void IncrementIO_D(); //Increments the IO Duration
 	int getRemtime();
+	void PrintInfo(ofstream &file); //Prints the data of the process
 
 
 };

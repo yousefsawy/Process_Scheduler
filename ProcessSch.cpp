@@ -28,7 +28,7 @@ void ProcessSch::Simulate()
 
 		for (int j = 0; j < FCFS; j++)
 		{
-			ProcessorSim(FCFSList[j]);
+			ProcessorSim(FCFSList[j],timestep);
 		}
 		/*
 		for (int j = 0; j < SJF; j++)
@@ -66,8 +66,6 @@ bool ProcessSch::InputF(void)
 	if (!InputFile.is_open())
 		return false;
 
-
-	int NumOfProcess; //Number of process
 
 	InputFile >> FCFS >> SJF >> RR >> TS_RR >> RTF >> MAXW >> NumOfProcess;
 
@@ -111,10 +109,13 @@ void ProcessSch::OutputF()
 	if (!OutputFile.is_open())
 		return;
 	Process* temp;
+	OutputFile << "TT" << "\t" << "PID" << "\t" << "AT" << "\t" << "CT" <<"\t" << "IO_D" << "\t"  << "WT" << "\t" << "RT" << "\t" << "TRT" << endl;
 	while (Terminated.dequeue(temp))
 	{
-		OutputFile << temp->getAT() << endl;
+		temp->PrintInfo(OutputFile);
 	}
+	OutputFile << "Processes: " << NumOfProcess << endl;
+
 
 }
 
@@ -156,13 +157,14 @@ void ProcessSch::ToReady(LinkedQueue<Process*>& List)
 }
 
 
-void ProcessSch::ProcessorSim(Processor& p)
+void ProcessSch::ProcessorSim(Processor& p,int time)
 {
-	p.ScheduleAlgo();
+	p.ScheduleAlgo(time);
 	Process* tempTer = p.RequestTerminated();
 	Process* tempBlk = p.RequestBlocked();
 	if (tempTer)
 	{
+		tempTer->setTT(time+1);
 		Terminated.enqueue(tempTer);
 	}
 	if (tempBlk)
