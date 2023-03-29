@@ -23,6 +23,22 @@ void ProcessSch::Simulate()
 			New.peek(temp1);
 		}
 
+
+		Process* temp2 = nullptr;
+		Blocked.peek(temp2); //checks if Blocked list first at each timestep
+		if (temp2)
+		{
+			if (temp2->isIORequest())
+			{
+				temp2->IncrementIO_D();
+
+			}
+			else
+			{
+				ToReady(Blocked);
+			}
+		}
+
 		//check if process in Run goes to blocked or terminatted
 		//if processor Run is empty adds one from ready queue
 
@@ -39,16 +55,7 @@ void ProcessSch::Simulate()
 			ProcessorSim(AllProcessors[2][j]);
 		}
 		*/
-		Process* temp2=nullptr;
-		Blocked.peek(temp2); //checks if Blocked list first at each timestep
-		if (temp2)
-		{
-			temp2->IncrementIO_D();
-			if (!temp2->isIORequest())
-			{
-					ToReady(Blocked);
-			}
-		}
+
 		//ToDo: Stealing,Migration,Killing,Forking
 		timestep++;
 		//ToDo: interface mode action
