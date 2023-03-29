@@ -120,6 +120,7 @@ void ProcessSch::OutputF()
 	while (Terminated.dequeue(temp))
 	{
 		temp->PrintInfo(OutputFile);
+		delete temp;
 	}
 	OutputFile << "Processes: " << NumOfProcess << endl;
 
