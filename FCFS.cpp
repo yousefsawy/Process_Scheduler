@@ -28,6 +28,7 @@ void FCFS_Processor::ScheduleAlgo(int time)
 	if (currentState == IDLE) {
 		return;
 	}
+	
 	if (running == nullptr) {
 
 		Ready.dequeue(running);
@@ -35,11 +36,6 @@ void FCFS_Processor::ScheduleAlgo(int time)
 
 	}
 
-	if (running == nullptr) {
-
-		Ready.dequeue(running);
-		running->setStatus(RUN);
-	}
 	if (time >= 50 && time <= 60)
 	{
 		Terminated = running;

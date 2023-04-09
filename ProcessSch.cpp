@@ -181,7 +181,7 @@ void ProcessSch::ToReady(LinkedQueue<Process*>& List)
 }
 
 
-void ProcessSch::ToReadyph1(LinkedQueue<Process*>& List,int index)
+void ProcessSch::ToReadyph1(LinkedQueue<Process*>& List,int& index)
 {
 	Process* temp2 = nullptr;  //Temporary value to hold the data while transfer
 	List.dequeue(temp2);
@@ -218,31 +218,32 @@ void ProcessSch::Simulateph1()
 			ToReadyph1(New,index);
 			New.peek(temp1);
 		}
-		int randpro = rand() % 100 + 1;
-		int randblk = rand() % 100 + 1;
+		srand(time(0));
+		int randblk = 7;
 		//check if process in Run goes to blocked or terminatted
 		//if processor Run is empty adds one from ready queue
-
-		for (int j = 0; j < FCFS; j++)
-		{
-			ProcessorSim(FCFSList[j], timestep);
-		}
-
-		for (int j = 0; j < SJF; j++)
-		{
-			ProcessorSim(SJFList[j], timestep);
-		}
-		for (int j = 0; j < RR; j++) {
-			ProcessorSim(RRList[j], timestep);
-		}
 		Process* temp2 = nullptr;
 		Blocked.peek(temp2); //checks if Blocked list first at each timestep
 		if (temp2)
 		{
 			if (randblk >= 1 && randblk <= 10) {
-				ToReadyph1(Blocked,index);
+				ToReadyph1(Blocked, index);
 			}
 		}
+
+		for (int j = 0; j < FCFS; j++)
+		{
+			ProcessorSimph1(FCFSList[j], timestep);
+		}
+
+		for (int j = 0; j < SJF; j++)
+		{
+			ProcessorSimph1(SJFList[j], timestep);
+		}
+		for (int j = 0; j < RR; j++) {
+			ProcessorSimph1(RRList[j], timestep);
+		}
+
 		//ToDo: Stealing,Migration,Killing,Forking
 		timestep++;
 		//ToDo: interface mode action
@@ -252,9 +253,22 @@ void ProcessSch::Simulateph1()
 	OutputF();
 }
 
-void ProcessSch::ProcessorSimph1(Processor& p, int rd,int time)
+void ProcessSch::ProcessorSimph1(Processor& p,int tim)
 {
-	p.ScheduleAlgo(rd);
+	srand(time(0));
+	int randpro = rand() % 100 + 1;
+	p.ScheduleAlgo(randpro);
+	Process* tempTer = p.RequestTerminated();
+	Process* tempBlk = p.RequestBlocked();
+	if (tempTer)
+	{
+		tempTer->setTT(tim + 1);
+		Terminated.enqueue(tempTer);
+	}
+	if (tempBlk)
+	{
+		Blocked.enqueue(tempBlk);
+	}
 }
 
 void ProcessSch::ProcessorSim(Processor& p,int time)
