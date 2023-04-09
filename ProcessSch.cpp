@@ -218,8 +218,8 @@ void ProcessSch::Simulateph1()
 			ToReadyph1(New,index);
 			New.peek(temp1);
 		}
-		int randpro = rand() * 100;
-		int randblk = rand() * 100;
+		int randpro = rand() % 100 + 1;
+		int randblk = rand() % 100 + 1;
 		//check if process in Run goes to blocked or terminatted
 		//if processor Run is empty adds one from ready queue
 
