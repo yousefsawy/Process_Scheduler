@@ -22,22 +22,15 @@ void FCFS_Processor::AddProcess(Process* NewPrcs)
 	stateUpdate();
 }
 
-
-void FCFS_Processor::ScheduleAlgo()
+void FCFS_Processor::ScheduleAlgo(int time)
 {
 
 	if (currentState == IDLE) {
 		return;
 	}
 
-	if (running == nullptr) {
-
-		Ready.dequeue(running);
-		running->setStatus(RUN);
-	}
-
 	running->IncrementRunT();
-
+	currentState = BUSY;
 	if (running->isTerminated())
 	{
 		Terminated = running;

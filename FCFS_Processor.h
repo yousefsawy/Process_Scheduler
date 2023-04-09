@@ -12,6 +12,6 @@ public:
     FCFS_Processor();
     void stateUpdate();
     virtual void AddProcess(Process*);
-    virtual void ScheduleAlgo();
+    virtual void ScheduleAlgo(int time);
 };
 

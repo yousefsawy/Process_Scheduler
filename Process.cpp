@@ -1,4 +1,6 @@
 #include "Process.h"
+#include <fstream>
+using namespace std;
 
 Process::Process() {}
 
@@ -22,7 +24,10 @@ void Process::setTT(int t) {
 	WT = TRT - CT;
 }
 void Process::setRT(int n) {
-	RT = AT - n;
+	if (RT == -1)
+	{
+		RT = n-AT;
+	}
 }
 
 void Process::AddRequest(int IO_R, int IO_D) //TODO:
@@ -30,6 +35,7 @@ void Process::AddRequest(int IO_R, int IO_D) //TODO:
 	IO_Request* tempReq = new IO_Request;
 	tempReq->IO_D = IO_D;
 	tempReq->IO_R = IO_R;
+	IO_Ds += IO_D;
 	ReqQueue.enqueue(tempReq); //THIS IS SENT BY VALUE!! MAY BE NEEDED TO CHANGE
 }
 
@@ -103,6 +109,11 @@ int Process ::getRemtime() {
 		return CT - RunT;
 	}
 	
+}
+
+void Process::PrintInfo(ofstream &file)
+{
+	file << TT<<"\t"<< PID<< "\t" << AT << "\t" << CT << "\t" << IO_Ds<< "\t" << WT << "\t" << RT << "\t" << TRT << endl;
 }
 
 void Process::setStatus(Status s) {
