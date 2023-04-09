@@ -8,11 +8,12 @@ using namespace std;
 ProcessSch::ProcessSch()
 {
 	timestep = 0;
-	InputF();
+	
 }
 
 void ProcessSch::Simulate()
 {
+	InputF();
 	while (!(New.isEmpty() && Blocked.isEmpty() && AreIdle())) //TODO: while processor lists are empty loop
 	{
 		Process* temp1; //checks if AT first  process in New is equal to timestep
@@ -60,7 +61,6 @@ void ProcessSch::Simulate()
 		//ToDo: interface mode action
 		cout << timestep << endl;
 	}
-	//ToDo: Produce the output file
 	OutputF();
 }
 
