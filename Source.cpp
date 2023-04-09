@@ -6,7 +6,7 @@ using namespace std;
 int main(void)
 {
 	ProcessSch M;
-	M.Simulate();
+	M.Simulateph1();
 	return 0;
 }
 

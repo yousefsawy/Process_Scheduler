@@ -74,7 +74,7 @@ bool ProcessSch::InputF(void)
 
 
 	InputFile >> FCFS >> SJF >> RR >> TS_RR >> RTF >> MAXW >> NumOfProcess;
-
+	TotalPro = FCFS + SJF + RR;
 	//Declare Processors
 
 	FCFSList = new FCFS_Processor[FCFS];
@@ -181,6 +181,77 @@ void ProcessSch::ToReady(LinkedQueue<Process*>& List)
 }
 
 
+void ProcessSch::ToReadyph1(LinkedQueue<Process*>& List,int index)
+{
+	Process* temp2 = nullptr;  //Temporary value to hold the data while transfer
+	List.dequeue(temp2);
+	if (index == TotalPro)
+	{
+		index = 0;
+	}
+	if (index < FCFS)
+	{ 
+		FCFSList[index].AddProcess(temp2);
+	}
+	else if(index<FCFS+SJF)
+	{ 
+		SJFList[index-FCFS].AddProcess(temp2);
+	}
+	else
+	{ 
+		RRList[index- (FCFS + SJF)].AddProcess(temp2);
+	}
+
+	index++;
+}
+
+void ProcessSch::Simulateph1()
+{
+	int index=0;
+	InputF();
+	while (!(New.isEmpty() && Blocked.isEmpty() && AreIdle())) //TODO: while processor lists are empty loop
+	{
+		Process* temp1; //checks if AT first  process in New is equal to timestep
+		New.peek(temp1);
+		while (temp1->getAT() == timestep && !New.isEmpty()) //Puts data in the RDY queues of processors
+		{
+			ToReadyph1(New,index);
+			New.peek(temp1);
+		}
+		int randpro = rand() * 100;
+		int randblk = rand() * 100;
+		//check if process in Run goes to blocked or terminatted
+		//if processor Run is empty adds one from ready queue
+
+		for (int j = 0; j < FCFS; j++)
+		{
+			ProcessorSim(FCFSList[j], timestep);
+		}
+
+		for (int j = 0; j < SJF; j++)
+		{
+			ProcessorSim(SJFList[j], timestep);
+		}
+		for (int j = 0; j < RR; j++) {
+			ProcessorSim(RRList[j], timestep);
+		}
+		Process* temp2 = nullptr;
+		Blocked.peek(temp2); //checks if Blocked list first at each timestep
+		if (temp2)
+		{
+			if (randblk >= 1 && randblk <= 10) {
+				ToReadyph1(Blocked,index);
+			}
+		}
+		//ToDo: Stealing,Migration,Killing,Forking
+		timestep++;
+		//ToDo: interface mode action
+		cout << timestep << endl;
+	}
+	//ToDo: Produce the output file
+	OutputF();
+}
+
 void ProcessSch::ProcessorSimph1(Processor& p, int rd,int time)
 {
 	p.ScheduleAlgo(time);
@@ -194,7 +265,7 @@ void ProcessSch::ProcessorSimph1(Processor& p, int rd,int time)
 		Blocked.enqueue(p.RequestBlocked());
 	}
 	else if (rd >= 20 && rd <= 30) {
-		//ToReady();
+		//ToReadyph1();
 	}
 
 }

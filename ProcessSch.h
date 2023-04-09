@@ -14,6 +14,7 @@ private:
 	int TS_RR; //Time slice for RR
 	int RTF, MAXW; //Process Migration related
 	int NumOfProcess; //Number of process
+	int TotalPro; //Total number of processors
 	LinkedQueue<Process*> New;  //Recieves all process from file
 	LinkedQueue<Process*> Blocked;  //Contains blocked processes
 	LinkedQueue<Process*> Terminated;  //Contains terminated processes
@@ -26,6 +27,8 @@ public:
 	bool InputF(void);
 	void OutputF();
 	void ToReady(LinkedQueue<Process*>& List);
+	void ToReadyph1(LinkedQueue<Process*>& List,int index);
+	void Simulateph1();
 	void ProcessorSimph1(Processor& p, int rd,int time);
 	void ProcessorSim(Processor& p,int time);
 	bool AreIdle();
