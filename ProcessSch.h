@@ -3,6 +3,8 @@
 #include "Process.h"
 #include "Processor.h"
 #include "FCFS_Processor.h"
+#include "RR_Processor.h"
+#include "SJF_Processor.h"
 
 class ProcessSch
 {
@@ -15,9 +17,8 @@ private:
 	LinkedQueue<Process*> Blocked;  //Contains blocked processes
 	LinkedQueue<Process*> Terminated;  //Contains terminated processes
 	FCFS_Processor* FCFSList; //List of FCFS processors
-	// SJF_Processor* SJFList; //List of SJF processors
-	// RR_Processor* RRList; //List of RR processors
-	//Processor* AllProcessors[1] = { FCFSList/*,SJFList,RRList*/ };
+	SJF_Processor* SJFList; //List of SJF processors
+	RR_Processor* RRList; //List of RR processors
 public:
 	ProcessSch();
 	void Simulate();

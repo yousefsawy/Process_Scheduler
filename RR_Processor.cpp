@@ -1,8 +1,7 @@
 #include"RR_Processor.h"
 
-RR_Processor::RR_Processor(const int& t) {
+RR_Processor::RR_Processor() {
 
-	timeSlice = t;
 	currentTimeSlice = 0;
 
 }
@@ -68,6 +67,11 @@ void RR_Processor::ScheduleAlgo() {
 
 	stateUpdate();
 
+}
+
+void RR_Processor::setTimeSlice(int t)
+{
+	timeSlice = t;
 }
 
 RR_Processor::~RR_Processor() {

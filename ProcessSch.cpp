@@ -30,15 +30,15 @@ void ProcessSch::Simulate()
 		{
 			ProcessorSim(FCFSList[j]);
 		}
-		/*
+		
 		for (int j = 0; j < SJF; j++)
 		{
-			ProcessorSim(AllProcessors[1][j]);
+			ProcessorSim(SJFList[j]);
 		}
 		for (int j = 0; j < RR; j++) {
-			ProcessorSim(AllProcessors[2][j]);
+			ProcessorSim(RRList[j]);
 		}
-		*/
+		
 		Process* temp2=nullptr;
 		Blocked.peek(temp2); //checks if Blocked list first at each timestep
 		if (temp2)
@@ -74,8 +74,12 @@ bool ProcessSch::InputF(void)
 	//Declare Processors
 
 	FCFSList = new FCFS_Processor[FCFS];
-	//SJFList = new SJF_Processor[SJF];
-	//RRList = new RR_Processor[RR];
+	SJFList = new SJF_Processor[SJF];
+	RRList = new RR_Processor[RR];
+	for (int i = 0; i < RR; i++)
+	{
+		RRList[i].setTimeSlice(TS_RR);
+	}
 
 	for (int i = 0; i < NumOfProcess; i++)
 	{
@@ -134,24 +138,22 @@ void ProcessSch::ToReady(LinkedQueue<Process*>& List)
 			temp = j;
 		}
 	}
-	/*
 	for (int j = 0; j < SJF; j++)
 	{
-		if (AllProcessors[1][j].getExpectedFinishTime() < MinExp)
+		if (SJFList[j].getExpectedFinishTime() < MinExp)
 		{
-			MinExp = AllProcessors[1][j].getExpectedFinishTime();
-			temp = &AllProcessors[1][j];
+			MinExp = SJFList[j].getExpectedFinishTime();
+			temp = j;
 		}
 	}
 	for (int j = 0; j < RR; j++)
 	{
-		if (AllProcessors[2][j].getExpectedFinishTime() < MinExp)
+		if (RRList[j].getExpectedFinishTime() < MinExp)
 		{
-			MinExp = AllProcessors[2][j].getExpectedFinishTime();
-			temp = &AllProcessors[2][j];
+			MinExp = RRList[j].getExpectedFinishTime();
+			temp = j;
 		}
 	}
-	*/
 	FCFSList[temp].AddProcess(temp2);
 }
 
@@ -180,23 +182,21 @@ bool ProcessSch::AreIdle()
 			return false;
 		}
 	}
-	/*
 	for (int j = 0; j < SJF; j++)
 	{
-		if (!AllProcessors[1][j].isIdle())
+		if (!SJFList[j].isIdle())
 		{
 			return true;
 		}
 	}
 	for (int j = 0; j < RR; j++)
 	{
-		if (!AllProcessors[2][j].isIdle())
+		if (!RRList[j].isIdle())
 		{
 			return true;
 		}
 
 	}
-	*/
 	return true;
 }
 
