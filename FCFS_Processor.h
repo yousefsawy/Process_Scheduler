@@ -10,6 +10,7 @@ private:
     LinkedQueue<Process*> Ready;
 public:
     FCFS_Processor();
+    void stateUpdate();
     virtual void AddProcess(Process* );
     virtual void ScheduleAlgo();
 };

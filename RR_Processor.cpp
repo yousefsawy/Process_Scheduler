@@ -1,9 +1,13 @@
-#include "FCFS_Processor.h"
+#include"RR_Processor.h"
 
-FCFS_Processor::FCFS_Processor()
-{}
+RR_Processor::RR_Processor(const int& t) {
 
-void FCFS_Processor::stateUpdate() {
+	timeSlice = t;
+	currentTimeSlice = 0;
+
+}
+
+void RR_Processor::stateUpdate() {
 
 	if (running == nullptr && Ready.isEmpty()) {
 		currentState = IDLE;
@@ -14,17 +18,15 @@ void FCFS_Processor::stateUpdate() {
 
 }
 
-void FCFS_Processor::AddProcess(Process* NewPrcs)
-{
-	NewPrcs->setStatus(RDY);
-	Ready.enqueue(NewPrcs);
-	expectedFinishTime += NewPrcs->getRemtime();
+void RR_Processor::AddProcess(Process* p) {
+
+	p->setStatus(RDY);
+	Ready.enqueue(p);
 	stateUpdate();
+
 }
 
-
-void FCFS_Processor::ScheduleAlgo()
-{
+void RR_Processor::ScheduleAlgo() {
 
 	if (currentState == IDLE) {
 		return;
@@ -34,15 +36,19 @@ void FCFS_Processor::ScheduleAlgo()
 
 		Ready.dequeue(running);
 		running->setStatus(RUN);
+		currentTimeSlice = 0;
+
 	}
 
 	running->IncrementRunT();
+	currentTimeSlice++;
 
 	if (running->isTerminated())
 	{
 		Terminated = running;
 		running = nullptr;
 		Terminated->setStatus(TRM);
+
 	}
 
 	if (running->isIORequest())
@@ -52,6 +58,18 @@ void FCFS_Processor::ScheduleAlgo()
 		Blocked->setStatus(BLK);
 	}
 
+	if (currentTimeSlice == timeSlice) {
+
+		Process* temp = running;
+		running = nullptr;
+		Ready.enqueue(temp);
+
+	}
+
 	stateUpdate();
+
+}
+
+RR_Processor::~RR_Processor() {
 
 }

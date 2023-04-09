@@ -25,6 +25,7 @@ public:
 	void setTT(int t); 
 	void setRT(int n);
 	void AddRequest(int IO_R, int IO_D);
+	void setStatus(Status); //Set process status
 	int getAT();
 	//Functions
 	void IncrementRunT(); //Increments the running time inside CPU

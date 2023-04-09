@@ -39,6 +39,9 @@
       <Filter>Processor</Filter>
     </ClInclude>
     <ClInclude Include="ProcessSch.h" />
+    <ClInclude Include="RR_Processor.h">
+      <Filter>Processor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
@@ -50,5 +53,8 @@
     </ClCompile>
     <ClCompile Include="Process.cpp" />
     <ClCompile Include="ProcessSch.cpp" />
+    <ClCompile Include="RR_Processor.cpp">
+      <Filter>Processor</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

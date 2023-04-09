@@ -1,7 +1,5 @@
 #include "Process.h"
 
-
-
 Process::Process() {}
 
 Process::Process(int p, int a, int c, int n) {
@@ -105,6 +103,12 @@ int Process ::getRemtime() {
 		return CT - RunT;
 	}
 	
+}
+
+void Process::setStatus(Status s) {
+
+	Pstatus = s;
+
 }
 
 
