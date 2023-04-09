@@ -1,9 +1,12 @@
 #pragma once
+#include "Processor.h"
 #include "LinkedQueue.h"
 #include"DEFS.h"
 
 class Process {
 private:
+	Processor* PtrPrcr; //Pointer to current processor
+	Process* PtrChild;
 	int PID; //Process ID
 	int AT; //Arrival time
 	int CT; //CPU time
@@ -27,12 +30,15 @@ public:
 	void AddRequest(int IO_R, int IO_D);
 	void setStatus(Status); //Set process status
 	int getAT();
+
 	//Functions
 	void IncrementRunT(); //Increments the running time inside CPU
 	bool isTerminated(); //Checks if process is terminated or not
 	bool isIORequest(); //Checks if there is an IORequest
 	void IncrementIO_D(); //Increments the IO Duration
 	int getRemtime();
-
-
+	void setPtrPrcr(Processor*); //Sets pointer to current processor
+	void TerminateThis(); //Terminates this Process and all Child processes
+	void setPtrChild(Process*); //Sets Pointer to child process
+	
 };

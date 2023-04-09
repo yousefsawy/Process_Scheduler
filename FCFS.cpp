@@ -20,6 +20,7 @@ void FCFS_Processor::AddProcess(Process* NewPrcs)
 	Ready.enqueue(NewPrcs);
 	expectedFinishTime += NewPrcs->getRemtime();
 	stateUpdate();
+	NewPrcs->setPtrPrcr(this);
 }
 
 
@@ -53,4 +54,15 @@ void FCFS_Processor::ScheduleAlgo()
 
 	stateUpdate();
 
+}
+
+void FCFS_Processor::TerminateProcess(Process*)
+{
+	//TODO
+}
+
+Process* FCFS_Processor::GetProcess(int PID)
+{
+	//TODO
+	return nullptr;
 }

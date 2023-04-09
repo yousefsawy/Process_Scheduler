@@ -24,6 +24,8 @@ public:
 	Process* RequestBlocked();
 	Process* RequestTerminated();
 	Process* getRun();
+	virtual void TerminateProcess(Process*); //Terminates a process in FCFS only (SIGKILL OR ORPHAN)
+	virtual Process* GetProcess(int PID); //TODO: GET Process* using PID
 	~Processor(); //Destructor
 	
 	

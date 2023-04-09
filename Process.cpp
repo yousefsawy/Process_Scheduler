@@ -11,7 +11,12 @@ Process::Process(int p, int a, int c, int n) {
 	Pstatus = NEW;
 	RunT = 0;
 	CurrentReq = nullptr;
+	PtrPrcr = nullptr;
+	PtrChild = nullptr;
 }
+
+
+
 void Process::setPID(int id) {
 	PID = id;
 }
@@ -105,11 +110,33 @@ int Process ::getRemtime() {
 	
 }
 
+void Process::setPtrPrcr(Processor* prcs)
+{
+	PtrPrcr = prcs;
+}
+
+void Process::TerminateThis()
+{
+	if (PtrChild)
+		PtrChild->TerminateThis();
+	if (PtrPrcr)
+		PtrPrcr->TerminateProcess(this);
+	
+	setStatus(TRM);
+}
+
+void Process::setPtrChild(Process* child)
+{
+	PtrChild = child;
+}
+
+
 void Process::setStatus(Status s) {
 
 	Pstatus = s;
 
 }
+
 
 
 

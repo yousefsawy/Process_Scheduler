@@ -45,6 +45,7 @@
     <ClInclude Include="SJF_Processor.h">
       <Filter>Processor</Filter>
     </ClInclude>
+    <ClInclude Include="UI_Class.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
@@ -62,5 +63,6 @@
     <ClCompile Include="SJF_Processor.cpp">
       <Filter>Processor</Filter>
     </ClCompile>
+    <ClCompile Include="UI_Class.cpp" />
   </ItemGroup>
 </Project>

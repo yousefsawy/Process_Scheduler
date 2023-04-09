@@ -38,6 +38,9 @@ Process* Processor::RequestTerminated() {
 
 }
 
+Process* Processor::GetProcess(int PID)
+{}
+
 Processor::~Processor() {
 
 }
@@ -45,5 +48,9 @@ Processor::~Processor() {
 Process* Processor::getRun()
 {
 	return running;
+}
+
+void Processor::TerminateProcess(Process* )
+{
 }
 

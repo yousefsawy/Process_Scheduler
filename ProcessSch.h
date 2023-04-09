@@ -27,5 +27,11 @@ public:
 	void ProcessorSim(Processor& p);
 	bool AreIdle();
 	~ProcessSch();
+
+	//TODO FOR UI-CLASS
+	void PrintRDY(); //Prints RDY of each processor
+	void PrintBLK(); 
+	void PrintRun();
+	void PrintTRM();
 };
 
