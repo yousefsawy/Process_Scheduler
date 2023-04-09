@@ -181,6 +181,24 @@ void ProcessSch::ToReady(LinkedQueue<Process*>& List)
 }
 
 
+void ProcessSch::ProcessorSimph1(Processor& p, int rd,int time)
+{
+	p.ScheduleAlgo(time);
+
+	if (rd >= 50 && rd <= 60)
+	{
+		Terminated.enqueue(p.RequestTerminated());
+	}
+	else if (rd >= 1 && rd <= 15)
+	{
+		Blocked.enqueue(p.RequestBlocked());
+	}
+	else if (rd >= 20 && rd <= 30) {
+		//ToReady();
+	}
+
+}
+
 void ProcessSch::ProcessorSim(Processor& p,int time)
 {
 	p.ScheduleAlgo(time);

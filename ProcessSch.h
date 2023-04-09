@@ -26,6 +26,7 @@ public:
 	bool InputF(void);
 	void OutputF();
 	void ToReady(LinkedQueue<Process*>& List);
+	void ProcessorSimph1(Processor& p, int rd,int time);
 	void ProcessorSim(Processor& p,int time);
 	bool AreIdle();
 	~ProcessSch();
