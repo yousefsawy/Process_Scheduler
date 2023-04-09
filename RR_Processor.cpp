@@ -38,22 +38,32 @@ void RR_Processor::ScheduleAlgo(int time) {
 		currentTimeSlice = 0;
 
 	}
-	running->setRT(time /*timestep*/);
-	running->IncrementRunT();
+
 	currentTimeSlice++;
 
-	if (running->isTerminated())
+	if (running == nullptr) {
+
+		Ready.dequeue(running);
+		running->setStatus(RUN);
+	}
+
+	if (time >= 50 && time <= 60)
 	{
 		Terminated = running;
 		running = nullptr;
 		Terminated->setStatus(TRM);
-
 	}
-	else if (running->isIORequest())
+	else if (time >= 1 && time <= 15)
 	{
 		Blocked = running;
 		running = nullptr;
 		Blocked->setStatus(BLK);
+	}
+	else if (time >= 20 && time <= 30) {
+		Ready.enqueue(running);
+		running->setStatus(RDY);
+		running = nullptr;
+
 	}
 	else if (currentTimeSlice == timeSlice) {
 
