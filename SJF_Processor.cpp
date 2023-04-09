@@ -1,9 +1,10 @@
-#include "FCFS_Processor.h"
+#include"SJF_Processor.h"
 
-FCFS_Processor::FCFS_Processor()
-{}
+SJF_Processor::SJF_Processor() {
 
-void FCFS_Processor::stateUpdate() {
+}
+
+void SJF_Processor::stateUpdate() {
 
 	if (running == nullptr && Ready.isEmpty()) {
 		currentState = IDLE;
@@ -14,16 +15,15 @@ void FCFS_Processor::stateUpdate() {
 
 }
 
-void FCFS_Processor::AddProcess(Process* NewPrcs)
+void SJF_Processor::AddProcess(Process* NewPrcs)
 {
 	NewPrcs->setStatus(RDY);
-	Ready.enqueue(NewPrcs);
+	Ready.enqueue(NewPrcs,NewPrcs->getRemtime());
 	expectedFinishTime += NewPrcs->getRemtime();
 	stateUpdate();
 }
 
-
-void FCFS_Processor::ScheduleAlgo()
+void SJF_Processor::ScheduleAlgo()
 {
 
 	if (currentState == IDLE) {
@@ -52,5 +52,9 @@ void FCFS_Processor::ScheduleAlgo()
 	}
 
 	stateUpdate();
+
+}
+
+SJF_Processor::~SJF_Processor(){
 
 }

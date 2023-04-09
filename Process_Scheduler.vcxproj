@@ -138,6 +138,7 @@
     <ClInclude Include="ProcessSch.h" />
     <ClInclude Include="QueueADT.h" />
     <ClInclude Include="RR_Processor.h" />
+    <ClInclude Include="SJF_Processor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FCFS.cpp" />
@@ -145,6 +146,7 @@
     <ClCompile Include="Processor.cpp" />
     <ClCompile Include="ProcessSch.cpp" />
     <ClCompile Include="RR_Processor.cpp" />
+    <ClCompile Include="SJF_Processor.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

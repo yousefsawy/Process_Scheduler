@@ -62,7 +62,7 @@ bool PriQueue<T>::enqueue(const T& data,int pri)
 		{
 			PriNode<T>* prev = front;
 			PriNode<T>* temp = front;
-			while (newNode->getPriority() >= temp->getPriority())
+			while (newNode->getPriority() <= temp->getPriority())
 			{
 				prev = temp;
 				temp = temp->getNext();
