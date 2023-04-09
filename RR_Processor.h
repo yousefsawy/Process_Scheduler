@@ -18,7 +18,7 @@ public:
 	RR_Processor(); //Constructor
 	void stateUpdate(); //Updates processor state
 	void AddProcess(Process*); //Adds process to ready queue "RDY"
-	void ScheduleAlgo(); //Execute process
+	void ScheduleAlgo(int time); //Execute process
 	void setTimeSlice(int t);
 	~RR_Processor(); //Destructor
 

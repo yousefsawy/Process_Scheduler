@@ -25,7 +25,7 @@ void RR_Processor::AddProcess(Process* p) {
 
 }
 
-void RR_Processor::ScheduleAlgo() {
+void RR_Processor::ScheduleAlgo(int time) {
 
 	if (currentState == IDLE) {
 		return;
@@ -38,7 +38,7 @@ void RR_Processor::ScheduleAlgo() {
 		currentTimeSlice = 0;
 
 	}
-
+	running->setRT(time /*timestep*/);
 	running->IncrementRunT();
 	currentTimeSlice++;
 
@@ -49,15 +49,13 @@ void RR_Processor::ScheduleAlgo() {
 		Terminated->setStatus(TRM);
 
 	}
-
-	if (running->isIORequest())
+	else if (running->isIORequest())
 	{
 		Blocked = running;
 		running = nullptr;
 		Blocked->setStatus(BLK);
 	}
-
-	if (currentTimeSlice == timeSlice) {
+	else if (currentTimeSlice == timeSlice) {
 
 		Process* temp = running;
 		running = nullptr;

@@ -23,7 +23,7 @@ void SJF_Processor::AddProcess(Process* NewPrcs)
 	stateUpdate();
 }
 
-void SJF_Processor::ScheduleAlgo()
+void SJF_Processor::ScheduleAlgo(int time)
 {
 
 	if (currentState == IDLE) {
@@ -35,7 +35,7 @@ void SJF_Processor::ScheduleAlgo()
 		Ready.dequeue(running);
 		running->setStatus(RUN);
 	}
-
+	running->setRT(time /*timestep*/);
 	running->IncrementRunT();
 
 	if (running->isTerminated())

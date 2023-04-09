@@ -56,7 +56,7 @@ bool PriQueue<T>::enqueue(const T& data,int pri)
 		if (newNode->getPriority() < front->getPriority())
 		{
 			newNode->setNext(front);
-			front = newNdoe;
+			front = newNode;
 		}
 		else
 		{
@@ -87,7 +87,7 @@ bool PriQueue<T>::dequeue(T& dequeuedData) {
 	}
 	else 
 	{
-		Node<T>* temp = front;
+		PriNode<T>* temp = front;
 		dequeuedData = front->getData();
 		front = front->getNext();
 		delete temp;

@@ -28,7 +28,14 @@ void FCFS_Processor::ScheduleAlgo(int time)
 	if (currentState == IDLE) {
 		return;
 	}
+	if (running == nullptr) {
 
+		Ready.dequeue(running);
+		running->setStatus(RUN);
+
+	}
+
+	running->setRT(time /*timestep*/);
 	running->IncrementRunT();
 	currentState = BUSY;
 	if (running->isTerminated())

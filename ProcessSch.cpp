@@ -49,22 +49,12 @@ void ProcessSch::Simulate()
 		
 		for (int j = 0; j < SJF; j++)
 		{
-			ProcessorSim(SJFList[j]);
+			ProcessorSim(SJFList[j],timestep);
 		}
 		for (int j = 0; j < RR; j++) {
-			ProcessorSim(RRList[j]);
+			ProcessorSim(RRList[j],timestep);
 		}
 		
-		Process* temp2=nullptr;
-		Blocked.peek(temp2); //checks if Blocked list first at each timestep
-		if (temp2)
-		{
-			temp2->IncrementIO_D();
-			if (!temp2->isIORequest())
-			{
-					ToReady(Blocked);
-			}
-		}
 		//ToDo: Stealing,Migration,Killing,Forking
 		timestep++;
 		//ToDo: interface mode action
@@ -145,8 +135,8 @@ void ProcessSch::ToReady(LinkedQueue<Process*>& List)
 {
 	Process* temp2=nullptr;  //Temporary value to hold the data while transfer
 	List.dequeue(temp2);
-	int MinExp = FCFSList[0].getExpectedFinishTime();
-	int temp;
+	int MinExp = INT_MAX;
+	int temp,list;
 	//ToDo: Enqueque data to suitable processor using scheduling algorithm
 	for (int j = 0; j < FCFS; j++)
 	{
@@ -154,25 +144,40 @@ void ProcessSch::ToReady(LinkedQueue<Process*>& List)
 		{
 			MinExp = FCFSList[j].getExpectedFinishTime();
 			temp = j;
+			list = 1;
 		}
 	}
 	for (int j = 0; j < SJF; j++)
 	{
-		if (SJFList[j].getExpectedFinishTime() < MinExp)
+		if (SJFList[j].getExpectedFinishTime() <= MinExp)
 		{
 			MinExp = SJFList[j].getExpectedFinishTime();
 			temp = j;
+			list = 2;
 		}
 	}
 	for (int j = 0; j < RR; j++)
 	{
-		if (RRList[j].getExpectedFinishTime() < MinExp)
+		if (RRList[j].getExpectedFinishTime() <= MinExp)
 		{
 			MinExp = RRList[j].getExpectedFinishTime();
 			temp = j;
+			list = 3;
 		}
 	}
-	FCFSList[temp].AddProcess(temp2);
+	switch (list)
+	{
+	case 1:
+		FCFSList[temp].AddProcess(temp2);
+		break;
+	case 2:
+		SJFList[temp].AddProcess(temp2);
+		break;
+	case 3:
+		RRList[temp].AddProcess(temp2);
+		break;
+	}
+	
 }
 
 
@@ -205,14 +210,14 @@ bool ProcessSch::AreIdle()
 	{
 		if (!SJFList[j].isIdle())
 		{
-			return true;
+			return false;
 		}
 	}
 	for (int j = 0; j < RR; j++)
 	{
 		if (!RRList[j].isIdle())
 		{
-			return true;
+			return false;
 		}
 
 	}

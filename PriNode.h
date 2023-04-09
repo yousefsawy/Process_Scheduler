@@ -8,6 +8,7 @@ class PriNode: public Node<T> {
 private:
 
 	int prior;
+	PriNode<T>* next;
 
 public:
 
@@ -15,6 +16,7 @@ public:
 	void setPriority(int);
 	int getPriority();
 	void setNext(PriNode<T>*);
+	PriNode<T>* getNext();
 
 };
 
@@ -23,7 +25,7 @@ public:
 //IMPLEMENTATIONS
 
 template<typename T>
- PriNode<T> :: PriNode(const T& data, PriNode<T>* next, int pri) :(data,next)
+ PriNode<T> :: PriNode(const T& data, PriNode<T>* next, int pri):Node<T>(data ,next)
 
 {
 	prior = pri;
@@ -33,7 +35,7 @@ template<typename T>
 template<typename T>
 void PriNode<T>::setPriority(int pri)
 {
-	prior=pri
+	prior = pri;
 }
 
 
@@ -49,6 +51,10 @@ void PriNode<T>::setNext(PriNode<T>* next) {
 	this->next = next;
 
 }
-
+template<typename T>
+PriNode<T>* PriNode<T>::getNext()
+{
+	return next;
+}
 
 #endif
