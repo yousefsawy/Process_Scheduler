@@ -11,6 +11,7 @@ private:
 
 	Node<T>* front;
 	Node<T>* back;
+	int size;
 
 public:
 
@@ -19,6 +20,8 @@ public:
 	bool enqueue(const T&);
 	bool dequeue(T&);
 	bool peek(T&)  const;
+	void print();
+	int getCount() const;
 	~LinkedQueue();
 
 };
@@ -31,6 +34,7 @@ LinkedQueue<T>::LinkedQueue() {
 
 	front = nullptr;
 	back = nullptr;
+	size = 0;
 
 }
 
@@ -111,6 +115,31 @@ LinkedQueue<T>::~LinkedQueue() {
 
 	T dummy;
 	while (dequeue(dummy));
+
+}
+
+
+template<typename T>
+int LinkedQueue<T>::getCount() const {
+
+	return size;
+
+}
+
+template<typename T>
+void LinkedQueue<T>::print() {
+
+	Node<T>* current = front;
+
+	while (current) {
+
+		std::cout << current->getData();
+		if (current->getNext() != nullptr) {
+			std::cout << ", ";
+		}
+		current = current->getNext();
+
+	}
 
 }
 

@@ -25,4 +25,18 @@ struct IO_Request //QUESTION: IS THE REQUEST SORTED?
 	int IO_D; //Request Duration
 };
 
+enum UI_Mode
+{
+	Interactive,
+	Step,
+	Silent
+};
+
+enum ProgramState
+{
+	Start,
+	Run,
+	End
+};
+
 #endif

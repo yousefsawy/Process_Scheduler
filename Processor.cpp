@@ -10,6 +10,18 @@ Processor::Processor() {
 
 }
 
+bool Processor::isRunning() const {
+
+	return running != nullptr;
+
+}
+
+void Processor::printRunning() {
+
+	std::cout << *running << "(P" << getID() << ")";
+
+}
+
 bool Processor::isIdle() const{
 
 	return currentState == IDLE;
@@ -47,3 +59,8 @@ Process* Processor::getRun()
 	return running;
 }
 
+int Processor::getID() const {
+
+	return ID;
+
+}

@@ -16,6 +16,7 @@ public:
 	void stateUpdate();
 	virtual void AddProcess(Process*);
 	virtual void ScheduleAlgo(int time);
+	void printMyReady(); //Prints Ready Queue
 	~SJF_Processor();
 
 };

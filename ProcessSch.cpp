@@ -314,7 +314,95 @@ bool ProcessSch::AreIdle()
 	return true;
 }
 
+void ProcessSch::PrintRDY() {
 
+	for (int i = 0; i < FCFS; i++) {
+		FCFSList[i].printMyReady();
+		cout << endl;
+	}
+	for (int i = 0; i < SJF; i++) {
+		SJFList[i].printMyReady();
+		cout << endl;
+	}
+	for (int i = 0; i < RR; i++) {
+		RRList[i].printMyReady();
+		cout << endl;
+	}
 
+}
+
+void ProcessSch::PrintBLK() {
+
+	cout << Blocked.getCount() << " BLK: ";
+	Blocked.print();
+
+}
+
+int ProcessSch::getNumRunning() const {
+
+	int count = 0;
+
+	for (int i = 0; i < FCFS; i++) {
+		if (FCFSList[i].isRunning()) { count++; }
+	}
+	for (int i = 0; i < SJF; i++) {
+		if (SJFList[i].isRunning()) { count++; }
+	}
+	for (int i = 0; i < RR; i++) {
+		if (RRList[i].isRunning()) { count++; }
+	}
+
+	return count;
+}
+
+void ProcessSch::PrintRun() {
+
+	int NumRun = getNumRunning();
+	int x = 1;
+
+	cout << NumRun << " RUN: ";
+
+	for (int i = 0; i < FCFS; i++) {
+
+		if (FCFSList[i].isRunning()) {
+			FCFSList[i].printRunning();
+			if (x != NumRun) {
+				cout << ", ";
+			}
+			x++;
+		}
+
+	}
+	for (int i = 0; i < SJF; i++) {
+
+		if (SJFList[i].isRunning()) {
+			SJFList[i].printRunning();
+			if (x != NumRun) {
+				cout << ", ";
+			}
+			x++;
+		}
+
+	}
+	for (int i = 0; i < RR; i++) {
+
+		if (RRList[i].isRunning()) {
+			RRList[i].printRunning();
+			if (x != NumRun) {
+				cout << ", ";
+			}
+			x++;
+		}
+
+	}
+
+}
+
+void ProcessSch::PrintTRM() {
+
+	cout << Terminated.getCount() << " TRM: ";
+	Terminated.print();
+
+}
 
 ProcessSch::~ProcessSch() {}

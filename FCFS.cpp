@@ -14,6 +14,13 @@ void FCFS_Processor::stateUpdate() {
 
 }
 
+void FCFS_Processor::printMyReady() {
+
+	std::cout << "processor " << getID() << "[FCFS]: " << Ready.getCount() << " RDY: ";
+	Ready.print();
+
+}
+
 void FCFS_Processor::AddProcess(Process* NewPrcs)
 {
 	NewPrcs->setStatus(RDY);

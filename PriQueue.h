@@ -10,6 +10,7 @@ class PriQueue :public QueueADT<T> {
 private:
 
 	PriNode<T>* front;
+	int size;
 
 public:
 
@@ -18,6 +19,8 @@ public:
 	bool dequeue(T& dequeuedData);
 	bool peek(T& frontData)  const;
 	bool enqueue(const T&,int);
+	void print();
+	int getCount() const;
 	~PriQueue();
 
 };
@@ -29,6 +32,7 @@ template<typename T>
 PriQueue<T>::PriQueue() 
 {
 	front = nullptr;
+	size = 0;
 }
 
 
@@ -111,8 +115,6 @@ bool PriQueue<T>::peek(T& frontData)  const {
 
 }
 
-
-
 template<typename T>
 PriQueue<T>::~PriQueue() {
 
@@ -120,4 +122,30 @@ PriQueue<T>::~PriQueue() {
 	while (dequeue(dummy));
 
 }
+
+
+template<typename T>
+int PriQueue<T>::getCount() const {
+
+	return size;
+
+}
+
+template<typename T>
+void PriQueue<T>::print() {
+
+	PriNode<T>* current = front;
+
+	while (current) {
+
+		std::cout << current->getData();
+		if (current->getNext() != nullptr) {
+			std::cout << ", ";
+		}
+		current = current->getNext();
+
+	}
+
+}
+
 #endif

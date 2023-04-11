@@ -33,5 +33,10 @@ public:
 	void ProcessorSim(Processor& p,int time);
 	bool AreIdle();
 	~ProcessSch();
+	int getNumRunning() const; // returns number of processors having a running process
+	void PrintRDY(); //Prints RDY of each processor
+	void PrintBLK(); //Prints Blocked List
+	void PrintRun(); //Prints RUN of each processor
+	void PrintTRM(); //Prints Terminated List
 };
 

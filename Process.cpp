@@ -122,5 +122,9 @@ void Process::setStatus(Status s) {
 
 }
 
+std::ostream& operator<<(std::ostream& output, const Process& p) {
 
+	output << p.PID;
+	return output;
 
+}

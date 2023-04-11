@@ -13,6 +13,9 @@ protected:
 	Process* running; //Running process
 	Process* Terminated; //Terminated process
 	Process* Blocked; //Blocked process
+	int ID; // ID of processor;
+	static int counter; // Counter to assign ID for each processor
+
 public:
 
 	Processor(); //Constructor
@@ -24,8 +27,10 @@ public:
 	Process* RequestBlocked();
 	Process* RequestTerminated();
 	Process* getRun();
+	bool isRunning() const; //Does the Processor have a running process
+	void printRunning(); //Print the PID of running process
+	int getID() const; //Returns ID of processor
 	~Processor(); //Destructor
-	
 	
 };
 

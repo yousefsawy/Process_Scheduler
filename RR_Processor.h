@@ -20,6 +20,7 @@ public:
 	void AddProcess(Process*); //Adds process to ready queue "RDY"
 	void ScheduleAlgo(int time); //Execute process
 	void setTimeSlice(int t);
+	void printMyReady(); //Prints Ready Queue
 	~RR_Processor(); //Destructor
 
 };

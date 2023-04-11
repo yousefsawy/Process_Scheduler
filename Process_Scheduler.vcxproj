@@ -139,6 +139,7 @@
     <ClInclude Include="QueueADT.h" />
     <ClInclude Include="RR_Processor.h" />
     <ClInclude Include="SJF_Processor.h" />
+    <ClInclude Include="UI_Class.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FCFS.cpp" />
@@ -148,6 +149,7 @@
     <ClCompile Include="RR_Processor.cpp" />
     <ClCompile Include="SJF_Processor.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="UI_Class.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

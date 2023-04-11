@@ -15,6 +15,13 @@ void SJF_Processor::stateUpdate() {
 
 }
 
+void SJF_Processor::printMyReady() {
+
+	std::cout << "processor " << getID() << "[SJF ]: " << Ready.getCount() << " RDY: ";
+	Ready.print();
+
+}
+
 void SJF_Processor::AddProcess(Process* NewPrcs)
 {
 	NewPrcs->setStatus(RDY);

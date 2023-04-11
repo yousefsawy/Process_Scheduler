@@ -5,7 +5,11 @@
 using namespace std;
 
 class Process {
+
+	friend std::ostream& operator<<(std::ostream&, const Process&);
+
 private:
+
 	int PID; //Process ID
 	int AT; //Arrival time
 	int CT; //CPU time
@@ -19,7 +23,9 @@ private:
 	Status Pstatus; //processor status
 	LinkedQueue<IO_Request*> ReqQueue; //Queue with the requests !!!ADD PRIQUEUE IF NOT SORTED
 	IO_Request* CurrentReq; //Current IO_Request
+
 public:
+
 	//Constructors
 	Process();
 	Process(int p, int a, int c, int n);
@@ -37,6 +43,5 @@ public:
 	void IncrementIO_D(); //Increments the IO Duration
 	int getRemtime();
 	void PrintInfo(ofstream &file); //Prints the data of the process
-
 
 };
