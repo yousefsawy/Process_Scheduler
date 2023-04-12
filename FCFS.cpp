@@ -26,7 +26,9 @@ void FCFS_Processor::printMyReady() {
 
 void FCFS_Processor::KillRandom()
 {
-	Process* temp;
+	Process* temp = nullptr;
+	if (count == 0)
+		return;
 	int index = rand() % count;
 	Ready.deleteMid(index, temp);
 	if (temp)
@@ -55,8 +57,10 @@ void FCFS_Processor::ScheduleAlgo(int time)
 	if (running == nullptr) {
 
 		Ready.dequeue(running);
+		if (!running)
+			return;
 		running->setStatus(RUN);
-
+		count--;
 	}
 
 	if (time >= 50 && time <= 60)
@@ -75,6 +79,7 @@ void FCFS_Processor::ScheduleAlgo(int time)
 		Ready.enqueue(running);
 		running->setStatus(RDY);
 		running = nullptr;
+		count++;
 	}
 
 	KillRandom();

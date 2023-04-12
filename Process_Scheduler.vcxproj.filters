@@ -46,7 +46,9 @@
       <Filter>Processor</Filter>
     </ClInclude>
     <ClInclude Include="UI_Class.h" />
-    <ClInclude Include="ModifiedQueue.h" />
+    <ClInclude Include="ModifiedQueue.h">
+      <Filter>Data_Structures\Implementation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
