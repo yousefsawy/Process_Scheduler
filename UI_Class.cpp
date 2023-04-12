@@ -1,8 +1,27 @@
 #include "UI_Class.h"
+#include "ProcessSch.h"
 
-UI_Class::UI_Class(UI_Mode Mode)
+
+UI_Class::UI_Class(ProcessSch* SchedulerPtr)
 {
-	this->Mode = Mode;
+	int mode;
+	std::cout << "Enter 1 for Interactive, 2 for Step, 3 for Silent : ";
+	std::cin >> mode;
+	switch (mode)
+	{
+	case 1:
+		Mode = Interactive;
+		break;
+	case 2:
+		Mode = Step;
+		break;
+	case 3:
+		Mode = Silent;
+		break;
+	default:
+		Mode = Interactive;
+	}
+	PtrSchd = SchedulerPtr;
 	State = Start;
 	TimeStep = 0;
 }
@@ -61,10 +80,10 @@ void UI_Class::SilentMode()
 	if (State == Start)
 	{
 		std::cout << "Silent Mode.......    Simulation Starts";
-		State == Run;
+		State = Run;
 	}
 
-	if (TimeStep % 60 == 0)
+	if (TimeStep % 10000 == 0)
 		std::cout << ".";
 
 

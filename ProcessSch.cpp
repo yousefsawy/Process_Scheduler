@@ -1,9 +1,12 @@
 #include "ProcessSch.h"
 #include <iostream>
 #include <fstream> //Needed for the Input/Output function
+#include <cstdlib>
+#include <time.h>
+
 using namespace std;
 
-
+#include "UI_Class.h"
 
 ProcessSch::ProcessSch()
 {
@@ -58,8 +61,7 @@ void ProcessSch::Simulate()
 		
 		//ToDo: Stealing,Migration,Killing,Forking
 		timestep++;
-		//ToDo: interface mode action
-		cout << timestep << endl;
+		//cout << timestep << endl;
 	}
 	OutputF();
 }
@@ -209,6 +211,7 @@ void ProcessSch::Simulateph1()
 {
 	int index=0;
 	InputF();
+	UI_Class UIC(this);
 	while (!(New.isEmpty() && Blocked.isEmpty() && AreIdle())) //TODO: while processor lists are empty loop
 	{
 		Process* temp1; //checks if AT first  process in New is equal to timestep
@@ -246,8 +249,8 @@ void ProcessSch::Simulateph1()
 
 		//ToDo: Stealing,Migration,Killing,Forking
 		timestep++;
-		//ToDo: interface mode action
-		cout << timestep << endl;
+		UIC.ExecuteUI();
+		//cout << timestep << endl;
 	}
 	//ToDo: Produce the output file
 	OutputF();
@@ -335,6 +338,7 @@ void ProcessSch::PrintBLK() {
 
 	cout << Blocked.getCount() << " BLK: ";
 	Blocked.print();
+	cout << endl;
 
 }
 
@@ -395,6 +399,7 @@ void ProcessSch::PrintRun() {
 		}
 
 	}
+	cout << endl;
 
 }
 
@@ -402,6 +407,7 @@ void ProcessSch::PrintTRM() {
 
 	cout << Terminated.getCount() << " TRM: ";
 	Terminated.print();
+	cout << endl;
 
 }
 

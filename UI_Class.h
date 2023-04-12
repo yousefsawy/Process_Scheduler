@@ -1,8 +1,9 @@
 #pragma once
 #include "DEFS.h"
 #include <iostream>
-#include "ProcessSch.h"
 #include <Windows.h>
+
+class ProcessSch;
 
 class UI_Class
 {
@@ -12,7 +13,7 @@ private:
 	int TimeStep;
 	ProcessSch* PtrSchd;
 public:
-	UI_Class(UI_Mode Mode);
+	UI_Class(ProcessSch*);
 	void ExecuteUI();
 	void Interactive_StepMode();
 	void SilentMode();

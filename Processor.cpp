@@ -1,5 +1,7 @@
 #include"Processor.h"
 
+int Processor::counter = 0;
+
 Processor::Processor() {
 
 	currentState = IDLE;
@@ -7,7 +9,7 @@ Processor::Processor() {
 	running = nullptr;
 	Terminated = nullptr;
 	Blocked = nullptr;
-
+	ID = ++counter;
 }
 
 bool Processor::isRunning() const {
