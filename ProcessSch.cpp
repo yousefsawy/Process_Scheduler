@@ -82,9 +82,20 @@ bool ProcessSch::InputF(void)
 	FCFSList = new FCFS_Processor[FCFS];
 	SJFList = new SJF_Processor[SJF];
 	RRList = new RR_Processor[RR];
+
 	for (int i = 0; i < RR; i++)
 	{
+		RRList[i].setSchPtr(this);
 		RRList[i].setTimeSlice(TS_RR);
+	}
+
+	for (int i = 0; i < FCFS; i++)
+	{
+		FCFSList[i].setSchPtr(this);
+	}
+	for (int i = 0; i < SJF; i++)
+	{
+		SJFList[i].setSchPtr(this);
 	}
 
 	for (int i = 0; i < NumOfProcess; i++)
@@ -236,15 +247,15 @@ void ProcessSch::Simulateph1()
 
 		for (int j = 0; j < FCFS; j++)
 		{
-			ProcessorSimph1(FCFSList[j], timestep);
+			ProcessorSimph1(FCFSList[j]);
 		}
 
 		for (int j = 0; j < SJF; j++)
 		{
-			ProcessorSimph1(SJFList[j], timestep);
+			ProcessorSimph1(SJFList[j]);
 		}
 		for (int j = 0; j < RR; j++) {
-			ProcessorSimph1(RRList[j], timestep);
+			ProcessorSimph1(RRList[j]);
 		}
 
 		//ToDo: Stealing,Migration,Killing,Forking
@@ -256,22 +267,11 @@ void ProcessSch::Simulateph1()
 	OutputF();
 }
 
-void ProcessSch::ProcessorSimph1(Processor& p,int tim)
+void ProcessSch::ProcessorSimph1(Processor& p)
 {
 	srand(time(0));
 	int randpro = rand() % 100 + 1;
 	p.ScheduleAlgo(randpro);
-	Process* tempTer = p.RequestTerminated();
-	Process* tempBlk = p.RequestBlocked();
-	if (tempTer)
-	{
-		tempTer->setTT(tim + 1);
-		Terminated.enqueue(tempTer);
-	}
-	if (tempBlk)
-	{
-		Blocked.enqueue(tempBlk);
-	}
 }
 
 void ProcessSch::ProcessorSim(Processor& p,int time)
@@ -339,7 +339,6 @@ void ProcessSch::PrintBLK() {
 	cout << Blocked.getCount() << " BLK: ";
 	Blocked.print();
 	cout << endl;
-
 }
 
 int ProcessSch::getNumRunning() const {
@@ -409,6 +408,23 @@ void ProcessSch::PrintTRM() {
 	Terminated.print();
 	cout << endl;
 
+}
+
+void ProcessSch::AddTerminated(Process*tempPtr)
+{
+	if (!tempPtr)
+		return;
+
+	tempPtr->setTT(timestep + 1);
+	Terminated.enqueue(tempPtr);
+
+}
+
+void ProcessSch::AddBlocked(Process* tempPtr)
+{
+	if (!tempPtr)
+		return;
+	Blocked.enqueue(tempPtr);
 }
 
 ProcessSch::~ProcessSch() {}

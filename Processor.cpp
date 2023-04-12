@@ -66,3 +66,8 @@ int Processor::getID() const {
 	return ID;
 
 }
+
+void Processor::setSchPtr(ProcessSch* SchedulerPointer)
+{
+	SchPtr = SchedulerPointer;
+}

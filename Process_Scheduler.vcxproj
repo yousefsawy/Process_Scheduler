@@ -130,6 +130,7 @@
     <ClInclude Include="DEFS.h" />
     <ClInclude Include="FCFS_Processor.h" />
     <ClInclude Include="LinkedQueue.h" />
+    <ClInclude Include="ModifiedQueue.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="PriNode.h" />
     <ClInclude Include="PriQueue.h" />

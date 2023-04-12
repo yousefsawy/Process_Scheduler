@@ -29,7 +29,7 @@ public:
 	void ToReady(LinkedQueue<Process*>& List);
 	void ToReadyph1(LinkedQueue<Process*>& List,int& index);
 	void Simulateph1();
-	void ProcessorSimph1(Processor& p,int time);
+	void ProcessorSimph1(Processor& p);
 	void ProcessorSim(Processor& p,int time);
 	bool AreIdle();
 	~ProcessSch();
@@ -38,5 +38,7 @@ public:
 	void PrintBLK(); //Prints Blocked List
 	void PrintRun(); //Prints RUN of each processor
 	void PrintTRM(); //Prints Terminated List
+	void AddTerminated(Process*); //Adds a process to terminated
+	void AddBlocked(Process*); //Adds a process to blocked
 };
 

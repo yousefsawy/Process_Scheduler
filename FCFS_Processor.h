@@ -1,18 +1,20 @@
 #pragma once
 #include "Processor.h"
-#include "LinkedQueue.h"
+#include "ModifiedQueue.h"
 
 
 class FCFS_Processor :
     public Processor
 {
 private:
-    LinkedQueue<Process*> Ready;
+    ModifiedQueue<Process*> Ready;
+    int count; //Count of number of process (Used for random Kill)
 public:
     FCFS_Processor();
     void stateUpdate();
     virtual void AddProcess(Process*);
     virtual void ScheduleAlgo(int time);
     void printMyReady(); //Prints Ready Queue
+    void KillRandom();
 };
 

@@ -4,6 +4,8 @@
 #include"DEFS.h"
 #include"Process.h"
 
+class ProcessSch;
+
 class Processor {
 
 protected:
@@ -15,6 +17,7 @@ protected:
 	Process* Blocked; //Blocked process
 	int ID; // ID of processor;
 	static int counter; // Counter to assign ID for each processor
+	ProcessSch* SchPtr; //Scheduler Pointer
 
 public:
 
@@ -30,6 +33,7 @@ public:
 	bool isRunning() const; //Does the Processor have a running process
 	void printRunning(); //Print the PID of running process
 	int getID() const; //Returns ID of processor
+	void setSchPtr(ProcessSch*); //Sets the Schduler pointer
 	~Processor(); //Destructor
 	
 };
