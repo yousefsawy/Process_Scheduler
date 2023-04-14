@@ -4,6 +4,7 @@
 #include"QueueADT.h"
 #include"Node.h"
 
+
 template<typename T>
 class LinkedQueue :public QueueADT<T> {
 
@@ -142,5 +143,7 @@ void LinkedQueue<T>::print() {
 	}
 
 }
+
+
 
 #endif

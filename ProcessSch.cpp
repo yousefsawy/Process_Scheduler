@@ -417,6 +417,7 @@ void ProcessSch::AddTerminated(Process*tempPtr)
 
 	tempPtr->setTT(timestep + 1);
 	Terminated.enqueue(tempPtr);
+	std::cout << "here";
 
 }
 

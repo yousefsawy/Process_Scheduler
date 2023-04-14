@@ -1,7 +1,7 @@
 #ifndef MODIFIED_QUEUE_H
 #define MODIFIED_QUEUE_H
 
-
+#include "Process.h"
 #include "LinkedQueue.h"
 #include "Node.h"
 
@@ -30,34 +30,47 @@ inline bool ModifiedQueue<T>::deleteMid(int n, T& Object)
     if (!temp)
         return false;
 
-    if (!temp->getNext())
+    if (n == i)
     {
-        if (n == 0)
+        Object = temp->getData();
+        if (!temp->getNext())
         {
-            Object = temp->getData();
             this->front = nullptr;
-            delete temp;
-            return true;
+            this->back = nullptr;
         }
-        return false;
+        else
+        {
+            this->front = temp->getNext();
+        }
+        delete temp;
+        return true;
     }
 
+    i++;
     while (temp->getNext() && i <= n)
     {
-        i++;
         if (n == i)
         {
             Object = temp->getNext()->getData();
             Node<T>* deleteTemp = temp->getNext();
             temp->setNext(deleteTemp->getNext());
-            delete deleteTemp;
+
+
+            if (!temp->getNext()) //Used when deleting last element
+            {
+                this->back = temp;
+            }
+
+            delete deleteTemp; //ET3ADEL
             return true;
         }
         temp = temp->getNext();
+        i++;
     }
     return false;
 
 }
+
 
 template <typename T>
 inline bool ModifiedQueue<T>::deleteMid(T& Compare)
@@ -67,9 +80,9 @@ inline bool ModifiedQueue<T>::deleteMid(T& Compare)
     {
         if (temp->getData() == Compare)
         {
-            delete front;
-            front = nullptr;
-            back = nullptr;
+            delete this->temp;
+            this->front = nullptr;
+            this->back = nullptr;
             return true;
         }
         return false;
@@ -79,7 +92,7 @@ inline bool ModifiedQueue<T>::deleteMid(T& Compare)
     {
         if (temp->getNext()->getData() == Compare)
         {
-            Node<T>* tempDelete = temp->getNext();
+            Node<T> tempDelete = temp->getNext();
             temp->setNext(tempDelete->getNext());
             delete tempDelete->getData();
             return true;
