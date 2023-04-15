@@ -4,6 +4,7 @@
 #include"QueueADT.h"
 #include"Node.h"
 
+class Process;
 
 template<typename T>
 class LinkedQueue :public QueueADT<T> {
@@ -24,6 +25,38 @@ public:
 	void print();
 	int getCount() const;
 	~LinkedQueue();
+	template <typename A>
+	void printPriv()
+	{
+		Node<A>* current = front;
+
+		while (current) {
+
+			std::cout << current->getData();
+			if (current->getNext() != nullptr) {
+				std::cout << ", ";
+			}
+			current = current->getNext();
+
+		}
+	}
+	template<>
+	void printPriv<Process*>()
+	{
+		Node<Process*>* current = this->front;
+
+		while (current)
+		{
+			Process* temp = current->getData();
+			std::cout << *(temp);
+			if (current->getNext() != nullptr)
+			{
+				std::cout << ", ";
+			}
+			current = current->getNext();
+
+		}
+	}
 
 };
 
@@ -120,6 +153,9 @@ LinkedQueue<T>::~LinkedQueue() {
 }
 
 
+
+
+
 template<typename T>
 int LinkedQueue<T>::getCount() const {
 
@@ -131,16 +167,11 @@ template<typename T>
 void LinkedQueue<T>::print() {
 
 	Node<T>* current = front;
+	
+	if (isEmpty())
+		return;
 
-	while (current) {
-
-		std::cout << current->getData();
-		if (current->getNext() != nullptr) {
-			std::cout << ", ";
-		}
-		current = current->getNext();
-
-	}
+	printPriv<T>();
 
 }
 
