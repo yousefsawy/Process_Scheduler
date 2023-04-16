@@ -12,7 +12,7 @@ private:
 
 public:
 
-	SJF_Processor();
+	SJF_Processor(ProcessSch* SchedulerPointer);
 	void stateUpdate();
 	virtual void AddProcess(Process*);
 	virtual void ScheduleAlgo(int time);

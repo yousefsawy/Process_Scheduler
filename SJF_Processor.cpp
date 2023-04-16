@@ -1,7 +1,7 @@
 #include"SJF_Processor.h"
 #include "ProcessSch.h"
-SJF_Processor::SJF_Processor() {
-
+SJF_Processor::SJF_Processor(ProcessSch* SchedulerPointer) :Processor(SchedulerPointer) 
+{
 }
 
 void SJF_Processor::stateUpdate() {

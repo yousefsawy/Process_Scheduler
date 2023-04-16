@@ -10,7 +10,7 @@ private:
     ModifiedQueue<Process*> Ready;
     int count; //Count of number of process (Used for random Kill)
 public:
-    FCFS_Processor();
+    FCFS_Processor(ProcessSch* SchedulerPointer);
     void stateUpdate();
     virtual void AddProcess(Process*);
     virtual void ScheduleAlgo(int time);

@@ -2,7 +2,7 @@
 
 int Processor::counter = 0;
 
-Processor::Processor() {
+Processor::Processor(ProcessSch* SchedulerPointer){
 
 	currentState = IDLE;
 	expectedFinishTime = 0;
@@ -10,6 +10,7 @@ Processor::Processor() {
 	Terminated = nullptr;
 	Blocked = nullptr;
 	ID = ++counter;
+	SchPtr = SchedulerPointer;
 }
 
 bool Processor::isRunning() const {

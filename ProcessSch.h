@@ -24,16 +24,12 @@ private:
 	Processor** AllProcessors; //List of all processors
 public:
 	ProcessSch();
-	void Simulate();
 	bool InputF(void);
 	void OutputF();
-	void ToReady(LinkedQueue<Process*>& List);
 	void ToReadyph1(LinkedQueue<Process*>& List,int& index);
 	void Simulateph1();
 	void ProcessorSimph1(Processor& p);
-	void ProcessorSim(Processor& p,int time);
 	bool AreIdle();
-	~ProcessSch();
 	int getNumRunning() const; // returns number of processors having a running process
 	void PrintRDY(); //Prints RDY of each processor
 	void PrintBLK(); //Prints Blocked List
@@ -41,5 +37,6 @@ public:
 	void PrintTRM(); //Prints Terminated List
 	void AddTerminated(Process*); //Adds a process to terminated
 	void AddBlocked(Process*); //Adds a process to blocked
+	~ProcessSch();
 };
 

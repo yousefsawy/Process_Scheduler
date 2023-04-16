@@ -21,7 +21,7 @@ protected:
 
 public:
 
-	Processor(); //Constructor
+	Processor(ProcessSch* SchPtr); //Constructor
 	virtual void AddProcess(Process*) = 0; //Adds Process to Processor 
 	bool isIdle() const; //Returns true if the processor has no processes
 	virtual void stateUpdate() = 0;

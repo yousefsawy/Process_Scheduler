@@ -1,7 +1,7 @@
 #include"RR_Processor.h"
 #include "ProcessSch.h"
 
-RR_Processor::RR_Processor(int TS) :timeSlice(TS)
+RR_Processor::RR_Processor(ProcessSch* SchedulerPointer,int TS) :Processor(SchedulerPointer),timeSlice(TS)
 {
 	currentTimeSlice = 0;
 }

@@ -1,7 +1,7 @@
 #include "FCFS_Processor.h"
 #include "ProcessSch.h"
 
-FCFS_Processor::FCFS_Processor()
+FCFS_Processor::FCFS_Processor(ProcessSch* SchedulerPointer):Processor(SchedulerPointer)
 {
 	count = 0;
 }
