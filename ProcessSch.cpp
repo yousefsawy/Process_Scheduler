@@ -45,7 +45,7 @@ void ProcessSch::Simulate()
 
 		//check if process in Run goes to blocked or terminatted
 		//if processor Run is empty adds one from ready queue
-
+		/*
 		for (int j = 0; j < FCFS; j++)
 		{
 			ProcessorSim(FCFSList[j],timestep);
@@ -57,6 +57,11 @@ void ProcessSch::Simulate()
 		}
 		for (int j = 0; j < RR; j++) {
 			ProcessorSim(RRList[j],timestep);
+		}
+		*/
+		for (int j = 0; j < TotalProcessors; j++)
+		{
+			ProcessorSim(*AllProcessors[j], timestep);
 		}
 		
 		//ToDo: Stealing,Migration,Killing,Forking
@@ -76,9 +81,27 @@ bool ProcessSch::InputF(void)
 
 
 	InputFile >> FCFS >> SJF >> RR >> TS_RR >> RTF >> MAXW >> NumOfProcess;
-	TotalPro = FCFS + SJF + RR;
+	TotalProcessors = FCFS + SJF + RR;
 	//Declare Processors
 
+	AllProcessors = new Processor*[TotalProcessors]; 
+	int i = 0;
+	for (; i < FCFS; i++)
+	{
+		AllProcessors[i] = new FCFS_Processor;
+		AllProcessors[i]->setSchPtr(this);
+	}
+	for (; i < FCFS+SJF; i++)
+	{
+		AllProcessors[i] = new SJF_Processor;
+		AllProcessors[i]->setSchPtr(this);
+	}
+	for (; i < TotalProcessors; i++)
+	{
+		AllProcessors[i] = new RR_Processor(TS_RR);
+		AllProcessors[i]->setSchPtr(this);
+	}
+	/*
 	FCFSList = new FCFS_Processor[FCFS];
 	SJFList = new SJF_Processor[SJF];
 	RRList = new RR_Processor[RR];
@@ -97,6 +120,7 @@ bool ProcessSch::InputF(void)
 	{
 		SJFList[i].setSchPtr(this);
 	}
+	*/
 
 	for (int i = 0; i < NumOfProcess; i++)
 	{
@@ -151,6 +175,7 @@ void ProcessSch::ToReady(LinkedQueue<Process*>& List)
 	int MinExp = INT_MAX;
 	int temp,list;
 	//ToDo: Enqueque data to suitable processor using scheduling algorithm
+	/*
 	for (int j = 0; j < FCFS; j++)
 	{
 		if (FCFSList[j].getExpectedFinishTime() <= MinExp)
@@ -190,6 +215,16 @@ void ProcessSch::ToReady(LinkedQueue<Process*>& List)
 		RRList[temp].AddProcess(temp2);
 		break;
 	}
+	*/
+	for (int i = 0; i <TotalProcessors; i++)
+	{
+		if (AllProcessors[i]->getExpectedFinishTime() <= MinExp)
+		{
+			MinExp = AllProcessors[i]->getExpectedFinishTime();
+			temp = i;
+		}
+	}
+	AllProcessors[temp]->AddProcess(temp2);
 	
 }
 
@@ -198,10 +233,11 @@ void ProcessSch::ToReadyph1(LinkedQueue<Process*>& List,int& index)
 {
 	Process* temp2 = nullptr;  //Temporary value to hold the data while transfer
 	List.dequeue(temp2);
-	if (index == TotalPro)
+	if (index == TotalProcessors)
 	{
 		index = 0;
 	}
+	/*
 	if (index < FCFS)
 	{ 
 		FCFSList[index].AddProcess(temp2);
@@ -214,8 +250,8 @@ void ProcessSch::ToReadyph1(LinkedQueue<Process*>& List,int& index)
 	{ 
 		RRList[index- (FCFS + SJF)].AddProcess(temp2);
 	}
-
-	index++;
+	*/
+	AllProcessors[index++]->AddProcess(temp2);
 }
 
 void ProcessSch::Simulateph1()
@@ -244,7 +280,7 @@ void ProcessSch::Simulateph1()
 				ToReadyph1(Blocked, index);
 			}
 		}
-
+		/*
 		for (int j = 0; j < FCFS; j++)
 		{
 			ProcessorSimph1(FCFSList[j]);
@@ -257,7 +293,11 @@ void ProcessSch::Simulateph1()
 		for (int j = 0; j < RR; j++) {
 			ProcessorSimph1(RRList[j]);
 		}
-
+		*/
+		for (int i = 0; i < TotalProcessors; i++)
+		{
+			ProcessorSimph1(*AllProcessors[i]);
+		}
 		//ToDo: Stealing,Migration,Killing,Forking
 		timestep++;
 		UIC.ExecuteUI();
@@ -292,6 +332,7 @@ void ProcessSch::ProcessorSim(Processor& p,int time)
 
 bool ProcessSch::AreIdle()
 {
+	/*
 	for (int j = 0; j < FCFS; j++)
 	{
 		if (!FCFSList[j].isIdle())
@@ -315,10 +356,19 @@ bool ProcessSch::AreIdle()
 
 	}
 	return true;
+	*/
+	for (int j = 0; j < TotalProcessors; j++)
+	{
+		if (!AllProcessors[j]->isIdle())
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 void ProcessSch::PrintRDY() {
-
+	/*
 	for (int i = 0; i < FCFS; i++) {
 		FCFSList[i].printMyReady();
 		cout << endl;
@@ -329,6 +379,11 @@ void ProcessSch::PrintRDY() {
 	}
 	for (int i = 0; i < RR; i++) {
 		RRList[i].printMyReady();
+		cout << endl;
+	}
+	*/
+	for (int i = 0; i < TotalProcessors; i++) {
+		AllProcessors[i]->printMyReady();
 		cout << endl;
 	}
 
@@ -344,7 +399,7 @@ void ProcessSch::PrintBLK() {
 int ProcessSch::getNumRunning() const {
 
 	int count = 0;
-
+	/*
 	for (int i = 0; i < FCFS; i++) {
 		if (FCFSList[i].isRunning()) { count++; }
 	}
@@ -354,7 +409,11 @@ int ProcessSch::getNumRunning() const {
 	for (int i = 0; i < RR; i++) {
 		if (RRList[i].isRunning()) { count++; }
 	}
-
+	*/
+	for (int i = 0; i < TotalProcessors; i++) 
+	{
+		if (AllProcessors[i]->isRunning()) { count++; }
+	}
 	return count;
 }
 
@@ -364,7 +423,7 @@ void ProcessSch::PrintRun() {
 	int x = 1;
 
 	cout << NumRun << " RUN: ";
-
+	/*
 	for (int i = 0; i < FCFS; i++) {
 
 		if (FCFSList[i].isRunning()) {
@@ -399,7 +458,19 @@ void ProcessSch::PrintRun() {
 
 	}
 	cout << endl;
+	*/
+	for (int i = 0; i < TotalProcessors; i++) {
 
+		if (AllProcessors[i]->isRunning()) {
+			AllProcessors[i]->printRunning();
+			if (x != NumRun) {
+				cout << ", ";
+			}
+			x++;
+		}
+
+	}
+	cout << endl;
 }
 
 void ProcessSch::PrintTRM() {

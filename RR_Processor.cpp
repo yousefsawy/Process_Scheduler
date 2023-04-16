@@ -1,12 +1,19 @@
 #include"RR_Processor.h"
 #include "ProcessSch.h"
 
+RR_Processor::RR_Processor(int TS) :timeSlice(TS)
+{
+	currentTimeSlice = 0;
+}
+
+
+/*
 RR_Processor::RR_Processor() {
 
 	currentTimeSlice = 0;
 
 }
-
+*/
 void RR_Processor::stateUpdate() {
 
 	if (running == nullptr && Ready.isEmpty()) {
@@ -84,12 +91,12 @@ void RR_Processor::ScheduleAlgo(int time) {
 	stateUpdate();
 
 }
-
+/*
 void RR_Processor::setTimeSlice(int t)
 {
 	timeSlice = t;
 }
-
+*/
 RR_Processor::~RR_Processor() {
 
 }

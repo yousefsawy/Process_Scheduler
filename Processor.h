@@ -35,7 +35,7 @@ public:
 	int getID() const; //Returns ID of processor
 	void setSchPtr(ProcessSch*); //Sets the Schduler pointer
 	~Processor(); //Destructor
-	
+	virtual void printMyReady()=0; //Prints the ready queue
 };
 
 #endif

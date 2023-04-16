@@ -14,13 +14,14 @@ private:
 	int TS_RR; //Time slice for RR
 	int RTF, MAXW; //Process Migration related
 	int NumOfProcess; //Number of process
-	int TotalPro; //Total number of processors
+	int TotalProcessors; //Total number of processors
 	LinkedQueue<Process*> New;  //Recieves all process from file
 	LinkedQueue<Process*> Blocked;  //Contains blocked processes
 	LinkedQueue<Process*> Terminated;  //Contains terminated processes
 	FCFS_Processor* FCFSList; //List of FCFS processors
 	SJF_Processor* SJFList; //List of SJF processors
 	RR_Processor* RRList; //List of RR processors
+	Processor** AllProcessors; //List of all processors
 public:
 	ProcessSch();
 	void Simulate();

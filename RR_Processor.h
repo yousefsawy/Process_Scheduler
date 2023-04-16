@@ -9,17 +9,17 @@ class RR_Processor :public Processor {
 
 private:
 
-	int timeSlice;
+	const int timeSlice;
 	int currentTimeSlice;
 	LinkedQueue<Process*> Ready;
 
 public:
-
-	RR_Processor(); //Constructor
+	RR_Processor(int TS);
+	//RR_Processor(); //Constructor
 	void stateUpdate(); //Updates processor state
 	void AddProcess(Process*); //Adds process to ready queue "RDY"
 	void ScheduleAlgo(int time); //Execute process
-	void setTimeSlice(int t);
+	//void setTimeSlice(int t);
 	void printMyReady(); //Prints Ready Queue
 	~RR_Processor(); //Destructor
 
