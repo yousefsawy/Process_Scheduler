@@ -66,13 +66,20 @@ bool PriQueue<T>::enqueue(const T& data,int pri)
 		{
 			PriNode<T>* prev = front;
 			PriNode<T>* temp = front;
-			while (newNode->getPriority() <= temp->getPriority())
+			while (temp && newNode->getPriority() <= temp->getPriority())
 			{
 				prev = temp;
 				temp = temp->getNext();
 			}
 			prev->setNext(newNode);
-			newNode->setNext(temp);
+			if (temp != prev)
+			{
+				newNode->setNext(temp);
+			}
+			else
+			{
+				newNode->setNext(nullptr);
+			}
 		}
 	}
 
@@ -137,6 +144,8 @@ void PriQueue<T>::print() {
 	PriNode<T>* current = front;
 
 	while (current) {
+
+
 
 		std::cout << current->getData();
 		if (current->getNext() != nullptr) {

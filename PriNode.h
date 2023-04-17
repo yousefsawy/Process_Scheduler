@@ -13,7 +13,7 @@ private:
 
 public:
 
-	PriNode(const T& data, PriNode<T>* next,int pri=-1);
+	PriNode(const T& data, PriNode<T>* next=nullptr,int pri=-1);
 	void setPriority(int);
 	T getData() const;
 	void setData(const T&);
