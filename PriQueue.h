@@ -18,7 +18,7 @@ public:
 	bool isEmpty() const;
 	bool dequeue(T& dequeuedData);
 	bool peek(T& frontData)  const;
-	bool enqueue(const T&,int);
+	bool enqueue(const T&, int);
 	void print();
 	int getCount() const;
 	~PriQueue();
@@ -29,7 +29,7 @@ public:
 //IMPLEMENTATIONS
 
 template<typename T>
-PriQueue<T>::PriQueue() 
+PriQueue<T>::PriQueue()
 {
 	front = nullptr;
 	size = 0;
@@ -40,22 +40,22 @@ PriQueue<T>::PriQueue()
 template<typename T>
 bool PriQueue<T>::isEmpty() const {
 
-	return (front == nullptr );
+	return (front == nullptr);
 
 }
 
 
 template<typename T>
-bool PriQueue<T>::enqueue(const T& data,int pri) 
+bool PriQueue<T>::enqueue(const T& data, int pri)
 {
-	PriNode<T>* newNode = new PriNode<T>(data,nullptr,pri);
+	PriNode<T>* newNode = new PriNode<T>(data, nullptr, pri);
 
 	if (isEmpty()) {
 
 		front = newNode;
 
 	}
-	else 
+	else
 	{
 		if (newNode->getPriority() < front->getPriority())
 		{
@@ -66,20 +66,14 @@ bool PriQueue<T>::enqueue(const T& data,int pri)
 		{
 			PriNode<T>* prev = front;
 			PriNode<T>* temp = front;
-			while (temp && newNode->getPriority() <= temp->getPriority())
+			while (temp && newNode->getPriority() >= temp->getPriority())
 			{
 				prev = temp;
 				temp = temp->getNext();
 			}
 			prev->setNext(newNode);
-			if (temp != prev)
-			{
-				newNode->setNext(temp);
-			}
-			else
-			{
-				newNode->setNext(nullptr);
-			}
+			newNode->setNext(temp);
+
 		}
 	}
 
@@ -96,7 +90,7 @@ bool PriQueue<T>::dequeue(T& dequeuedData) {
 		return false;
 
 	}
-	else 
+	else
 	{
 		PriNode<T>* temp = front;
 		dequeuedData = front->getData();
