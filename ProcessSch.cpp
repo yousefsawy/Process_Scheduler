@@ -11,6 +11,7 @@ using namespace std;
 ProcessSch::ProcessSch()
 {
 	timestep = 0;
+	srand(time(0));
 	
 }
 
@@ -112,7 +113,6 @@ void ProcessSch::Simulateph1()
 			ToReadyph1(New,index);
 			New.peek(temp1);
 		}
-		srand(time(0));
 		int randblk = rand()%100 +1;
 		//check if process in Run goes to blocked or terminatted
 		//if processor Run is empty adds one from ready queue
@@ -140,7 +140,6 @@ void ProcessSch::Simulateph1()
 
 void ProcessSch::ProcessorSimph1(Processor& p)
 {
-	srand(time(0));
 	int randpro = rand() % 100 + 1;
 	p.ScheduleAlgo(randpro);
 }
