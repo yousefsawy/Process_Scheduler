@@ -113,7 +113,7 @@ void ProcessSch::Simulateph1()
 			New.peek(temp1);
 		}
 		srand(time(0));
-		int randblk = rand() % 100 + 1;
+		int randblk = 7;
 		//check if process in Run goes to blocked or terminatted
 		//if processor Run is empty adds one from ready queue
 		Process* temp2 = nullptr;
