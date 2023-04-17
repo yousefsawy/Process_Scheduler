@@ -7,6 +7,7 @@ using namespace std;
 class Process {
 
 	friend ostream& operator<<(ostream&, const Process&);
+	friend ostream& operator<<(ostream&, Process*);
 
 private:
 

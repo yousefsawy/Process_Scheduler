@@ -25,38 +25,6 @@ public:
 	void print();
 	int getCount() const;
 	~LinkedQueue();
-	template <typename A>
-	void printPriv()
-	{
-		Node<A>* current = front;
-
-		while (current) {
-
-			std::cout << current->getData();
-			if (current->getNext() != nullptr) {
-				std::cout << ", ";
-			}
-			current = current->getNext();
-
-		}
-	}
-	template<>
-	void printPriv<Process*>()
-	{
-		Node<Process*>* current = this->front;
-
-		while (current)
-		{
-			Process* temp = current->getData();
-			std::cout << *(temp);
-			if (current->getNext() != nullptr)
-			{
-				std::cout << ", ";
-			}
-			current = current->getNext();
-
-		}
-	}
 
 };
 
@@ -167,11 +135,16 @@ template<typename T>
 void LinkedQueue<T>::print() {
 
 	Node<T>* current = front;
-	
-	if (isEmpty())
-		return;
 
-	printPriv<T>();
+	while (current) {
+
+		std::cout << current->getData();
+		if (current->getNext() != nullptr) {
+			std::cout << ", ";
+		}
+		current = current->getNext();
+
+	}
 
 }
 

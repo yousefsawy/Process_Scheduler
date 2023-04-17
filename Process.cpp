@@ -128,3 +128,10 @@ std::ostream& operator<<(std::ostream& output, const Process& p) {
 	return output;
 
 }
+
+std::ostream& operator<<(std::ostream& output, Process* p) {
+
+	output << p->PID;
+	return output;
+
+}
