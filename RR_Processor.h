@@ -2,7 +2,6 @@
 #define RR_PROCESSOR_H
 
 #include"LinkedQueue.h"
-#include"Process.h"
 #include"Processor.h"
 
 class RR_Processor :public Processor {
@@ -14,6 +13,7 @@ private:
 	LinkedQueue<Process*> Ready;
 
 public:
+
 	RR_Processor(ProcessSch* SchedulerPointer,int TS);
 	//RR_Processor(); //Constructor
 	void stateUpdate(); //Updates processor state

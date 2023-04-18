@@ -143,7 +143,7 @@
     <ClInclude Include="UI_Class.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FCFS.cpp" />
+    <ClCompile Include="FCFS_Processor.cpp" />
     <ClCompile Include="Process.cpp" />
     <ClCompile Include="Processor.cpp" />
     <ClCompile Include="ProcessSch.cpp" />

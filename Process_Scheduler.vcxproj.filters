@@ -55,7 +55,7 @@
     <ClCompile Include="Processor.cpp">
       <Filter>Processor</Filter>
     </ClCompile>
-    <ClCompile Include="FCFS.cpp">
+    <ClCompile Include="FCFS_Processor.cpp">
       <Filter>Processor</Filter>
     </ClCompile>
     <ClCompile Include="Process.cpp" />

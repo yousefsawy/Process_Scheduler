@@ -1,7 +1,10 @@
 #pragma once
+
 #include "LinkedQueue.h"
 #include"DEFS.h"
+
 #include <fstream>
+
 using namespace std;
 
 class Process {
@@ -44,5 +47,8 @@ public:
 	void IncrementIO_D(); //Increments the IO Duration
 	int getRemtime();
 	void PrintInfo(ofstream &file); //Prints the data of the process
+
+	//Destructor
+	~Process();
 
 };

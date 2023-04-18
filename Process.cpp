@@ -1,5 +1,5 @@
 #include "Process.h"
-#include <fstream>
+
 using namespace std;
 
 Process::Process() {}
@@ -119,6 +119,10 @@ void Process::PrintInfo(ofstream &file)
 void Process::setStatus(Status s) {
 
 	Pstatus = s;
+
+}
+
+Process::~Process() {
 
 }
 
