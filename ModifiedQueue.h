@@ -11,7 +11,6 @@ class ModifiedQueue :
 {
 public:
     bool deleteMid(int, T&); //Deletes from the Queue using the index and returns the Object
-    bool deleteMid(T&); //Deletes from the Queue using the objext
 };
 
 
@@ -72,33 +71,5 @@ inline bool ModifiedQueue<T>::deleteMid(int n, T& Object)
 }
 
 
-template <typename T>
-inline bool ModifiedQueue<T>::deleteMid(T& Compare)
-{
-    Node<T>* temp = this->front;
-    if (!temp->getNext())
-    {
-        if (temp->getData() == Compare)
-        {
-            delete this->temp;
-            this->front = nullptr;
-            this->back = nullptr;
-            return true;
-        }
-        return false;
-    }
-
-    while (temp->getNext())
-    {
-        if (temp->getNext()->getData() == Compare)
-        {
-            Node<T> tempDelete = temp->getNext();
-            temp->setNext(tempDelete->getNext());
-            delete tempDelete->getData();
-            return true;
-        }
-    }
-    return false;
-}
 
 #endif

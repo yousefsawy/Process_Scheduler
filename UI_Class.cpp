@@ -7,6 +7,7 @@ UI_Class::UI_Class(ProcessSch* SchedulerPtr)
 	int mode;
 	std::cout << "Enter 1 for Interactive, 2 for Step, 3 for Silent : ";
 	std::cin >> mode;
+	std::cin.ignore();
 	switch (mode)
 	{
 	case 1:

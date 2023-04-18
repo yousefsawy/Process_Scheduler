@@ -146,6 +146,8 @@ void ProcessSch::Simulateph1()
 			ProcessorSimph1(*AllProcessors[i]);
 		}
 		//ToDo: Stealing,Migration,Killing,Forking
+		int ID_KillSig = rand() % NumOfProcess + 1;
+		SignalKill(ID_KillSig);
 		timestep++;
 		UIC.ExecuteUI();
 		//cout << timestep << endl;
@@ -261,6 +263,16 @@ void ProcessSch::AddBlocked(Process* tempPtr) {
 
 	Blocked.enqueue(tempPtr);
 
+}
+
+void ProcessSch::SignalKill(int ID)
+{
+	for (int i = 0; i < FCFS; i++)
+	{
+		if (AllProcessors[i]->KillSignal(ID))
+			return;
+	}
+	
 }
 
 ProcessSch::~ProcessSch() {
