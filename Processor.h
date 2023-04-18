@@ -36,6 +36,8 @@ public:
 	void setSchPtr(ProcessSch*); //Sets the Schduler pointer
 	~Processor(); //Destructor
 	virtual void printMyReady()=0; //Prints the ready queue
+	virtual int Find(int); //Returns the index of the Process in the RDY from PID
+	virtual bool KillSignal(int) { return false; }; //Kills the Signal
 };
 
 #endif

@@ -32,6 +32,7 @@ public:
 	Process(int p, int a, int c, int n);
 	//Setters
 	void setPID(int id);
+	int getPID();
 	void setTT(int t); 
 	void setRT(int n);
 	void AddRequest(int IO_R, int IO_D);

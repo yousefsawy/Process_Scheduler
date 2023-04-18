@@ -15,6 +15,7 @@ public:
     virtual void AddProcess(Process*);
     virtual void ScheduleAlgo(int time);
     void printMyReady(); //Prints Ready Queue
-    void KillRandom();
+    virtual bool KillSignal(int);
+    virtual int Find(int);
 };
 

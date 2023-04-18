@@ -57,6 +57,11 @@ Processor::~Processor() {
 
 }
 
+int Processor::Find(int)
+{
+	return -1;
+}
+
 Process* Processor::getRun()
 {
 	return running;

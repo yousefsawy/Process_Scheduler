@@ -18,6 +18,11 @@ void Process::setPID(int id) {
 	PID = id;
 }
 
+int Process::getPID()
+{
+	return PID;
+}
+
 void Process::setTT(int t) {
 	TT = t;
 	TRT = TT - AT;

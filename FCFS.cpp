@@ -24,18 +24,38 @@ void FCFS_Processor::printMyReady() {
 
 }
 
-void FCFS_Processor::KillRandom()
+bool FCFS_Processor::KillSignal(int PID)
 {
+	int index = Find(PID);
+	if (index == -1)
+		return false;
+
 	Process* temp = nullptr;
-	if (count == 0)
-		return;
-	int index = rand() % count;
 	Ready.deleteMid(index, temp);
-	if (temp)
+	if (!temp)
+		return false;
+
+	SchPtr->AddTerminated(temp);
+	return true;
+}
+
+int FCFS_Processor::Find(int ID)
+{
+	ModifiedQueue<Process*> tempQ;
+	Process* tempP;
+	int i = 0;
+	int n = -1;
+	while (Ready.dequeue(tempP))
 	{
-		temp->setStatus(TRM);
-		SchPtr->AddTerminated(temp);
+		tempQ.enqueue(tempP);
+		if (tempP->getPID() == ID)
+			n = i;
 	}
+	while (tempQ.dequeue(tempP))
+	{
+		Ready.enqueue(tempP);
+	}
+	return n;
 }
 
 void FCFS_Processor::AddProcess(Process* NewPrcs)
@@ -80,10 +100,7 @@ void FCFS_Processor::ScheduleAlgo(int time)
 		running->setStatus(RDY);
 		running = nullptr;
 		count++;
-	}
-
-	KillRandom();
-	
+	}	
 
 	stateUpdate();
 

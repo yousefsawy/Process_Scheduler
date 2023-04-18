@@ -37,6 +37,7 @@ public:
 	void PrintTRM(); //Prints Terminated List
 	void AddTerminated(Process*); //Adds a process to terminated
 	void AddBlocked(Process*); //Adds a process to blocked
+	void SignalKill(int);
 	~ProcessSch();
 };
 
