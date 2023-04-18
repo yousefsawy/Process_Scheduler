@@ -1,16 +1,26 @@
 #include "ProcessSch.h"
+#include "UI_Class.h"
+
 #include <iostream>
-#include <fstream> //Needed for the Input/Output function
+#include <fstream>
 #include <cstdlib>
 #include <time.h>
 
 using namespace std;
 
-#include "UI_Class.h"
-
 ProcessSch::ProcessSch()
 {
 	timestep = 1;
+	FCFS = 0;
+	SJF = 0;
+	RR = 0;
+	TS_RR = 0;
+	RTF = 0;
+	MAXW = 0;
+	NumOfProcess = 0;
+	TotalProcessors = 0;
+	AllProcessors = nullptr;
+
 	srand(time(0));
 	
 }
@@ -26,8 +36,8 @@ bool ProcessSch::InputF(void)
 
 	InputFile >> FCFS >> SJF >> RR >> TS_RR >> RTF >> MAXW >> NumOfProcess;
 	TotalProcessors = FCFS + SJF + RR;
-	//Declare Processors
 
+	//Declare Processors
 	AllProcessors = new Processor*[TotalProcessors]; 
 	int i = 0;
 	for (; i < FCFS; i++)
@@ -76,15 +86,17 @@ void ProcessSch::OutputF()
 
 	if (!OutputFile.is_open())
 		return;
+
 	Process* temp;
 	OutputFile << "TT" << "\t" << "PID" << "\t" << "AT" << "\t" << "CT" <<"\t" << "IO_D" << "\t"  << "WT" << "\t" << "RT" << "\t" << "TRT" << endl;
+
 	while (Terminated.dequeue(temp))
 	{
 		temp->PrintInfo(OutputFile);
 		delete temp;
 	}
-	OutputFile << "Processes: " << NumOfProcess << endl;
 
+	OutputFile << "Processes: " << NumOfProcess << endl;
 
 }
 
@@ -92,11 +104,14 @@ void ProcessSch::ToReadyph1(LinkedQueue<Process*>& List,int& index)
 {
 	Process* temp2 = nullptr;  //Temporary value to hold the data while transfer
 	List.dequeue(temp2);
+
 	if (index == TotalProcessors)
 	{
 		index = 0;
 	}
+
 	AllProcessors[index++]->AddProcess(temp2);
+
 }
 
 void ProcessSch::Simulateph1()
@@ -104,6 +119,7 @@ void ProcessSch::Simulateph1()
 	int index=0;
 	InputF();
 	UI_Class UIC(this);
+
 	while (!(New.isEmpty() && Blocked.isEmpty() && AreIdle())) //TODO: while processor lists are empty loop
 	{
 		Process* temp1; //checks if AT first  process in New is equal to timestep
@@ -136,8 +152,10 @@ void ProcessSch::Simulateph1()
 		UIC.ExecuteUI();
 		//cout << timestep << endl;
 	}
+
 	//ToDo: Produce the output file
 	OutputF();
+
 }
 
 void ProcessSch::ProcessorSimph1(Processor& p)
@@ -158,28 +176,39 @@ bool ProcessSch::AreIdle()
 	return true;
 }
 
-void ProcessSch::PrintRDY() 
-{
+void ProcessSch::PrintRDY() {
+
 	for (int i = 0; i < TotalProcessors; i++) {
+
 		AllProcessors[i]->printMyReady();
 		cout << endl;
+
 	}
+
 }
 
-void ProcessSch::PrintBLK() 
-{
+void ProcessSch::PrintBLK() {
+
 	cout << Blocked.getCount() << " BLK: ";
 	Blocked.print();
 	cout << endl;
+
 }
 
 int ProcessSch::getNumRunning() const 
 {
 	int count = 0;
-	for (int i = 0; i < TotalProcessors; i++) 
-	{
-		if (AllProcessors[i]->isRunning()) { count++; }
+
+	for (int i = 0; i < TotalProcessors; i++) {
+
+		if (AllProcessors[i]->isRunning()) {
+
+			count++;
+
+		}
+
 	}
+
 	return count;
 }
 
@@ -192,15 +221,20 @@ void ProcessSch::PrintRun()
 	for (int i = 0; i < TotalProcessors; i++) {
 
 		if (AllProcessors[i]->isRunning()) {
+
 			AllProcessors[i]->printRunning();
+
 			if (x != NumRun) {
 				cout << ", ";
 			}
 			x++;
+
 		}
 
 	}
+
 	cout << endl;
+
 }
 
 void ProcessSch::PrintTRM() {
@@ -211,8 +245,8 @@ void ProcessSch::PrintTRM() {
 
 }
 
-void ProcessSch::AddTerminated(Process*tempPtr)
-{
+void ProcessSch::AddTerminated(Process*tempPtr) {
+
 	if (!tempPtr)
 		return;
 
@@ -222,11 +256,13 @@ void ProcessSch::AddTerminated(Process*tempPtr)
 
 }
 
-void ProcessSch::AddBlocked(Process* tempPtr)
-{
+void ProcessSch::AddBlocked(Process* tempPtr) {
+
 	if (!tempPtr)
 		return;
+
 	Blocked.enqueue(tempPtr);
+
 }
 
 void ProcessSch::SignalKill(int ID)
@@ -239,4 +275,23 @@ void ProcessSch::SignalKill(int ID)
 	
 }
 
-ProcessSch::~ProcessSch() {}
+ProcessSch::~ProcessSch() {
+
+	for (int i = 0; i < TotalProcessors; i++) {
+
+		delete AllProcessors[i];
+
+	}
+
+	delete[] AllProcessors;
+
+	Process* temp;
+
+	while (!Terminated.isEmpty()) {
+
+		Terminated.dequeue(temp);
+		delete temp;
+
+	}
+
+}

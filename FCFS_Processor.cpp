@@ -105,3 +105,7 @@ void FCFS_Processor::ScheduleAlgo(int time)
 	stateUpdate();
 
 }
+
+FCFS_Processor::~FCFS_Processor() {
+
+}

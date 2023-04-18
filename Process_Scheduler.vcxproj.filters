@@ -13,6 +13,15 @@
     <Filter Include="Processor">
       <UniqueIdentifier>{6b1ddb75-6ec3-4173-ad85-024967e4db86}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{015e2afd-2e57-446f-ac6e-bb6adf469ff1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Process">
+      <UniqueIdentifier>{d6176a63-1bdb-46b0-a707-52db383f377d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Process_Scheduler">
+      <UniqueIdentifier>{996bb516-758a-4705-a98b-e8464b4a96db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QueueADT.h">
@@ -24,7 +33,6 @@
     <ClInclude Include="LinkedQueue.h">
       <Filter>Data_Structures\Implementation</Filter>
     </ClInclude>
-    <ClInclude Include="Process.h" />
     <ClInclude Include="PriNode.h">
       <Filter>Data_Structures\Implementation</Filter>
     </ClInclude>
@@ -38,16 +46,23 @@
     <ClInclude Include="FCFS_Processor.h">
       <Filter>Processor</Filter>
     </ClInclude>
-    <ClInclude Include="ProcessSch.h" />
     <ClInclude Include="RR_Processor.h">
       <Filter>Processor</Filter>
     </ClInclude>
     <ClInclude Include="SJF_Processor.h">
       <Filter>Processor</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Class.h" />
     <ClInclude Include="ModifiedQueue.h">
       <Filter>Data_Structures\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Class.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Process.h">
+      <Filter>Process</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessSch.h">
+      <Filter>Process_Scheduler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -55,17 +70,23 @@
     <ClCompile Include="Processor.cpp">
       <Filter>Processor</Filter>
     </ClCompile>
-    <ClCompile Include="FCFS.cpp">
+    <ClCompile Include="FCFS_Processor.cpp">
       <Filter>Processor</Filter>
     </ClCompile>
-    <ClCompile Include="Process.cpp" />
-    <ClCompile Include="ProcessSch.cpp" />
     <ClCompile Include="RR_Processor.cpp">
       <Filter>Processor</Filter>
     </ClCompile>
     <ClCompile Include="SJF_Processor.cpp">
       <Filter>Processor</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Class.cpp" />
+    <ClCompile Include="UI_Class.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Process.cpp">
+      <Filter>Process</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessSch.cpp">
+      <Filter>Process_Scheduler</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
