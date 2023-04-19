@@ -27,9 +27,9 @@ public:
 	ProcessSch();
 	bool InputF(void);
 	void OutputF();
-	void ToReadyph1(LinkedQueue<Process*>& List,int& index);
-	void Simulateph1();
-	void ProcessorSimph1(Processor& p);
+	void ToReady(LinkedQueue<Process*>& List);
+	void Simulate();
+	void ProcessorSim(Processor& p,int);
 	bool AreIdle();
 	int getNumRunning() const; // returns number of processors having a running process
 	void PrintRDY(); //Prints RDY of each processor
