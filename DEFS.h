@@ -25,6 +25,12 @@ struct IO_Request //QUESTION: IS THE REQUEST SORTED?
 	int IO_D; //Request Duration
 };
 
+struct SigKill
+{
+	int time; //time to excute
+	int PID; // process to delete
+};
+
 enum UI_Mode
 {
 	Interactive,

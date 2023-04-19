@@ -36,6 +36,7 @@ void RR_Processor::AddProcess(Process* p) {
 
 	p->setStatus(RDY);
 	Ready.enqueue(p);
+	expectedFinishTime += p->getRemtime();
 	stateUpdate();
 
 }

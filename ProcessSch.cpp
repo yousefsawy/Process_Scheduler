@@ -10,7 +10,7 @@ using namespace std;
 
 ProcessSch::ProcessSch()
 {
-	timestep = 1;
+	timestep = 0;
 	FCFS = 0;
 	SJF = 0;
 	RR = 0;
@@ -32,7 +32,7 @@ bool ProcessSch::InputF(void)
 		return false;
 
 
-	InputFile >> FCFS >> SJF >> RR >> TS_RR >> RTF >> MAXW >> NumOfProcess;
+	InputFile >> FCFS >> SJF >> RR >> TS_RR >> RTF >> MAXW >>STL>>FP>> NumOfProcess;
 	TotalProcessors = FCFS + SJF + RR;
 
 	//Declare Processors
@@ -74,6 +74,16 @@ bool ProcessSch::InputF(void)
 		}
 		New.enqueue(tempProcess); //Adds the process to new list
 	}
+	int sigKillnum, time, PID;
+	InputFile >> sigKillnum;
+	for (int i = 0; i < sigKillnum; i++)
+	{
+		InputFile >> time >> PID;
+		SigKill* temp = new SigKill;
+		temp->time = time;
+		temp->PID = PID;
+		Kill.enqueue(temp);
+	}
 	return true;
 }
 
@@ -100,10 +110,21 @@ void ProcessSch::OutputF()
 
 void ProcessSch::Simulate()
 {
-
 	InputF();
+	UI_Class UIC(this);
 	while (!(New.isEmpty() && Blocked.isEmpty() && AreIdle())) //TODO: while processor lists are empty loop
 	{
+		//Process killing
+		int ID_KillSig;
+		SigKill* temp3 = nullptr;
+		Kill.peek(temp3);
+		if (temp3 && temp3->time == timestep)
+		{
+			ID_KillSig = temp3->PID;
+			SignalKill(ID_KillSig);
+			Kill.dequeue(temp3);
+		}
+
 		//check if process in Run goes to blocked or terminatted
 		//if processor Run is empty adds one from ready queue
 		for (int j = 0; j < TotalProcessors; j++)
@@ -135,8 +156,10 @@ void ProcessSch::Simulate()
 			}
 		}
 
-		//ToDo: Stealing,Migration,Killing,Forking
+		//ToDo:Stealing,Migration,Forking
+		
 		timestep++;
+		UIC.ExecuteUI();
 	}
 	OutputF();
 }
@@ -146,7 +169,7 @@ void ProcessSch::ToReady(LinkedQueue<Process*>& List)
 	Process* temp2 = nullptr;  //Temporary value to hold the data while transfer
 	List.dequeue(temp2);
 	int MinExp = INT_MAX;
-	int temp, list;
+	int temp;
 	//ToDo: Enqueque data to suitable processor using scheduling algorithm
 
 	for (int i = 0; i < TotalProcessors; i++)
@@ -168,12 +191,11 @@ void ProcessSch::ProcessorSim(Processor& p, int time)
 	Process* tempBlk = p.RequestBlocked();
 	if (tempTer)
 	{
-		tempTer->setTT(time + 1);
-		Terminated.enqueue(tempTer);
+		AddTerminated(tempTer);
 	}
 	if (tempBlk)
 	{
-		Blocked.enqueue(tempBlk);
+		AddBlocked(tempBlk);
 	}
 }
 
@@ -217,11 +239,8 @@ int ProcessSch::getNumRunning() const
 		if (AllProcessors[i]->isRunning()) {
 
 			count++;
-
 		}
-
 	}
-
 	return count;
 }
 
@@ -263,7 +282,7 @@ void ProcessSch::AddTerminated(Process* tempPtr) {
 	if (!tempPtr)
 		return;
 
-	tempPtr->setTT(timestep + 1);
+	tempPtr->setTT(timestep);
 	Terminated.enqueue(tempPtr);
 	//std::cout << "here";
 
@@ -285,7 +304,6 @@ void ProcessSch::SignalKill(int ID)
 		if (AllProcessors[i]->KillSignal(ID))
 			return;
 	}
-
 }
 
 ProcessSch::~ProcessSch() {

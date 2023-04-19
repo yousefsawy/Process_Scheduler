@@ -15,11 +15,13 @@ private:
 	int FCFS, SJF, RR; //Number of Processors of each type (FCFS, SJF, RR)
 	int TS_RR; //Time slice for RR
 	int RTF, MAXW; //Process Migration related
+	int STL, FP; // Steal limit and Forking Probabiltity
 	int NumOfProcess; //Number of process
 	int TotalProcessors; //Total number of processors
 	LinkedQueue<Process*> New;  //Recieves all process from file
 	LinkedQueue<Process*> Blocked;  //Contains blocked processes
 	LinkedQueue<Process*> Terminated;  //Contains terminated processes
+	LinkedQueue<SigKill*> Kill; //list of kill signals
 	Processor** AllProcessors; //List of all processors
 
 public:

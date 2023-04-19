@@ -67,10 +67,15 @@ void UI_Class::Interactive_StepMode()
 	{
 		std::cout << "PRESS ANY KEY TO MOVE TO NEXT STEP!\n";
 		getchar();
+		system("CLS");
 	}
 
 	if (Mode == Step)
+	{
 		Sleep(1000);
+		system("CLS");
+	}
+		
 
 
 }

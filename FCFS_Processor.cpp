@@ -26,16 +26,25 @@ void FCFS_Processor::printMyReady() {
 
 bool FCFS_Processor::KillSignal(int PID)
 {
-	int index = Find(PID);
-	if (index == -1)
-		return false;
+	if (running && running->getPID() == PID)
+	{
+		SchPtr->AddTerminated(running);
+		running = nullptr;
+	}
+	else
+	{
+		int index = Find(PID);
+		if (index == -1)
+			return false;
 
-	Process* temp = nullptr;
-	Ready.deleteMid(index, temp);
-	if (!temp)
-		return false;
+		Process* temp = nullptr;
+		Ready.deleteMid(index, temp);
+		if (!temp)
+			return false;
 
-	SchPtr->AddTerminated(temp);
+		SchPtr->AddTerminated(temp);
+	}
+	stateUpdate();
 	return true;
 }
 

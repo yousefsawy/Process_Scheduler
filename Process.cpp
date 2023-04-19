@@ -27,6 +27,7 @@ void Process::setTT(int t) {
 	TT = t;
 	TRT = TT - AT;
 	WT = TRT - CT;
+	if (WT < 0) WT = 0;
 }
 void Process::setRT(int n) {
 	if (RT == -1)
