@@ -112,7 +112,7 @@ void ProcessSch::Simulate()
 {
 	InputF();
 	UI_Class UIC(this);
-	while (!(New.isEmpty() && Blocked.isEmpty() && AreIdle())) //TODO: while processor lists are empty loop
+	while (!(New.isEmpty() && Blocked.isEmpty() && AreIdle()))
 	{
 		//Process killing
 		int ID_KillSig;

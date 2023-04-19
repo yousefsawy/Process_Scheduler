@@ -9,7 +9,7 @@ Process::Process(int p, int a, int c, int n) {
 	AT = a;
 	CT = c;
 	N = n;
-	RT = -1; //ToDo: check if it was not set before set it else leave it
+	RT = 0;
 	Pstatus = NEW;
 	RunT = 0;
 	CurrentReq = nullptr;
@@ -32,7 +32,7 @@ void Process::setTT(int t) {
 }
 
 void Process::setRT(int n) {
-	if (RT == -1)
+	if (RT == 0)
 	{
 		RT = n-AT;
 	}
