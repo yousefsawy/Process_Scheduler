@@ -3,7 +3,7 @@
 int main(void)
 {
 	ProcessSch M;
-	M.Simulateph1();
+	M.Simulate();
 
 	return 0;
 

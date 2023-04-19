@@ -21,8 +21,6 @@ ProcessSch::ProcessSch()
 	TotalProcessors = 0;
 	AllProcessors = nullptr;
 
-	srand(time(0));
-	
 }
 
 bool ProcessSch::InputF(void)
@@ -38,19 +36,19 @@ bool ProcessSch::InputF(void)
 	TotalProcessors = FCFS + SJF + RR;
 
 	//Declare Processors
-	AllProcessors = new Processor*[TotalProcessors]; 
+	AllProcessors = new Processor * [TotalProcessors];
 	int i = 0;
 	for (; i < FCFS; i++)
 	{
 		AllProcessors[i] = new FCFS_Processor(this);
 	}
-	for (; i < FCFS+SJF; i++)
+	for (; i < FCFS + SJF; i++)
 	{
 		AllProcessors[i] = new SJF_Processor(this);
 	}
 	for (; i < TotalProcessors; i++)
 	{
-		AllProcessors[i] = new RR_Processor(this,TS_RR);
+		AllProcessors[i] = new RR_Processor(this, TS_RR);
 	}
 
 	for (int i = 0; i < NumOfProcess; i++)
@@ -88,7 +86,7 @@ void ProcessSch::OutputF()
 		return;
 
 	Process* temp;
-	OutputFile << "TT" << "\t" << "PID" << "\t" << "AT" << "\t" << "CT" <<"\t" << "IO_D" << "\t"  << "WT" << "\t" << "RT" << "\t" << "TRT" << endl;
+	OutputFile << "TT" << "\t" << "PID" << "\t" << "AT" << "\t" << "CT" << "\t" << "IO_D" << "\t" << "WT" << "\t" << "RT" << "\t" << "TRT" << endl;
 
 	while (Terminated.dequeue(temp))
 	{
@@ -102,9 +100,17 @@ void ProcessSch::OutputF()
 
 void ProcessSch::Simulate()
 {
+
 	InputF();
 	while (!(New.isEmpty() && Blocked.isEmpty() && AreIdle())) //TODO: while processor lists are empty loop
 	{
+		//check if process in Run goes to blocked or terminatted
+		//if processor Run is empty adds one from ready queue
+		for (int j = 0; j < TotalProcessors; j++)
+		{
+			ProcessorSim(*AllProcessors[j], timestep);
+		}
+
 		Process* temp1; //checks if AT first  process in New is equal to timestep
 		New.peek(temp1);
 		while (temp1->getAT() == timestep && !New.isEmpty()) //Puts data in the RDY queues of processors
@@ -129,17 +135,8 @@ void ProcessSch::Simulate()
 			}
 		}
 
-		//check if process in Run goes to blocked or terminatted
-		//if processor Run is empty adds one from ready queue
-
-		for (int j = 0; j < TotalProcessors; j++)
-		{
-			ProcessorSim(*AllProcessors[j], timestep);
-		}
-
 		//ToDo: Stealing,Migration,Killing,Forking
 		timestep++;
-		//cout << timestep << endl;
 	}
 	OutputF();
 }
@@ -211,7 +208,7 @@ void ProcessSch::PrintBLK() {
 
 }
 
-int ProcessSch::getNumRunning() const 
+int ProcessSch::getNumRunning() const
 {
 	int count = 0;
 
@@ -228,7 +225,7 @@ int ProcessSch::getNumRunning() const
 	return count;
 }
 
-void ProcessSch::PrintRun() 
+void ProcessSch::PrintRun()
 {
 	int NumRun = getNumRunning();
 	int x = 1;
@@ -261,7 +258,7 @@ void ProcessSch::PrintTRM() {
 
 }
 
-void ProcessSch::AddTerminated(Process*tempPtr) {
+void ProcessSch::AddTerminated(Process* tempPtr) {
 
 	if (!tempPtr)
 		return;
@@ -288,7 +285,7 @@ void ProcessSch::SignalKill(int ID)
 		if (AllProcessors[i]->KillSignal(ID))
 			return;
 	}
-	
+
 }
 
 ProcessSch::~ProcessSch() {
