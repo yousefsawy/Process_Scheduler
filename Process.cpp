@@ -14,6 +14,7 @@ Process::Process(int p, int a, int c, int n) {
 	RunT = 0;
 	CurrentReq = nullptr;
 }
+
 void Process::setPID(int id) {
 	PID = id;
 }
@@ -29,6 +30,7 @@ void Process::setTT(int t) {
 	WT = TRT - CT;
 	if (WT < 0) WT = 0;
 }
+
 void Process::setRT(int n) {
 	if (RT == -1)
 	{
@@ -49,7 +51,6 @@ int Process::getAT()
 {
 	return AT;
 }
-
 
 void Process::IncrementRunT()
 {
@@ -101,7 +102,6 @@ void Process::IncrementIO_D()
 		}
 	}
 }
-
 
 int Process ::getRemtime() {
 	if(!ReqQueue.isEmpty())

@@ -76,7 +76,7 @@ bool PriQueue<T>::enqueue(const T& data, int pri)
 
 		}
 	}
-
+	size++;
 	return true;
 
 }
@@ -96,6 +96,7 @@ bool PriQueue<T>::dequeue(T& dequeuedData) {
 		dequeuedData = front->getData();
 		front = front->getNext();
 		delete temp;
+		size--;
 		return true;
 
 	}

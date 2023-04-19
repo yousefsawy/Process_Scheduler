@@ -10,7 +10,7 @@ using namespace std;
 
 ProcessSch::ProcessSch()
 {
-	timestep = 0;
+	timestep = 1;
 	FCFS = 0;
 	SJF = 0;
 	RR = 0;

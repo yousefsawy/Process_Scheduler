@@ -64,7 +64,7 @@ bool LinkedQueue<T>::enqueue(const T& data) {
 		back = newNode;
 
 	}
-
+	size++;
 	return true;
 
 }
@@ -83,6 +83,7 @@ bool LinkedQueue<T>::dequeue(T& dequeuedData) {
 		delete front;
 		front = nullptr;
 		back = nullptr;
+		size--;
 		return true;
 
 	}
@@ -92,6 +93,7 @@ bool LinkedQueue<T>::dequeue(T& dequeuedData) {
 		dequeuedData = front->getData();
 		front = front->getNext();
 		delete temp;
+		size--;
 		return true;
 
 	}
