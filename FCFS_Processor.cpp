@@ -73,34 +73,28 @@ void FCFS_Processor::ScheduleAlgo(int time)
 	if (currentState == IDLE) {
 		return;
 	}
-	
 	if (running == nullptr) {
 
 		Ready.dequeue(running);
-		if (!running)
-			return;
 		running->setStatus(RUN);
-		count--;
+
 	}
 
-	if (time >= 50 && time <= 60)
+	running->setRT(time /*timestep*/);
+	running->IncrementRunT();
+	currentState = BUSY;
+	if (running->isTerminated())
 	{
-		running->setStatus(TRM);
-		SchPtr->AddTerminated(running);
+		Terminated = running;
 		running = nullptr;
+		Terminated->setStatus(TRM);
 	}
-	else if (time >= 1 && time <= 15)
+	else if (running->isIORequest())
 	{
-		running->setStatus(BLK);
-		SchPtr->AddBlocked(running);
+		Blocked = running;
 		running = nullptr;
+		Blocked->setStatus(BLK);
 	}
-	else if (time >= 20 && time <= 30) {
-		Ready.enqueue(running);
-		running->setStatus(RDY);
-		running = nullptr;
-		count++;
-	}	
 
 	stateUpdate();
 

@@ -1,4 +1,4 @@
-#include"SJF_Processor.h"
+#include "SJF_Processor.h"
 #include "ProcessSch.h"
 
 SJF_Processor::SJF_Processor(ProcessSch* SchedulerPointer) :Processor(SchedulerPointer) 
@@ -44,25 +44,21 @@ void SJF_Processor::ScheduleAlgo(int time)
 		Ready.dequeue(running);
 		running->setStatus(RUN);
 	}
-	if (time >= 50 && time <= 60)
-	{
-		running->setStatus(TRM);
-		SchPtr->AddTerminated(running);
-		running = nullptr;
-	}
-	else if (time >= 1 && time <= 15)
-	{
-		running->setStatus(BLK);
-		SchPtr->AddBlocked(running);
-		running = nullptr;
-	}
-	else if (time >= 20 && time <= 30) {
-		Ready.enqueue(running, running->getRemtime());
-		running->setStatus(RDY);
-		running = nullptr;
+	running->setRT(time /*timestep*/);
+	running->IncrementRunT();
 
+	if (running->isTerminated())
+	{
+		Terminated = running;
+		running = nullptr;
+		Terminated->setStatus(TRM);
 	}
-
+	else if (running->isIORequest())
+	{
+		Blocked = running;
+		running = nullptr;
+		Blocked->setStatus(BLK);
+	}
 
 	stateUpdate();
 
