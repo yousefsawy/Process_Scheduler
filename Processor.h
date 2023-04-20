@@ -15,6 +15,7 @@ protected:
 	Process* running; //Running process
 	Process* Terminated; //Terminated process
 	Process* Blocked; //Blocked process
+	int BusyT, IdealT;
 	int ID; // ID of processor;
 	static int counter; // Counter to assign ID for each processor
 	ProcessSch* SchPtr; //Scheduler Pointer
@@ -27,6 +28,8 @@ public:
 	bool isIdle() const; //Returns true if the processor has no processes
 	virtual void stateUpdate() = 0; //Updates the state of processor
 	int getExpectedFinishTime() const; //Returns expected time to finish all process
+	int pUtil() const;
+	int getBusy() const;
 	virtual void ScheduleAlgo(int time) = 0; 
 	bool isRunning() const; //Does the Processor have a running process
 	void printRunning(); //Print the PID of running process

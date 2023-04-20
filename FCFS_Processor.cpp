@@ -9,9 +9,11 @@ void FCFS_Processor::stateUpdate() {
 
 	if (running == nullptr && Ready.isEmpty()) {
 		currentState = IDLE;
+		IdealT++;
 	}
 	else {
 		currentState = BUSY;
+		BusyT++;
 	}
 
 }
@@ -90,6 +92,7 @@ void FCFS_Processor::ScheduleAlgo(int time)
 {
 
 	if (currentState == IDLE) {
+		IdealT++;
 		return;
 	}
 	if (running == nullptr) {

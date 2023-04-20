@@ -12,9 +12,11 @@ void RR_Processor::stateUpdate() {
 
 	if (running == nullptr && Ready.isEmpty()) {
 		currentState = IDLE;
+		IdealT++;
 	}
 	else {
 		currentState = BUSY;
+		BusyT++;
 	}
 
 }
@@ -49,6 +51,7 @@ Process* RR_Processor::RemoveProcess() {
 void RR_Processor::ScheduleAlgo(int time) {
 
 	if (currentState == IDLE) {
+		IdealT++;
 		return;
 	}
 

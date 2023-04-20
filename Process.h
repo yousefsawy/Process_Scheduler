@@ -40,7 +40,10 @@ public:
 	void setRT(int n);
 	void AddRequest(int IO_R, int IO_D);
 	void setStatus(Status); //Set process status
-	int getAT();
+	int getAT() const;
+	int getWT() const;
+	int getRT() const;
+	int getTRT() const;
 	//Functions
 	void IncrementRunT(); //Increments the running time inside CPU
 	bool isTerminated(); //Checks if process is terminated or not

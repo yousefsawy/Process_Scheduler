@@ -27,8 +27,7 @@ int Process::getPID()
 void Process::setTT(int t) {
 	TT = t;
 	TRT = TT - AT;
-	WT = TRT - CT;
-	if (WT < 0) WT = 0;
+	WT = TRT + getRemtime() - CT;
 }
 
 void Process::setRT(int n) {
@@ -47,9 +46,23 @@ void Process::AddRequest(int IO_R, int IO_D) //TODO:
 	ReqQueue.enqueue(tempReq); //THIS IS SENT BY VALUE!! MAY BE NEEDED TO CHANGE
 }
 
-int Process::getAT()
+int Process::getAT() const
 {
 	return AT;
+}
+int Process::getWT() const
+{
+	return WT;
+}
+
+int Process::getRT() const
+{
+	return RT;
+}
+
+int Process::getTRT() const
+{
+	return TRT;
 }
 
 void Process::IncrementRunT()

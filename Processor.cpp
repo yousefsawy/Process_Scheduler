@@ -11,6 +11,8 @@ Processor::Processor(ProcessSch* SchedulerPointer){
 	Blocked = nullptr;
 	ID = ++counter;
 	SchPtr = SchedulerPointer;
+	BusyT = 0;
+	IdealT = 0;
 }
 
 bool Processor::isRunning() const {
@@ -35,6 +37,16 @@ int Processor::getExpectedFinishTime() const {
 
 	return expectedFinishTime;
 
+}
+
+int Processor::pUtil() const
+{
+	return (BusyT * 100) / (BusyT + IdealT);
+}
+
+int Processor::getBusy() const
+{
+	return BusyT;
 }
 
 Process* Processor::RequestBlocked() {

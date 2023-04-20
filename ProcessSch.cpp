@@ -20,6 +20,8 @@ ProcessSch::ProcessSch()
 	NumOfProcess = 0;
 	TotalProcessors = 0;
 	AllProcessors = nullptr;
+	countKill = 0;
+	countSteal = 0;
 
 }
 
@@ -97,15 +99,39 @@ void ProcessSch::OutputF()
 
 	Process* temp;
 	OutputFile << "TT" << "\t" << "PID" << "\t" << "AT" << "\t" << "CT" << "\t" << "IO_D" << "\t" << "WT" << "\t" << "RT" << "\t" << "TRT" << endl;
-
+	int SumWT = 0,SumRT=0,SumTRT=0;
 	while (Terminated.dequeue(temp))
 	{
 		temp->PrintInfo(OutputFile);
+		SumWT+=temp->getWT();
+		SumRT += temp->getRT();
+		SumTRT += temp->getTRT();
 		delete temp;
 	}
+	int AvgWT = SumWT / NumOfProcess;
+	int AvgRT = SumRT / NumOfProcess;
+	int AvgTRT = SumTRT / NumOfProcess;
 
-	OutputFile << "Processes: " << NumOfProcess << endl;
 
+	OutputFile << "Processes: " << NumOfProcess << endl<<endl;
+	OutputFile << "Avg WT=" << AvgWT << ",		Avg RT=" << AvgRT << ",		Avg TRT=" << AvgTRT << endl;
+	OutputFile << "Work Steal: " << countSteal / NumOfProcess << "% \n";
+	OutputFile << "Killed Process: " << countKill*100 / NumOfProcess << "% \n";
+	OutputFile << "\nProcessors: " << TotalProcessors << " [" << FCFS << " FCFS, " << SJF << " SJF, " << RR << " RR]\n";
+	OutputFile << "Processor Load\n";
+	for (int i = 0; i < TotalProcessors; i++)
+	{
+		OutputFile << 'p' << i + 1 << '=' << (AllProcessors[i]->getBusy()*100)/SumTRT << "%		";
+	}
+	OutputFile << "\n\nProcessor Utilization\n";
+	int SumUtil = 0;
+	for (int i = 0; i < TotalProcessors; i++)
+	{
+		int temp = AllProcessors[i]->pUtil();
+		OutputFile << 'p' << i + 1 << '=' << temp << "%	";
+		SumUtil += temp;
+	}
+	OutputFile << "\n\nAvg utilization = " << SumUtil / TotalProcessors << "% \n";
 }
 
 void ProcessSch::Simulate()
@@ -129,6 +155,7 @@ void ProcessSch::Simulate()
 			ID_KillSig = temp3->PID;
 			SignalKill(ID_KillSig);
 			Kill.dequeue(temp3);
+			delete temp3;
 		}
 
 		//check if process in Run goes to blocked or terminatted
@@ -218,6 +245,7 @@ void ProcessSch::Stealing()
 		AllProcessors[Min]->AddProcess(temp);
 		MaxExp = AllProcessors[Max]->getExpectedFinishTime();
 		MinExp = AllProcessors[Min]->getExpectedFinishTime();
+		countSteal++;
 	}
 }
 
@@ -339,7 +367,10 @@ void ProcessSch::SignalKill(int ID)
 	for (int i = 0; i < FCFS; i++)
 	{
 		if (AllProcessors[i]->KillSignal(ID))
+		{
+			countKill++;
 			return;
+		}
 	}
 }
 
