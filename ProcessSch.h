@@ -30,6 +30,7 @@ public:
 	bool InputF(void);
 	void OutputF();
 	void ToReady(LinkedQueue<Process*>& List);
+	void Stealing();
 	void Simulate();
 	void ProcessorSim(Processor& p,int);
 	bool AreIdle();

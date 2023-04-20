@@ -7,13 +7,7 @@ RR_Processor::RR_Processor(ProcessSch* SchedulerPointer,int TS) :Processor(Sched
 }
 
 
-/*
-RR_Processor::RR_Processor() {
 
-	currentTimeSlice = 0;
-
-}
-*/
 void RR_Processor::stateUpdate() {
 
 	if (running == nullptr && Ready.isEmpty()) {
@@ -41,6 +35,17 @@ void RR_Processor::AddProcess(Process* p) {
 
 }
 
+Process* RR_Processor::RemoveProcess() {
+
+	Process* p = nullptr;
+	Ready.dequeue(p);
+	if (p)
+		expectedFinishTime -= p->getRemtime();
+	stateUpdate();
+	return p;
+
+}
+
 void RR_Processor::ScheduleAlgo(int time) {
 
 	if (currentState == IDLE) {
@@ -56,6 +61,7 @@ void RR_Processor::ScheduleAlgo(int time) {
 	}
 	running->setRT(time /*timestep*/);
 	running->IncrementRunT();
+	expectedFinishTime--;
 	currentTimeSlice++;
 
 	if (running->isTerminated())
@@ -83,12 +89,6 @@ void RR_Processor::ScheduleAlgo(int time) {
 
 }
 
-/*
-void RR_Processor::setTimeSlice(int t)
-{
-	timeSlice = t;
-}
-*/
 
 RR_Processor::~RR_Processor() {
 

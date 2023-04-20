@@ -15,6 +15,7 @@ public:
 	SJF_Processor(ProcessSch* SchedulerPointer);
 	void stateUpdate();
 	virtual void AddProcess(Process*);
+	Process* RemoveProcess();
 	virtual void ScheduleAlgo(int time);
 	void printMyReady(); //Prints Ready Queue
 	~SJF_Processor();

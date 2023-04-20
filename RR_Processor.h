@@ -15,11 +15,10 @@ private:
 public:
 
 	RR_Processor(ProcessSch* SchedulerPointer,int TS);
-	//RR_Processor(); //Constructor
 	void stateUpdate(); //Updates processor state
 	void AddProcess(Process*); //Adds process to ready queue "RDY"
+	Process* RemoveProcess();
 	void ScheduleAlgo(int time); //Execute process
-	//void setTimeSlice(int t);
 	void printMyReady(); //Prints Ready Queue
 	~RR_Processor(); //Destructor
 

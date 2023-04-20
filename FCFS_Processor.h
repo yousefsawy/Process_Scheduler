@@ -9,13 +9,13 @@ class FCFS_Processor : public Processor
 private:
 
     ModifiedQueue<Process*> Ready;
-    int count; //Count of number of process (Used for random Kill)
 
 public:
 
     FCFS_Processor(ProcessSch* SchedulerPointer);
     void stateUpdate();
     virtual void AddProcess(Process*);
+    Process* RemoveProcess();
     virtual void ScheduleAlgo(int time);
     void printMyReady(); //Prints Ready Queue
     virtual bool KillSignal(int);

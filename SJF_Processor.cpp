@@ -32,6 +32,18 @@ void SJF_Processor::AddProcess(Process* NewPrcs)
 	stateUpdate();
 }
 
+
+Process* SJF_Processor::RemoveProcess() {
+
+	Process* p = nullptr;
+	Ready.dequeue(p);
+	if (p)
+		expectedFinishTime -= p->getRemtime();
+	stateUpdate();
+	return p;
+
+}
+
 void SJF_Processor::ScheduleAlgo(int time)
 {
 
@@ -46,6 +58,7 @@ void SJF_Processor::ScheduleAlgo(int time)
 	}
 	running->setRT(time /*timestep*/);
 	running->IncrementRunT();
+	expectedFinishTime--;
 
 	if (running->isTerminated())
 	{

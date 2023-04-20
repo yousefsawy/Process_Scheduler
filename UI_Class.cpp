@@ -39,6 +39,7 @@ void UI_Class::ExecuteUI()
 
 void UI_Class::Interactive_StepMode()
 {
+	system("CLS");
 	if (State == Start)
 	{
 		if (Mode == Step)
@@ -67,13 +68,11 @@ void UI_Class::Interactive_StepMode()
 	{
 		std::cout << "PRESS ANY KEY TO MOVE TO NEXT STEP!\n";
 		getchar();
-		system("CLS");
 	}
 
 	if (Mode == Step)
 	{
 		Sleep(1000);
-		system("CLS");
 	}
 		
 

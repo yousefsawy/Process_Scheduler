@@ -1,9 +1,8 @@
 #include "FCFS_Processor.h"
 #include "ProcessSch.h"
 
-FCFS_Processor::FCFS_Processor(ProcessSch* SchedulerPointer):Processor(SchedulerPointer)
+FCFS_Processor::FCFS_Processor(ProcessSch* SchedulerPointer) :Processor(SchedulerPointer)
 {
-	count = 0;
 }
 
 void FCFS_Processor::stateUpdate() {
@@ -29,6 +28,7 @@ bool FCFS_Processor::KillSignal(int PID)
 	if (running && running->getPID() == PID)
 	{
 		SchPtr->AddTerminated(running);
+		expectedFinishTime -= running->getRemtime();
 		running = nullptr;
 	}
 	else
@@ -43,6 +43,7 @@ bool FCFS_Processor::KillSignal(int PID)
 			return false;
 
 		SchPtr->AddTerminated(temp);
+		expectedFinishTime -= temp->getRemtime();
 	}
 	stateUpdate();
 	return true;
@@ -73,7 +74,16 @@ void FCFS_Processor::AddProcess(Process* NewPrcs)
 	Ready.enqueue(NewPrcs);
 	expectedFinishTime += NewPrcs->getRemtime();
 	stateUpdate();
-	count++;
+}
+
+Process* FCFS_Processor::RemoveProcess() {
+	Process* p = nullptr;
+	Ready.dequeue(p);
+	if (p)
+		expectedFinishTime -= p->getRemtime();
+	stateUpdate();
+	return p;
+
 }
 
 void FCFS_Processor::ScheduleAlgo(int time)
@@ -91,6 +101,7 @@ void FCFS_Processor::ScheduleAlgo(int time)
 
 	running->setRT(time /*timestep*/);
 	running->IncrementRunT();
+	expectedFinishTime--;
 	currentState = BUSY;
 	if (running->isTerminated())
 	{

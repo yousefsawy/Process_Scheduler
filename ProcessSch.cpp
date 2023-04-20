@@ -114,6 +114,12 @@ void ProcessSch::Simulate()
 	UI_Class UIC(this);
 	while (!(New.isEmpty() && Blocked.isEmpty() && AreIdle()))
 	{
+		//Process Stealing
+		if (timestep % STL == 0)
+		{
+			Stealing();
+		}
+
 		//Process killing
 		int ID_KillSig;
 		SigKill* temp3 = nullptr;
@@ -156,8 +162,8 @@ void ProcessSch::Simulate()
 			}
 		}
 
-		//ToDo:Stealing,Migration,Forking
-		
+
+		//ToDo:Migration,Forking
 		timestep++;
 		UIC.ExecuteUI();
 	}
@@ -182,6 +188,37 @@ void ProcessSch::ToReady(LinkedQueue<Process*>& List)
 	}
 	AllProcessors[temp]->AddProcess(temp2);
 
+}
+
+void ProcessSch::Stealing()
+{
+	int MinExp = INT_MAX,MaxExp=0;
+	int Min=0,Max=0;
+	//ToDo: Enqueque data to suitable processor using scheduling algorithm
+
+	for (int i = 0; i < TotalProcessors; i++)
+	{
+		if (AllProcessors[i]->getExpectedFinishTime() <= MinExp)
+		{
+			MinExp = AllProcessors[i]->getExpectedFinishTime();
+			Min = i;
+		}
+		if (AllProcessors[i]->getExpectedFinishTime() >= MaxExp)
+		{
+			MaxExp = AllProcessors[i]->getExpectedFinishTime();
+			Max = i;
+		}
+	}
+	while (((float)(MaxExp - MinExp) / MaxExp) > 0.4)
+	{
+		Process* temp = nullptr;
+		temp=AllProcessors[Max]->RemoveProcess();
+		if (temp == nullptr)
+			break;
+		AllProcessors[Min]->AddProcess(temp);
+		MaxExp = AllProcessors[Max]->getExpectedFinishTime();
+		MinExp = AllProcessors[Min]->getExpectedFinishTime();
+	}
 }
 
 void ProcessSch::ProcessorSim(Processor& p, int time)
