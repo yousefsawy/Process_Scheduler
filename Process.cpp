@@ -2,10 +2,11 @@
 
 using namespace std;
 
+int Process::count = 1;
 Process::Process() {}
 
-Process::Process(int p, int a, int c, int n) {
-	PID = p;
+Process::Process(int a, int c, int n,bool IC) {
+	PID = count++;
 	AT = a;
 	CT = c;
 	N = n;
@@ -13,13 +14,17 @@ Process::Process(int p, int a, int c, int n) {
 	Pstatus = NEW;
 	RunT = 0;
 	CurrentReq = nullptr;
+	Lchild = nullptr;
+	Rchild = nullptr;
+	ischild = IC;
+	forked = false;
 }
 
 void Process::setPID(int id) {
 	PID = id;
 }
 
-int Process::getPID()
+int Process::getPID() const
 {
 	return PID;
 }
@@ -28,6 +33,11 @@ void Process::setTT(int t) {
 	TT = t;
 	TRT = TT - AT;
 	WT = TRT + getRemtime() - CT;
+}
+
+void Process::Forked()
+{
+	 forked=true;
 }
 
 void Process::setRT(int n) {
@@ -63,6 +73,31 @@ int Process::getRT() const
 int Process::getTRT() const
 {
 	return TRT;
+}
+
+bool Process::getforked() const
+{
+	return forked;
+}
+
+Process* Process::getLchild() const
+{
+	return Lchild;
+}
+
+Process* Process::getRchild() const
+{
+	return Rchild;
+}
+
+bool Process::getIschild() const
+{
+	return ischild;
+}
+
+int Process::getCount()
+{
+	return count;
 }
 
 void Process::IncrementRunT()
@@ -139,6 +174,16 @@ void Process::setStatus(Status s) {
 
 	Pstatus = s;
 
+}
+
+void Process::setLchild(Process* child)
+{
+	Lchild = child;
+}
+
+void Process::setRchild(Process* child)
+{
+	Rchild = child;
 }
 
 Process::~Process() {

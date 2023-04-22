@@ -32,6 +32,7 @@ public:
 	bool InputF(void);
 	void OutputF();
 	void ToReady(LinkedQueue<Process*>& List);
+	void ToReadyForking(Process* Process);
 	void Stealing();
 	void Simulate();
 	void ProcessorSim(Processor& p,int);

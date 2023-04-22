@@ -1,7 +1,8 @@
 #include "FCFS_Processor.h"
 #include "ProcessSch.h"
 
-FCFS_Processor::FCFS_Processor(ProcessSch* SchedulerPointer) :Processor(SchedulerPointer)
+
+FCFS_Processor::FCFS_Processor(ProcessSch* SchedulerPointer, int FP) :Processor(SchedulerPointer), ForkingP(FP)
 {
 }
 
@@ -80,9 +81,12 @@ void FCFS_Processor::AddProcess(Process* NewPrcs)
 
 Process* FCFS_Processor::RemoveProcess() {
 	Process* p = nullptr;
-	Ready.dequeue(p);
-	if (p)
+	Ready.peek(p);
+	if (p && p->getIschild())
+	{
+		Ready.dequeue(p);
 		expectedFinishTime -= p->getRemtime();
+	}
 	stateUpdate();
 	return p;
 
@@ -118,10 +122,42 @@ void FCFS_Processor::ScheduleAlgo(int time)
 		running = nullptr;
 		Blocked->setStatus(BLK);
 	}
+	else
+	{
+		Forking(time);
+	}
 
 	stateUpdate();
 
 }
+
+void FCFS_Processor::Forking(int time)
+{
+	if (!running->getforked())
+	{
+
+		Process* temp = nullptr;
+		int rand1 = rand() % 100 + 1;
+		if (rand1 <= ForkingP)
+		{
+			temp = new Process(time, running->getRemtime(), 0, true);
+			running->setLchild(temp);
+			SchPtr->ToReadyForking(temp);
+			temp = nullptr;
+			running->Forked();
+		}
+		int rand2 = rand() % 100 + 1;
+		if (rand2 <= ForkingP)
+		{
+			temp = new Process(time, running->getRemtime(), 0, true);
+			running->setRchild(temp);
+			SchPtr->ToReadyForking(temp);
+			temp = nullptr;
+			running->Forked();
+		}
+	}
+}
+
 
 FCFS_Processor::~FCFS_Processor() {
 

@@ -22,6 +22,7 @@ ProcessSch::ProcessSch()
 	AllProcessors = nullptr;
 	countKill = 0;
 	countSteal = 0;
+	srand(time(0));
 
 }
 
@@ -42,7 +43,7 @@ bool ProcessSch::InputF(void)
 	int i = 0;
 	for (; i < FCFS; i++)
 	{
-		AllProcessors[i] = new FCFS_Processor(this);
+		AllProcessors[i] = new FCFS_Processor(this,FP);
 	}
 	for (; i < FCFS + SJF; i++)
 	{
@@ -59,7 +60,7 @@ bool ProcessSch::InputF(void)
 		InputFile >> AT >> PID >> CT >> N;
 
 		//TODO: Create a Process (PriNode or Node then add it to the processor)
-		Process* tempProcess = new Process(PID, AT, CT, N);
+		Process* tempProcess = new Process(AT, CT, N);
 		//
 
 		for (int j = 0; j < N; j++)
@@ -96,7 +97,7 @@ void ProcessSch::OutputF()
 
 	if (!OutputFile.is_open())
 		return;
-
+	NumOfProcess = Process::getCount();
 	Process* temp;
 	OutputFile << "TT" << "\t" << "PID" << "\t" << "AT" << "\t" << "CT" << "\t" << "IO_D" << "\t" << "WT" << "\t" << "RT" << "\t" << "TRT" << endl;
 	int SumWT = 0,SumRT=0,SumTRT=0;
@@ -217,11 +218,27 @@ void ProcessSch::ToReady(LinkedQueue<Process*>& List)
 
 }
 
+void ProcessSch::ToReadyForking(Process* Process)
+{
+	int MinExp = INT_MAX;
+	int temp;
+	//ToDo: Enqueque data to suitable processor using scheduling algorithm
+
+	for (int i = 0; i < FCFS; i++)
+	{
+		if (AllProcessors[i]->getExpectedFinishTime() <= MinExp)
+		{
+			MinExp = AllProcessors[i]->getExpectedFinishTime();
+			temp = i;
+		}
+	}
+	AllProcessors[temp]->AddProcess(Process);
+}
+
 void ProcessSch::Stealing()
 {
 	int MinExp = INT_MAX,MaxExp=0;
 	int Min=0,Max=0;
-	//ToDo: Enqueque data to suitable processor using scheduling algorithm
 
 	for (int i = 0; i < TotalProcessors; i++)
 	{
@@ -349,6 +366,14 @@ void ProcessSch::AddTerminated(Process* tempPtr) {
 
 	tempPtr->setTT(timestep);
 	Terminated.enqueue(tempPtr);
+	if (tempPtr->getLchild())
+	{
+		SignalKill(tempPtr->getLchild()->getPID());
+	}
+	if (tempPtr->getRchild())
+	{
+		SignalKill(tempPtr->getRchild()->getPID());
+	}
 	//std::cout << "here";
 
 }
