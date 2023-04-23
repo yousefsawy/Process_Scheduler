@@ -100,13 +100,17 @@ void ProcessSch::OutputF()
 	NumOfProcess = Process::getCount();
 	Process* temp;
 	OutputFile << "TT" << "\t" << "PID" << "\t" << "AT" << "\t" << "CT" << "\t" << "IO_D" << "\t" << "WT" << "\t" << "RT" << "\t" << "TRT" << endl;
-	int SumWT = 0,SumRT=0,SumTRT=0;
+	int SumWT = 0,SumRT=0,SumTRT=0,countF=0;
 	while (Terminated.dequeue(temp))
 	{
 		temp->PrintInfo(OutputFile);
 		SumWT+=temp->getWT();
 		SumRT += temp->getRT();
 		SumTRT += temp->getTRT();
+		if (temp->getforked())
+		{
+			countF++;
+		}
 		delete temp;
 	}
 	int AvgWT = SumWT / NumOfProcess;
@@ -116,7 +120,9 @@ void ProcessSch::OutputF()
 
 	OutputFile << "Processes: " << NumOfProcess << endl<<endl;
 	OutputFile << "Avg WT=" << AvgWT << ",		Avg RT=" << AvgRT << ",		Avg TRT=" << AvgTRT << endl;
-	OutputFile << "Work Steal: " << countSteal / NumOfProcess << "% \n";
+	OutputFile << "Migration:		" <<"RTF = "<< "%		MaxW = " << "% \n";
+	OutputFile << "Work Steal: " << countSteal*100 / NumOfProcess << "% \n";
+	OutputFile << "Forked Process: " << countF * 100 / NumOfProcess << "% \n";
 	OutputFile << "Killed Process: " << countKill*100 / NumOfProcess << "% \n";
 	OutputFile << "\nProcessors: " << TotalProcessors << " [" << FCFS << " FCFS, " << SJF << " SJF, " << RR << " RR]\n";
 	OutputFile << "Processor Load\n";
@@ -191,7 +197,7 @@ void ProcessSch::Simulate()
 		}
 
 
-		//ToDo:Migration,Forking
+		//ToDo:Migration
 		timestep++;
 		UIC.ExecuteUI();
 	}

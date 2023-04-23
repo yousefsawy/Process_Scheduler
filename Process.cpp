@@ -2,11 +2,11 @@
 
 using namespace std;
 
-int Process::count = 1;
+int Process::count = 0;
 Process::Process() {}
 
-Process::Process(int a, int c, int n,bool IC) {
-	PID = count++;
+Process::Process(int a, int c, int n, bool IC) {
+	PID = ++count;
 	AT = a;
 	CT = c;
 	N = n;
@@ -32,18 +32,18 @@ int Process::getPID() const
 void Process::setTT(int t) {
 	TT = t;
 	TRT = TT - AT;
-	WT = TRT + getRemtime() - CT;
+	WT = TRT + getRemT() - CT;
 }
 
 void Process::Forked()
 {
-	 forked=true;
+	forked = true;
 }
 
 void Process::setRT(int n) {
 	if (RT == 0)
 	{
-		RT = n-AT;
+		RT = n - AT;
 	}
 }
 
@@ -109,7 +109,7 @@ void Process::IncrementRunT()
 		Pstatus = TRM;
 		return;
 	}
-	IO_Request* temp=nullptr;
+	IO_Request* temp = nullptr;
 	ReqQueue.peek(temp);
 
 	if (!temp)
@@ -151,55 +151,61 @@ void Process::IncrementIO_D()
 	}
 }
 
-int Process ::getRemtime() {
-	if(!ReqQueue.isEmpty())
+int Process::getRemT() const
+{
+	return CT - RunT;
+
+}
+
+int Process::getRemtime() const {
+	if (!ReqQueue.isEmpty())
 	{
-		IO_Request* temp=nullptr;
+		IO_Request* temp = nullptr;
 		ReqQueue.peek(temp);
 		return temp->IO_R - RunT;
 	}
 	else
 	{
 		return CT - RunT;
+
 	}
-	
 }
 
-void Process::PrintInfo(ofstream &file)
-{
-	file << TT<<"\t"<< PID<< "\t" << AT << "\t" << CT << "\t" << IO_Ds<< "\t" << WT << "\t" << RT << "\t" << TRT << endl;
-}
+	void Process::PrintInfo(ofstream & file)
+	{
+		file << TT << "\t" << PID << "\t" << AT << "\t" << CT << "\t" << IO_Ds << "\t" << WT << "\t" << RT << "\t" << TRT << endl;
+	}
 
-void Process::setStatus(Status s) {
+	void Process::setStatus(Status s) {
 
-	Pstatus = s;
+		Pstatus = s;
 
-}
+	}
 
-void Process::setLchild(Process* child)
-{
-	Lchild = child;
-}
+	void Process::setLchild(Process * child)
+	{
+		Lchild = child;
+	}
 
-void Process::setRchild(Process* child)
-{
-	Rchild = child;
-}
+	void Process::setRchild(Process * child)
+	{
+		Rchild = child;
+	}
 
-Process::~Process() {
+	Process::~Process() {
 
-}
+	}
 
-std::ostream& operator<<(std::ostream& output, const Process& p) {
+	std::ostream& operator<<(std::ostream & output, const Process & p) {
 
-	output << p.PID;
-	return output;
+		output << p.PID;
+		return output;
 
-}
+	}
 
-std::ostream& operator<<(std::ostream& output, Process* p) {
+	std::ostream& operator<<(std::ostream & output, Process * p) {
 
-	output << p->PID;
-	return output;
+		output << p->PID;
+		return output;
 
-}
+	}

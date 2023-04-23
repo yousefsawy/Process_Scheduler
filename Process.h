@@ -60,7 +60,8 @@ public:
 	Process* getRchild() const;
 	bool getIschild() const;
 	static int getCount();
-	int getRemtime();
+	int getRemtime() const;
+	int getRemT() const;
 	//Functions
 	void IncrementRunT(); //Increments the running time inside CPU
 	bool isTerminated(); //Checks if process is terminated or not
