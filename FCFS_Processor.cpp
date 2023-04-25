@@ -63,6 +63,7 @@ int FCFS_Processor::Find(int ID)
 		tempQ.enqueue(tempP);
 		if (tempP->getPID() == ID)
 			n = i;
+		i++;
 	}
 	while (tempQ.dequeue(tempP))
 	{

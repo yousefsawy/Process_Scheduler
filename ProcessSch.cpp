@@ -128,14 +128,14 @@ void ProcessSch::OutputF()
 	OutputFile << "Processor Load\n";
 	for (int i = 0; i < TotalProcessors; i++)
 	{
-		OutputFile << 'p' << i + 1 << '=' << (AllProcessors[i]->getBusy()*100)/SumTRT << "%		";
+		OutputFile << 'p' << i + 1 << '=' << round((float)(AllProcessors[i]->getBusy()*100)/(SumTRT-SumWT))<< "%	";
 	}
 	OutputFile << "\n\nProcessor Utilization\n";
 	int SumUtil = 0;
 	for (int i = 0; i < TotalProcessors; i++)
 	{
 		int temp = AllProcessors[i]->pUtil();
-		OutputFile << 'p' << i + 1 << '=' << temp << "%	";
+		OutputFile << 'p' << i + 1 << '=' << temp << "%\t";
 		SumUtil += temp;
 	}
 	OutputFile << "\n\nAvg utilization = " << SumUtil / TotalProcessors << "% \n";
