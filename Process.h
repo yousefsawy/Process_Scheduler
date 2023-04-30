@@ -53,6 +53,7 @@ public:
 	//getters
 	int getPID() const;
 	int getED() const;
+	int getTT() const;
 	int getAT() const;
 	int getWT() const;
 	int getRT() const;

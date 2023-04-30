@@ -35,6 +35,11 @@ int Process::getED() const
 	return Deadline;
 }
 
+int Process::getTT() const
+{
+	return TT;
+}
+
 void Process::setTT(int t) {
 	TT = t;
 	TRT = TT - AT;

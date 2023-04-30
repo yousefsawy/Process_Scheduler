@@ -28,9 +28,29 @@ void EDF_Processor::printMyReady() {
 
 void EDF_Processor::AddProcess(Process* NewPrcs)
 {
-	NewPrcs->setStatus(RDY);
-	Ready.enqueue(NewPrcs, NewPrcs->getED());
-	expectedFinishTime += NewPrcs->getRemtime();
+	if (running)
+	{
+		if (NewPrcs->getED() >= running->getED())
+		{
+			NewPrcs->setStatus(RDY);
+			Ready.enqueue(NewPrcs, NewPrcs->getED());
+			expectedFinishTime += NewPrcs->getRemtime();
+		}
+		else
+		{
+			Ready.enqueue(running, running->getED());
+			running->setStatus(RDY);
+			running = NewPrcs;
+			running->setStatus(RUN);
+			expectedFinishTime += running->getRemtime();
+		}
+	}
+	else
+	{
+		NewPrcs->setStatus(RDY);
+		Ready.enqueue(NewPrcs, NewPrcs->getED());
+		expectedFinishTime += NewPrcs->getRemtime();
+	}
 	stateUpdate();
 }
 

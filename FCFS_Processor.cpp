@@ -145,7 +145,7 @@ void FCFS_Processor::Forking(int time)
 		int rand1 = rand() % 100 + 1;
 		if (rand1 <= ForkingP)
 		{
-			temp = new Process(time, running->getRemT(), 0, true);
+			temp = new Process(time, running->getRemT(), INT_MAX,0, true);
 			running->setLchild(temp);
 			SchPtr->ToReadyForking(temp);
 			temp = nullptr;
@@ -154,7 +154,7 @@ void FCFS_Processor::Forking(int time)
 		int rand2 = rand() % 100 + 1;
 		if (rand2 <= ForkingP)
 		{
-			temp = new Process(time, running->getRemT(), 0, true);
+			temp = new Process(time, running->getRemT(), INT_MAX,0, true);
 			running->setRchild(temp);
 			SchPtr->ToReadyForking(temp);
 			temp = nullptr;
