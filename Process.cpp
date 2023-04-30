@@ -5,11 +5,12 @@ using namespace std;
 int Process::count = 0;
 Process::Process() {}
 
-Process::Process(int a, int c, int n, bool IC) {
+Process::Process(int a, int c,int ED, int n, bool IC) {
 	PID = ++count;
 	AT = a;
 	CT = c;
 	N = n;
+	Deadline = ED;
 	RT = 0;
 	Pstatus = NEW;
 	RunT = 0;
@@ -27,6 +28,11 @@ void Process::setPID(int id) {
 int Process::getPID() const
 {
 	return PID;
+}
+
+int Process::getED() const
+{
+	return Deadline;
 }
 
 void Process::setTT(int t) {

@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DEFS.h" />
+    <ClInclude Include="EDF_Processor.h" />
     <ClInclude Include="FCFS_Processor.h" />
     <ClInclude Include="LinkedQueue.h" />
     <ClInclude Include="ModifiedQueue.h" />
@@ -143,6 +144,7 @@
     <ClInclude Include="UI_Class.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EDF_Processor.cpp" />
     <ClCompile Include="FCFS_Processor.cpp" />
     <ClCompile Include="Process.cpp" />
     <ClCompile Include="Processor.cpp" />

@@ -25,6 +25,7 @@ private:
 	int WT; //Waiting time
 	int RunT; //Running time (inside CPU)
 	int IO_Ds; //Total duration of IO_Ds
+	int Deadline; //Earliest deadline
 	Status Pstatus; //processor status
 	LinkedQueue<IO_Request*> ReqQueue; //Queue with the requests !!!ADD PRIQUEUE IF NOT SORTED
 	IO_Request* CurrentReq; //Current IO_Request
@@ -38,7 +39,7 @@ public:
 
 	//Constructors
 	Process();
-	Process(int a, int c, int n,bool IC=false);
+	Process(int a, int c, int ED,int n,bool IC=false);
 	//Setters
 	void setPID(int id);
 	void setTT(int t);
@@ -51,6 +52,7 @@ public:
 	void setRchild(Process*);
 	//getters
 	int getPID() const;
+	int getED() const;
 	int getAT() const;
 	int getWT() const;
 	int getRT() const;

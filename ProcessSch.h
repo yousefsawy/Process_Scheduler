@@ -6,13 +6,14 @@
 #include "FCFS_Processor.h"
 #include "RR_Processor.h"
 #include "SJF_Processor.h"
+#include "EDF_Processor.h"
 
 class ProcessSch
 {
 private:
 
 	int timestep; 
-	int FCFS, SJF, RR; //Number of Processors of each type (FCFS, SJF, RR)
+	int FCFS, SJF, EDF, RR; //Number of Processors of each type (FCFS, SJF, EDF, RR)
 	int TS_RR; //Time slice for RR
 	int RTF, MAXW; //Process Migration related
 	int STL, FP; // Steal limit and Forking Probabiltity

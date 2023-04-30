@@ -28,15 +28,15 @@ ProcessSch::ProcessSch()
 
 bool ProcessSch::InputF(void)
 {
-	string s = "test"; //File name
+	string s = "test_IN"; //File name
 	ifstream InputFile(s + ".txt");
 
 	if (!InputFile.is_open())
 		return false;
 
 
-	InputFile >> FCFS >> SJF >> RR >> TS_RR >> RTF >> MAXW >>STL>>FP>> NumOfProcess;
-	TotalProcessors = FCFS + SJF + RR;
+	InputFile >> FCFS >> SJF >> EDF >> RR >> TS_RR >> RTF >> MAXW >>STL>>FP>> NumOfProcess;
+	TotalProcessors = FCFS + SJF + EDF + RR;
 
 	//Declare Processors
 	AllProcessors = new Processor * [TotalProcessors];
@@ -49,6 +49,10 @@ bool ProcessSch::InputF(void)
 	{
 		AllProcessors[i] = new SJF_Processor(this);
 	}
+	for (; i < FCFS + SJF + EDF; i++)
+	{
+		AllProcessors[i] = new EDF_Processor(this);
+	}
 	for (; i < TotalProcessors; i++)
 	{
 		AllProcessors[i] = new RR_Processor(this, TS_RR);
@@ -56,11 +60,11 @@ bool ProcessSch::InputF(void)
 
 	for (int i = 0; i < NumOfProcess; i++)
 	{
-		int AT, PID, CT, N; // Arrival Time, Process ID, CPU Time, Number of process requests  I/O
-		InputFile >> AT >> PID >> CT >> N;
+		int AT, PID, CT, ED,N; // Arrival Time, Process ID, CPU Time,Earliest deadline, Number of process requests  I/O
+		InputFile >> AT >> PID >> CT >> ED >> N;
 
 		//TODO: Create a Process (PriNode or Node then add it to the processor)
-		Process* tempProcess = new Process(AT, CT, N);
+		Process* tempProcess = new Process(AT, CT, ED, N);
 		//
 
 		for (int j = 0; j < N; j++)
@@ -124,7 +128,7 @@ void ProcessSch::OutputF()
 	OutputFile << "Work Steal: " << countSteal*100 / NumOfProcess << "% \n";
 	OutputFile << "Forked Process: " << countF * 100 / NumOfProcess << "% \n";
 	OutputFile << "Killed Process: " << countKill*100 / NumOfProcess << "% \n";
-	OutputFile << "\nProcessors: " << TotalProcessors << " [" << FCFS << " FCFS, " << SJF << " SJF, " << RR << " RR]\n";
+	OutputFile << "\nProcessors: " << TotalProcessors << " [" << FCFS << " FCFS, " << SJF << " SJF, " << EDF <<" EDF, " << RR << " RR]\n";
 	OutputFile << "Processor Load\n";
 	for (int i = 0; i < TotalProcessors; i++)
 	{
