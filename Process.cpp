@@ -11,7 +11,7 @@ Process::Process(int a, int c,int ED, int n, bool IC) {
 	CT = c;
 	N = n;
 	Deadline = ED;
-	RT = 0;
+	RT = -1;
 	Pstatus = NEW;
 	RunT = 0;
 	CurrentReq = nullptr;
@@ -52,7 +52,7 @@ void Process::Forked()
 }
 
 void Process::setRT(int n) {
-	if (RT == 0)
+	if (RT == -1)
 	{
 		RT = n - AT;
 	}
