@@ -64,6 +64,9 @@
     <ClInclude Include="ProcessSch.h">
       <Filter>Process_Scheduler</Filter>
     </ClInclude>
+    <ClInclude Include="EDF_Processor.h">
+      <Filter>Processor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
@@ -87,6 +90,9 @@
     </ClCompile>
     <ClCompile Include="ProcessSch.cpp">
       <Filter>Process_Scheduler</Filter>
+    </ClCompile>
+    <ClCompile Include="EDF_Processor.cpp">
+      <Filter>Processor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

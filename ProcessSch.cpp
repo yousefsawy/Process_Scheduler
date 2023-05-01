@@ -22,31 +22,36 @@ ProcessSch::ProcessSch()
 	AllProcessors = nullptr;
 	countKill = 0;
 	countSteal = 0;
+	srand(time(0));
 
 }
 
 bool ProcessSch::InputF(void)
 {
-	string s = "test"; //File name
+	string s = "Input"; //File name
 	ifstream InputFile(s + ".txt");
 
 	if (!InputFile.is_open())
 		return false;
 
 
-	InputFile >> FCFS >> SJF >> RR >> TS_RR >> RTF >> MAXW >>STL>>FP>> NumOfProcess;
-	TotalProcessors = FCFS + SJF + RR;
+	InputFile >> FCFS >> SJF >> EDF >> RR >> TS_RR >> RTF >> MAXW >>STL>>FP>> NumOfProcess;
+	TotalProcessors = FCFS + SJF + EDF + RR;
 
 	//Declare Processors
 	AllProcessors = new Processor * [TotalProcessors];
 	int i = 0;
 	for (; i < FCFS; i++)
 	{
-		AllProcessors[i] = new FCFS_Processor(this);
+		AllProcessors[i] = new FCFS_Processor(this,FP);
 	}
 	for (; i < FCFS + SJF; i++)
 	{
 		AllProcessors[i] = new SJF_Processor(this);
+	}
+	for (; i < FCFS + SJF + EDF; i++)
+	{
+		AllProcessors[i] = new EDF_Processor(this);
 	}
 	for (; i < TotalProcessors; i++)
 	{
@@ -55,11 +60,11 @@ bool ProcessSch::InputF(void)
 
 	for (int i = 0; i < NumOfProcess; i++)
 	{
-		int AT, PID, CT, N; // Arrival Time, Process ID, CPU Time, Number of process requests  I/O
-		InputFile >> AT >> PID >> CT >> N;
+		int AT, PID, CT, ED,N; // Arrival Time, Process ID, CPU Time,Earliest deadline, Number of process requests  I/O
+		InputFile >> AT >> PID >> CT >> ED >> N;
 
 		//TODO: Create a Process (PriNode or Node then add it to the processor)
-		Process* tempProcess = new Process(PID, AT, CT, N);
+		Process* tempProcess = new Process(AT, CT, ED, N);
 		//
 
 		for (int j = 0; j < N; j++)
@@ -91,21 +96,29 @@ bool ProcessSch::InputF(void)
 
 void ProcessSch::OutputF()
 {
-	string s = "test1"; //File name
+	string s = "Output"; //File name
 	ofstream OutputFile(s + ".txt");
 
 	if (!OutputFile.is_open())
 		return;
-
+	NumOfProcess = Process::getCount();
 	Process* temp;
 	OutputFile << "TT" << "\t" << "PID" << "\t" << "AT" << "\t" << "CT" << "\t" << "IO_D" << "\t" << "WT" << "\t" << "RT" << "\t" << "TRT" << endl;
-	int SumWT = 0,SumRT=0,SumTRT=0;
+	int SumWT = 0,SumRT=0,countED=0.,SumTRT=0,countF=0;
 	while (Terminated.dequeue(temp))
 	{
 		temp->PrintInfo(OutputFile);
 		SumWT+=temp->getWT();
 		SumRT += temp->getRT();
 		SumTRT += temp->getTRT();
+		if (temp->getforked())
+		{
+			countF++;
+		}
+		if (temp->getTT() < temp->getED())
+		{
+			countED++;
+		}
 		delete temp;
 	}
 	int AvgWT = SumWT / NumOfProcess;
@@ -115,20 +128,23 @@ void ProcessSch::OutputF()
 
 	OutputFile << "Processes: " << NumOfProcess << endl<<endl;
 	OutputFile << "Avg WT=" << AvgWT << ",		Avg RT=" << AvgRT << ",		Avg TRT=" << AvgTRT << endl;
-	OutputFile << "Work Steal: " << countSteal / NumOfProcess << "% \n";
+	OutputFile << "Migration:		" <<"RTF = "<< "%		MaxW = " << "% \n";
+	OutputFile << "Work Steal: " << countSteal*100 / NumOfProcess << "% \n";
+	OutputFile << "Forked Process: " << countF * 100 / NumOfProcess << "% \n";
 	OutputFile << "Killed Process: " << countKill*100 / NumOfProcess << "% \n";
-	OutputFile << "\nProcessors: " << TotalProcessors << " [" << FCFS << " FCFS, " << SJF << " SJF, " << RR << " RR]\n";
+	OutputFile << "Before Deadline: " << countED * 100 / NumOfProcess << "% \n";
+	OutputFile << "\nProcessors: " << TotalProcessors << " [" << FCFS << " FCFS, " << SJF << " SJF, " << EDF <<" EDF, " << RR << " RR]\n";
 	OutputFile << "Processor Load\n";
 	for (int i = 0; i < TotalProcessors; i++)
 	{
-		OutputFile << 'p' << i + 1 << '=' << (AllProcessors[i]->getBusy()*100)/SumTRT << "%		";
+		OutputFile << 'p' << i + 1 << '=' << round((float)(AllProcessors[i]->getBusy()*100)/(SumTRT-SumWT))<< "%	";
 	}
 	OutputFile << "\n\nProcessor Utilization\n";
 	int SumUtil = 0;
 	for (int i = 0; i < TotalProcessors; i++)
 	{
 		int temp = AllProcessors[i]->pUtil();
-		OutputFile << 'p' << i + 1 << '=' << temp << "%	";
+		OutputFile << 'p' << i + 1 << '=' << temp << "%\t";
 		SumUtil += temp;
 	}
 	OutputFile << "\n\nAvg utilization = " << SumUtil / TotalProcessors << "% \n";
@@ -190,7 +206,7 @@ void ProcessSch::Simulate()
 		}
 
 
-		//ToDo:Migration,Forking
+		//ToDo:Migration
 		timestep++;
 		UIC.ExecuteUI();
 	}
@@ -217,11 +233,27 @@ void ProcessSch::ToReady(LinkedQueue<Process*>& List)
 
 }
 
+void ProcessSch::ToReadyForking(Process* Process)
+{
+	int MinExp = INT_MAX;
+	int temp;
+	//ToDo: Enqueque data to suitable processor using scheduling algorithm
+
+	for (int i = 0; i < FCFS; i++)
+	{
+		if (AllProcessors[i]->getExpectedFinishTime() <= MinExp)
+		{
+			MinExp = AllProcessors[i]->getExpectedFinishTime();
+			temp = i;
+		}
+	}
+	AllProcessors[temp]->AddProcess(Process);
+}
+
 void ProcessSch::Stealing()
 {
 	int MinExp = INT_MAX,MaxExp=0;
 	int Min=0,Max=0;
-	//ToDo: Enqueque data to suitable processor using scheduling algorithm
 
 	for (int i = 0; i < TotalProcessors; i++)
 	{
@@ -349,6 +381,14 @@ void ProcessSch::AddTerminated(Process* tempPtr) {
 
 	tempPtr->setTT(timestep);
 	Terminated.enqueue(tempPtr);
+	if (tempPtr->getLchild())
+	{
+		SignalKill(tempPtr->getLchild()->getPID());
+	}
+	if (tempPtr->getRchild())
+	{
+		SignalKill(tempPtr->getRchild()->getPID());
+	}
 	//std::cout << "here";
 
 }

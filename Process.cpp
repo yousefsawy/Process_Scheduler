@@ -2,38 +2,59 @@
 
 using namespace std;
 
+int Process::count = 0;
 Process::Process() {}
 
-Process::Process(int p, int a, int c, int n) {
-	PID = p;
+Process::Process(int a, int c,int ED, int n, bool IC) {
+	PID = ++count;
 	AT = a;
 	CT = c;
 	N = n;
+	Deadline = ED;
 	RT = 0;
 	Pstatus = NEW;
 	RunT = 0;
 	CurrentReq = nullptr;
+	Lchild = nullptr;
+	Rchild = nullptr;
+	ischild = IC;
+	forked = false;
 }
 
 void Process::setPID(int id) {
 	PID = id;
 }
 
-int Process::getPID()
+int Process::getPID() const
 {
 	return PID;
+}
+
+int Process::getED() const
+{
+	return Deadline;
+}
+
+int Process::getTT() const
+{
+	return TT;
 }
 
 void Process::setTT(int t) {
 	TT = t;
 	TRT = TT - AT;
-	WT = TRT + getRemtime() - CT;
+	WT = TRT + getRemT() - CT;
+}
+
+void Process::Forked()
+{
+	forked = true;
 }
 
 void Process::setRT(int n) {
 	if (RT == 0)
 	{
-		RT = n-AT;
+		RT = n - AT;
 	}
 }
 
@@ -65,6 +86,31 @@ int Process::getTRT() const
 	return TRT;
 }
 
+bool Process::getforked() const
+{
+	return forked;
+}
+
+Process* Process::getLchild() const
+{
+	return Lchild;
+}
+
+Process* Process::getRchild() const
+{
+	return Rchild;
+}
+
+bool Process::getIschild() const
+{
+	return ischild;
+}
+
+int Process::getCount()
+{
+	return count;
+}
+
 void Process::IncrementRunT()
 {
 	Pstatus = RUN;
@@ -74,7 +120,7 @@ void Process::IncrementRunT()
 		Pstatus = TRM;
 		return;
 	}
-	IO_Request* temp=nullptr;
+	IO_Request* temp = nullptr;
 	ReqQueue.peek(temp);
 
 	if (!temp)
@@ -116,45 +162,61 @@ void Process::IncrementIO_D()
 	}
 }
 
-int Process ::getRemtime() {
-	if(!ReqQueue.isEmpty())
+int Process::getRemT() const
+{
+	return CT - RunT;
+
+}
+
+int Process::getRemtime() const {
+	if (!ReqQueue.isEmpty())
 	{
-		IO_Request* temp=nullptr;
+		IO_Request* temp = nullptr;
 		ReqQueue.peek(temp);
 		return temp->IO_R - RunT;
 	}
 	else
 	{
 		return CT - RunT;
+
 	}
-	
 }
 
-void Process::PrintInfo(ofstream &file)
-{
-	file << TT<<"\t"<< PID<< "\t" << AT << "\t" << CT << "\t" << IO_Ds<< "\t" << WT << "\t" << RT << "\t" << TRT << endl;
-}
+	void Process::PrintInfo(ofstream & file)
+	{
+		file << TT << "\t" << PID << "\t" << AT << "\t" << CT << "\t" << IO_Ds << "\t" << WT << "\t" << RT << "\t" << TRT << endl;
+	}
 
-void Process::setStatus(Status s) {
+	void Process::setStatus(Status s) {
 
-	Pstatus = s;
+		Pstatus = s;
 
-}
+	}
 
-Process::~Process() {
+	void Process::setLchild(Process * child)
+	{
+		Lchild = child;
+	}
 
-}
+	void Process::setRchild(Process * child)
+	{
+		Rchild = child;
+	}
 
-std::ostream& operator<<(std::ostream& output, const Process& p) {
+	Process::~Process() {
 
-	output << p.PID;
-	return output;
+	}
 
-}
+	std::ostream& operator<<(std::ostream & output, const Process & p) {
 
-std::ostream& operator<<(std::ostream& output, Process* p) {
+		output << p.PID;
+		return output;
 
-	output << p->PID;
-	return output;
+	}
 
-}
+	std::ostream& operator<<(std::ostream & output, Process * p) {
+
+		output << p->PID;
+		return output;
+
+	}
