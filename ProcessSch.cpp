@@ -28,7 +28,7 @@ ProcessSch::ProcessSch()
 
 bool ProcessSch::InputF(void)
 {
-	string s = "test_IN"; //File name
+	string s = "Input"; //File name
 	ifstream InputFile(s + ".txt");
 
 	if (!InputFile.is_open())
@@ -96,7 +96,7 @@ bool ProcessSch::InputF(void)
 
 void ProcessSch::OutputF()
 {
-	string s = "test1"; //File name
+	string s = "Output"; //File name
 	ofstream OutputFile(s + ".txt");
 
 	if (!OutputFile.is_open())
