@@ -104,8 +104,17 @@ void FCFS_Processor::ScheduleAlgo(int time)
 		IdealT++;
 		return;
 	}
-	if (running == nullptr) {
-
+	
+	if (running == nullptr)
+	{
+		
+		Process* temp;
+		Ready.peek(temp);
+		if (temp->getAT() >= time)
+		{
+			return;
+		}
+		
 		Ready.dequeue(running);
 		running->setStatus(RUN);
 
