@@ -41,7 +41,7 @@ public:
 	Process* RequestBlocked();
 	Process* RequestTerminated();
 	Process* getRun();
-	virtual bool MigrateFCFS(int);
+	virtual bool Migrate(int);
 	virtual int Find(int); //Returns the index of the Process in the RDY from PID
 	virtual bool KillSignal(int) { return false; }; //Kills the Signal
 	virtual ~Processor(); //Destructor

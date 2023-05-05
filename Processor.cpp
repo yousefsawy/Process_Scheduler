@@ -81,7 +81,7 @@ Process* Processor::getRun()
 	return running;
 }
 
-bool Processor::MigrateFCFS(int time)
+bool Processor::Migrate(int time)
 {
 	return false;
 }

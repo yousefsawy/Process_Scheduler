@@ -23,7 +23,7 @@ public:
     void printMyReady(); //Prints Ready Queue
     virtual bool KillSignal(int);
     virtual int Find(int);
-    virtual bool MigrateFCFS(int);
+    virtual bool Migrate(int);
     ~FCFS_Processor();
 
 };

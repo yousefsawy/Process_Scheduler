@@ -72,7 +72,7 @@ int FCFS_Processor::Find(int ID)
 	return n;
 }
 
-bool FCFS_Processor::MigrateFCFS(int time)
+bool FCFS_Processor::Migrate(int time)
 {
 	bool Migrated = false;
 	int WaitingTime = time - running->getAT() - running->getRunT();
@@ -135,7 +135,7 @@ void FCFS_Processor::ScheduleAlgo(int time)
 		running->setStatus(RUN);
 
 		//Migration
-		bool Mig = MigrateFCFS(time);
+		bool Mig = Migrate(time);
 		if (Mig)
 		{
 			while (Mig)
@@ -143,7 +143,7 @@ void FCFS_Processor::ScheduleAlgo(int time)
 				if (currentState == IDLE)
 					return;
 				Ready.dequeue(running);
-				Mig = MigrateFCFS(time);
+				Mig = Migrate(time);
 			}
 			return;
 		}
