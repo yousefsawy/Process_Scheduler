@@ -10,11 +10,11 @@ void FCFS_Processor::stateUpdate() {
 
 	if (running == nullptr && Ready.isEmpty()) {
 		currentState = IDLE;
-		IdealT++;
+		IdealT++; //3ayzeen nsheel de
 	}
 	else {
 		currentState = BUSY;
-		BusyT++;
+		BusyT++; //3ayzeen nsheel de
 	}
 
 }
@@ -79,8 +79,11 @@ bool FCFS_Processor::MigrateFCFS(int time)
 	if (WaitingTime > MaxW)
 	{
 		Migrated = SchPtr->MigrateToRR(running);
-		if(Migrated)
+		if (Migrated)
+		{
 			running = nullptr;
+			stateUpdate();
+		}
 	}
 	return Migrated;
 }
@@ -131,9 +134,17 @@ void FCFS_Processor::ScheduleAlgo(int time)
 		Ready.dequeue(running);
 		running->setStatus(RUN);
 
-		if (MigrateFCFS(time))
+		//Migration
+		bool Mig = MigrateFCFS(time);
+		if (Mig)
 		{
-			stateUpdate();
+			while (Mig)
+			{
+				if (currentState == IDLE)
+					return;
+				Ready.dequeue(running);
+				Mig = MigrateFCFS(time);
+			}
 			return;
 		}
 
