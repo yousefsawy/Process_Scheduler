@@ -168,6 +168,11 @@ int Process::getRemT() const
 
 }
 
+int Process::getRunT() const
+{
+	return RunT;
+}
+
 int Process::getRemtime() const {
 	if (!ReqQueue.isEmpty())
 	{
@@ -186,6 +191,8 @@ int Process::getRemtime() const {
 	{
 		file << TT << "\t" << PID << "\t" << AT << "\t" << CT << "\t" << IO_Ds << "\t" << WT << "\t" << RT << "\t" << TRT << endl;
 	}
+
+
 
 	void Process::setStatus(Status s) {
 

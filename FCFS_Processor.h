@@ -14,7 +14,7 @@ private:
 public:
 
 
-    FCFS_Processor(ProcessSch* SchedulerPointer,int FP);
+    FCFS_Processor(ProcessSch* SchedulerPointer,int FP, int MaxW, int RTF);
     void stateUpdate();
     virtual void AddProcess(Process*);
     Process* RemoveProcess();
@@ -23,6 +23,7 @@ public:
     void printMyReady(); //Prints Ready Queue
     virtual bool KillSignal(int);
     virtual int Find(int);
+    virtual bool MigrateFCFS(int);
     ~FCFS_Processor();
 
 };

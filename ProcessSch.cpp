@@ -43,19 +43,19 @@ bool ProcessSch::InputF(void)
 	int i = 0;
 	for (; i < FCFS; i++)
 	{
-		AllProcessors[i] = new FCFS_Processor(this,FP);
+		AllProcessors[i] = new FCFS_Processor(this,FP, MAXW, RTF);
 	}
 	for (; i < FCFS + SJF; i++)
 	{
-		AllProcessors[i] = new SJF_Processor(this);
+		AllProcessors[i] = new SJF_Processor(this, MAXW, RTF);
 	}
 	for (; i < FCFS + SJF + EDF; i++)
 	{
-		AllProcessors[i] = new EDF_Processor(this);
+		AllProcessors[i] = new EDF_Processor(this, MAXW, RTF);
 	}
 	for (; i < TotalProcessors; i++)
 	{
-		AllProcessors[i] = new RR_Processor(this, TS_RR);
+		AllProcessors[i] = new RR_Processor(this, TS_RR, MAXW, RTF);
 	}
 
 	for (int i = 0; i < NumOfProcess; i++)
@@ -412,6 +412,25 @@ void ProcessSch::SignalKill(int ID)
 			return;
 		}
 	}
+}
+
+bool ProcessSch::MigrateToRR(Process* Prcs)
+{
+	int MinExp = INT_MAX;
+	int temp = -1;
+
+	for (int i = FCFS + SJF + EDF; i < TotalProcessors; i++)
+	{
+		if (AllProcessors[i]->getExpectedFinishTime() <= MinExp)
+		{
+			MinExp = AllProcessors[i]->getExpectedFinishTime();
+			temp = i;
+		}
+	}
+	if (temp == -1)
+		return false;
+	AllProcessors[temp]->AddProcess(Prcs);
+	return true;
 }
 
 ProcessSch::~ProcessSch() {

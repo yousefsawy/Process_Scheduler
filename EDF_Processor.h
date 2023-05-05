@@ -13,7 +13,7 @@ private:
 
 public:
 
-	EDF_Processor(ProcessSch* SchedulerPointer);
+	EDF_Processor(ProcessSch* SchedulerPointer, int MaxW, int RTF);
 	void stateUpdate();
 	virtual void AddProcess(Process*);
 	Process* RemoveProcess();

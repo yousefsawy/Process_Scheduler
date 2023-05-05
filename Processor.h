@@ -19,10 +19,12 @@ protected:
 	int ID; // ID of processor;
 	static int counter; // Counter to assign ID for each processor
 	ProcessSch* SchPtr; //Scheduler Pointer
+	int MaxW;
+	int RTF;
 
 public:
 
-	Processor(ProcessSch* SchPtr); //Constructor
+	Processor(ProcessSch* SchPtr, int MaxW, int RTF); //Constructor
 	virtual void AddProcess(Process*) = 0; //Adds Process to Processor 
 	virtual Process* RemoveProcess() = 0;
 	bool isIdle() const; //Returns true if the processor has no processes
@@ -39,6 +41,7 @@ public:
 	Process* RequestBlocked();
 	Process* RequestTerminated();
 	Process* getRun();
+	virtual bool MigrateFCFS(int);
 	virtual int Find(int); //Returns the index of the Process in the RDY from PID
 	virtual bool KillSignal(int) { return false; }; //Kills the Signal
 	virtual ~Processor(); //Destructor

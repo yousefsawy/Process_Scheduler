@@ -65,13 +65,13 @@ public:
 	static int getCount();
 	int getRemtime() const;
 	int getRemT() const;
+	int getRunT() const;
 	//Functions
 	void IncrementRunT(); //Increments the running time inside CPU
 	bool isTerminated(); //Checks if process is terminated or not
 	bool isIORequest(); //Checks if there is an IORequest
 	void IncrementIO_D(); //Increments the IO Duration
 	void PrintInfo(ofstream &file); //Prints the data of the process
-
 	//Destructor
 	~Process();
 

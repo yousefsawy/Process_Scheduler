@@ -2,7 +2,7 @@
 
 int Processor::counter = 0;
 
-Processor::Processor(ProcessSch* SchedulerPointer){
+Processor::Processor(ProcessSch* SchedulerPointer, int MaxW, int RTF){
 
 	currentState = IDLE;
 	expectedFinishTime = 0;
@@ -13,6 +13,8 @@ Processor::Processor(ProcessSch* SchedulerPointer){
 	SchPtr = SchedulerPointer;
 	BusyT = 0;
 	IdealT = 0;
+	this->MaxW = MaxW;
+	this->RTF = RTF;
 }
 
 bool Processor::isRunning() const {
@@ -77,6 +79,11 @@ int Processor::Find(int)
 Process* Processor::getRun()
 {
 	return running;
+}
+
+bool Processor::MigrateFCFS(int time)
+{
+	return false;
 }
 
 int Processor::getID() const {

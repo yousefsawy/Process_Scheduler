@@ -12,7 +12,7 @@ private:
 
 public:
 
-	SJF_Processor(ProcessSch* SchedulerPointer);
+	SJF_Processor(ProcessSch* SchedulerPointer, int MaxW, int RTF);
 	void stateUpdate();
 	virtual void AddProcess(Process*);
 	Process* RemoveProcess();

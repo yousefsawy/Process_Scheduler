@@ -46,6 +46,7 @@ public:
 	void AddTerminated(Process*); //Adds a process to terminated
 	void AddBlocked(Process*); //Adds a process to blocked
 	void SignalKill(int);
+	bool MigrateToRR(Process*);
 	~ProcessSch();
 
 };

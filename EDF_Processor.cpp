@@ -1,7 +1,7 @@
 #include "EDF_Processor.h"
 #include "ProcessSch.h"
 
-EDF_Processor::EDF_Processor(ProcessSch* SchedulerPointer) :Processor(SchedulerPointer)
+EDF_Processor::EDF_Processor(ProcessSch* SchedulerPointer, int MaxW, int RTF) :Processor(SchedulerPointer, MaxW, RTF)
 {
 
 }

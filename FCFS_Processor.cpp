@@ -2,7 +2,7 @@
 #include "ProcessSch.h"
 
 
-FCFS_Processor::FCFS_Processor(ProcessSch* SchedulerPointer, int FP) :Processor(SchedulerPointer), ForkingP(FP)
+FCFS_Processor::FCFS_Processor(ProcessSch* SchedulerPointer, int FP, int MaxW, int RTF) :Processor(SchedulerPointer, MaxW, RTF), ForkingP(FP)
 {
 }
 
@@ -72,6 +72,19 @@ int FCFS_Processor::Find(int ID)
 	return n;
 }
 
+bool FCFS_Processor::MigrateFCFS(int time)
+{
+	bool Migrated = false;
+	int WaitingTime = time - running->getAT() - running->getRunT();
+	if (WaitingTime > MaxW)
+	{
+		Migrated = SchPtr->MigrateToRR(running);
+		if(Migrated)
+			running = nullptr;
+	}
+	return Migrated;
+}
+
 void FCFS_Processor::AddProcess(Process* NewPrcs)
 {
 	NewPrcs->setStatus(RDY);
@@ -110,7 +123,7 @@ void FCFS_Processor::ScheduleAlgo(int time)
 		
 		Process* temp;
 		Ready.peek(temp);
-		if (temp->getAT() >= time)
+		if (temp->getAT() >= time) //Leeh?
 		{
 			return;
 		}
@@ -118,9 +131,17 @@ void FCFS_Processor::ScheduleAlgo(int time)
 		Ready.dequeue(running);
 		running->setStatus(RUN);
 
-	}
+		if (MigrateFCFS(time))
+		{
+			stateUpdate();
+			return;
+		}
 
-	running->setRT(time /*timestep*/);
+	}
+	if (running->getRunT() == 0)
+	{
+		running->setRT(time /*timestep*/);
+	}
 	running->IncrementRunT();
 	expectedFinishTime--;
 	currentState = BUSY;
