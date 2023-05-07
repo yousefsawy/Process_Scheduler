@@ -76,7 +76,7 @@ bool FCFS_Processor::Migrate(int time)
 {
 	bool Migrated = false;
 	int WaitingTime = time - running->getAT() - running->getRunT();
-	if (WaitingTime > MaxW && !running->ischild())
+	if (WaitingTime > MaxW && !running->getIschild())
 	{
 		Migrated = SchPtr->MigrateToRR(running);
 		if (Migrated)
