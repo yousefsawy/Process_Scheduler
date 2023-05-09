@@ -433,6 +433,25 @@ bool ProcessSch::MigrateToRR(Process* Prcs)
 	return true;
 }
 
+bool ProcessSch::MigrateToSJF(Process* Prcs)
+{
+	int MinExp = INT_MAX;
+	int temp = -1;
+
+	for (int i = FCFS; i < FCFS+SJF; i++)
+	{
+		if (AllProcessors[i]->getExpectedFinishTime() <= MinExp)
+		{
+			MinExp = AllProcessors[i]->getExpectedFinishTime();
+			temp = i;
+		}
+	}
+	if (temp == -1)
+		return false;
+	AllProcessors[temp]->AddProcess(Prcs);
+	return true;
+}
+
 ProcessSch::~ProcessSch() {
 
 	for (int i = 0; i < TotalProcessors; i++) {

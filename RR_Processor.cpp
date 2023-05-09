@@ -28,6 +28,22 @@ void RR_Processor::printMyReady() {
 
 }
 
+bool RR_Processor::Migrate(int)
+{
+	bool Migrated = false;
+	int time = running->getRemtime();
+	if (time<RTF)
+	{
+		Migrated = SchPtr->MigrateToSJF(running);
+		if (Migrated)
+		{
+			running = nullptr;
+			stateUpdate();
+		}
+	}
+	return Migrated;
+}
+
 void RR_Processor::AddProcess(Process* p) {
 
 	p->setStatus(RDY);
@@ -66,6 +82,19 @@ void RR_Processor::ScheduleAlgo(int time) {
 	running->IncrementRunT();
 	expectedFinishTime--;
 	currentTimeSlice++;
+
+	bool Mig = Migrate(time);
+	if (Mig)
+	{
+		while (Mig)
+		{
+			if (currentState == IDLE)
+				return;
+			Ready.dequeue(running);
+			Mig = Migrate(time);
+		}
+		return;
+	}
 
 	if (running->isTerminated())
 	{

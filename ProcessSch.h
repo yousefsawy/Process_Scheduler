@@ -47,6 +47,7 @@ public:
 	void AddBlocked(Process*); //Adds a process to blocked
 	void SignalKill(int);
 	bool MigrateToRR(Process*);
+	bool MigrateToSJF(Process*);
 	~ProcessSch();
 
 };

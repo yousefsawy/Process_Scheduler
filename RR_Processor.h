@@ -20,6 +20,7 @@ public:
 	Process* RemoveProcess();
 	void ScheduleAlgo(int time); //Execute process
 	void printMyReady(); //Prints Ready Queue
+	virtual bool Migrate(int);
 	~RR_Processor(); //Destructor
 
 };
