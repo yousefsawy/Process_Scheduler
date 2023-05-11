@@ -19,6 +19,8 @@ Process::Process(int a, int c,int ED, int n, bool IC) {
 	Rchild = nullptr;
 	ischild = IC;
 	forked = false;
+	MigrateRTF = false;
+	MigrateMaxW = false;
 }
 
 void Process::setPID(int id) {
@@ -49,6 +51,16 @@ void Process::setTT(int t) {
 void Process::Forked()
 {
 	forked = true;
+}
+
+void Process::setMigrateRTF()
+{
+	MigrateRTF = true;
+}
+
+void Process::setMigrateMaxW()
+{
+	MigrateMaxW = true;
 }
 
 void Process::setRT(int n) {
@@ -89,6 +101,16 @@ int Process::getTRT() const
 bool Process::getforked() const
 {
 	return forked;
+}
+
+bool Process::getMigrateRTF() const
+{
+	return MigrateRTF;
+}
+
+bool Process::getMigrateMaxW() const
+{
+	return MigrateMaxW;
 }
 
 Process* Process::getLchild() const

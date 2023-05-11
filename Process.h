@@ -26,6 +26,7 @@ private:
 	int RunT; //Running time (inside CPU)
 	int IO_Ds; //Total duration of IO_Ds
 	int Deadline; //Earliest deadline
+	bool MigrateRTF,MigrateMaxW;
 	Status Pstatus; //processor status
 	LinkedQueue<IO_Request*> ReqQueue; //Queue with the requests !!!ADD PRIQUEUE IF NOT SORTED
 	IO_Request* CurrentReq; //Current IO_Request
@@ -45,6 +46,8 @@ public:
 	void setTT(int t);
 	void Forked();
 
+	void setMigrateRTF();
+	void setMigrateMaxW();
 	void setRT(int n);
 	void AddRequest(int IO_R, int IO_D);
 	void setStatus(Status); //Set process status
@@ -59,6 +62,8 @@ public:
 	int getRT() const;
 	int getTRT() const;
 	bool getforked() const;
+	bool getMigrateRTF() const;
+	bool getMigrateMaxW() const;
 	Process* getLchild() const;
 	Process* getRchild() const;
 	bool getIschild() const;

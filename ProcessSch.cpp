@@ -13,12 +13,15 @@ ProcessSch::ProcessSch()
 	timestep = 1;
 	FCFS = 0;
 	SJF = 0;
+	EDF = 0;
 	RR = 0;
 	TS_RR = 0;
 	RTF = 0;
 	MAXW = 0;
 	NumOfProcess = 0;
 	TotalProcessors = 0;
+	CountRTF = 0;
+	CountMaxW = 0;
 	AllProcessors = nullptr;
 	countKill = 0;
 	countSteal = 0;
@@ -119,6 +122,14 @@ void ProcessSch::OutputF()
 		{
 			countED++;
 		}
+		if (temp->getMigrateRTF())
+		{
+			CountRTF++;
+		}
+		if (temp->getMigrateMaxW())
+		{
+			CountMaxW++;
+		}
 		delete temp;
 	}
 	int AvgWT = SumWT / NumOfProcess;
@@ -128,7 +139,7 @@ void ProcessSch::OutputF()
 
 	OutputFile << "Processes: " << NumOfProcess << endl<<endl;
 	OutputFile << "Avg WT=" << AvgWT << ",		Avg RT=" << AvgRT << ",		Avg TRT=" << AvgTRT << endl;
-	OutputFile << "Migration:		" <<"RTF = "<< "%		MaxW = " << "% \n";
+	OutputFile << "Migration:		" <<"RTF = "<< CountRTF * 100 / NumOfProcess <<"%		MaxW = " << CountMaxW * 100 / NumOfProcess <<"% \n";
 	OutputFile << "Work Steal: " << countSteal*100 / NumOfProcess << "% \n";
 	OutputFile << "Forked Process: " << countF * 100 / NumOfProcess << "% \n";
 	OutputFile << "Killed Process: " << countKill*100 / NumOfProcess << "% \n";
@@ -389,7 +400,6 @@ void ProcessSch::AddTerminated(Process* tempPtr) {
 	{
 		SignalKill(tempPtr->getRchild()->getPID());
 	}
-	//std::cout << "here";
 
 }
 
@@ -430,6 +440,7 @@ bool ProcessSch::MigrateToRR(Process* Prcs)
 	if (temp == -1)
 		return false;
 	AllProcessors[temp]->AddProcess(Prcs);
+	Prcs->setMigrateMaxW();
 	return true;
 }
 
@@ -449,6 +460,7 @@ bool ProcessSch::MigrateToSJF(Process* Prcs)
 	if (temp == -1)
 		return false;
 	AllProcessors[temp]->AddProcess(Prcs);
+	Prcs->setMigrateRTF();
 	return true;
 }
 

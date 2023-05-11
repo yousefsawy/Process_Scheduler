@@ -21,6 +21,7 @@ private:
 	int TotalProcessors; //Total number of processors
 	int countKill; //number of processes killed sucessfully
 	int countSteal; //number of processes stolen
+	int CountRTF, CountMaxW; //number of processes migrated
 	LinkedQueue<Process*> New;  //Recieves all process from file
 	LinkedQueue<Process*> Blocked;  //Contains blocked processes
 	LinkedQueue<Process*> Terminated;  //Contains terminated processes
