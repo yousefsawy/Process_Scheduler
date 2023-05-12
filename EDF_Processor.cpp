@@ -22,7 +22,14 @@ void EDF_Processor::stateUpdate() {
 void EDF_Processor::printMyReady() {
 
 	std::cout << "processor " << getID() << "[EDF ]: " << Ready.getCount() << " RDY: ";
-	Ready.print();
+	if (isOverHeated())
+	{
+		std::cout << "OVERHEATED!!!";
+	}
+	else
+	{
+		Ready.print();
+	}
 
 }
 
@@ -74,7 +81,7 @@ void EDF_Processor::ScheduleAlgo(int time)
 		return;
 	}
 
-	if (OverHeated) {
+	if (OverHeated()) {
 		return;
 	}
 
@@ -122,19 +129,25 @@ bool EDF_Processor::OverHeated() {
 
 	}
 
-	bool toSTOPState = rand() % 100 <= 5;
+	bool toSTOPState = rand() % 1000 <= 5;
 
 	if (toSTOPState) {
 
-		currentState == STOP;
+		currentState = STOP;
 		stopTimesteps = SchPtr->getn();
 		stopTimesteps--;
 
-		for (int i = 0; i < Ready.getCount(); i++) {
+		while (!Ready.isEmpty()) {
 			SchPtr->ToReady(Ready);
 		}
-		running->setStatus(RDY);
-		SchPtr->ToReady(running);
+		if (running)
+		{
+			running->setStatus(RDY);
+			SchPtr->ToReady(running);
+		}
+		running = nullptr;
+		this->expectedFinishTime = 0;
+		return true;
 
 	}
 	else {

@@ -20,9 +20,17 @@ void FCFS_Processor::stateUpdate() {
 }
 
 void FCFS_Processor::printMyReady() {
-
+	
 	std::cout << "processor " << getID() << "[FCFS]: " << Ready.getCount() << " RDY: ";
-	Ready.print();
+	if (isOverHeated())
+	{
+		std::cout << "OVERHEATED!!!";
+	}
+	else
+	{
+		Ready.print();
+	}
+	
 
 }
 
@@ -122,7 +130,7 @@ void FCFS_Processor::ScheduleAlgo(int time)
 		return;
 	}
 
-	if (OverHeated) {
+	if (OverHeated()) {
 		return;
 	}
 	
@@ -223,20 +231,48 @@ bool FCFS_Processor::OverHeated() {
 
 	}
 
-	bool toSTOPState = rand() % 100 <= 5;
+	bool toSTOPState = rand() % 1;
 
 	if (toSTOPState) {
 
-		currentState == STOP;
+		currentState = STOP;
 		stopTimesteps = SchPtr->getn();
 		stopTimesteps--;
 
-		for (int i = 0; i < Ready.getCount(); i++) {
-			SchPtr->ToReady(Ready);
+		while (!Ready.isEmpty())
+		{
+			Process*temp=nullptr;
+			Ready.peek(temp);
+			if (temp)
+			{
+				if (!temp->getIschild())
+				{
+					SchPtr->ToReady(Ready);
+				}
+				else
+				{
+					Ready.dequeue(temp);
+					SchPtr->ToReadyForking(temp);
+				}
+			}
+			
 		}
-		running->setStatus(RDY);
-		SchPtr->ToReady(running);
+		if (running)
+		{
+			running->setStatus(RDY);
+			if (!running->getIschild())
+			{
+				SchPtr->ToReady(running);
 
+			}
+			else
+			{
+				SchPtr->ToReadyForking(running);
+			}
+		}
+		running = nullptr;
+		this->expectedFinishTime = 0;
+		return true;
 	}
 	else {
 

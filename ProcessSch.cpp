@@ -18,7 +18,7 @@ ProcessSch::ProcessSch()
 	TS_RR = 0;
 	RTF = 0;
 	MAXW = 0;
-	n = 0;
+	OH = 0;
 	NumOfProcess = 0;
 	TotalProcessors = 0;
 	CountRTF = 0;
@@ -39,7 +39,7 @@ bool ProcessSch::InputF(void)
 		return false;
 
 
-	InputFile >> FCFS >> SJF >> EDF >> RR >> TS_RR >> RTF >> MAXW >>STL>>FP>> NumOfProcess;
+	InputFile >> FCFS >> SJF >> EDF >> RR >> TS_RR >> RTF >> MAXW >> STL >> FP >> OH >> NumOfProcess;
 	TotalProcessors = FCFS + SJF + EDF + RR;
 
 	//Declare Processors
@@ -47,7 +47,7 @@ bool ProcessSch::InputF(void)
 	int i = 0;
 	for (; i < FCFS; i++)
 	{
-		AllProcessors[i] = new FCFS_Processor(this,FP, MAXW, RTF);
+		AllProcessors[i] = new FCFS_Processor(this, FP, MAXW, RTF);
 	}
 	for (; i < FCFS + SJF; i++)
 	{
@@ -64,7 +64,7 @@ bool ProcessSch::InputF(void)
 
 	for (int i = 0; i < NumOfProcess; i++)
 	{
-		int AT, PID, CT, ED,N; // Arrival Time, Process ID, CPU Time,Earliest deadline, Number of process requests  I/O
+		int AT, PID, CT, ED, N; // Arrival Time, Process ID, CPU Time,Earliest deadline, Number of process requests  I/O
 		InputFile >> AT >> PID >> CT >> ED >> N;
 
 		//TODO: Create a Process (PriNode or Node then add it to the processor)
@@ -108,11 +108,11 @@ void ProcessSch::OutputF()
 	NumOfProcess = Process::getCount();
 	Process* temp;
 	OutputFile << "TT" << "\t" << "PID" << "\t" << "AT" << "\t" << "CT" << "\t" << "IO_D" << "\t" << "WT" << "\t" << "RT" << "\t" << "TRT" << endl;
-	int SumWT = 0,SumRT=0,countED=0.,SumTRT=0,countF=0;
+	int SumWT = 0, SumRT = 0, countED = 0., SumTRT = 0, countF = 0;
 	while (Terminated.dequeue(temp))
 	{
 		temp->PrintInfo(OutputFile);
-		SumWT+=temp->getWT();
+		SumWT += temp->getWT();
 		SumRT += temp->getRT();
 		SumTRT += temp->getTRT();
 		if (temp->getforked())
@@ -138,18 +138,18 @@ void ProcessSch::OutputF()
 	int AvgTRT = SumTRT / NumOfProcess;
 
 
-	OutputFile << "Processes: " << NumOfProcess << endl<<endl;
+	OutputFile << "Processes: " << NumOfProcess << endl << endl;
 	OutputFile << "Avg WT=" << AvgWT << ",		Avg RT=" << AvgRT << ",		Avg TRT=" << AvgTRT << endl;
-	OutputFile << "Migration:		" <<"RTF = "<< CountRTF * 100 / NumOfProcess <<"%		MaxW = " << CountMaxW * 100 / NumOfProcess <<"% \n";
-	OutputFile << "Work Steal: " << countSteal*100 / NumOfProcess << "% \n";
+	OutputFile << "Migration:		" << "RTF = " << CountRTF * 100 / NumOfProcess << "%		MaxW = " << CountMaxW * 100 / NumOfProcess << "% \n";
+	OutputFile << "Work Steal: " << countSteal * 100 / NumOfProcess << "% \n";
 	OutputFile << "Forked Process: " << countF * 100 / NumOfProcess << "% \n";
-	OutputFile << "Killed Process: " << countKill*100 / NumOfProcess << "% \n";
+	OutputFile << "Killed Process: " << countKill * 100 / NumOfProcess << "% \n";
 	OutputFile << "Before Deadline: " << countED * 100 / NumOfProcess << "% \n";
-	OutputFile << "\nProcessors: " << TotalProcessors << " [" << FCFS << " FCFS, " << SJF << " SJF, " << EDF <<" EDF, " << RR << " RR]\n";
+	OutputFile << "\nProcessors: " << TotalProcessors << " [" << FCFS << " FCFS, " << SJF << " SJF, " << EDF << " EDF, " << RR << " RR]\n";
 	OutputFile << "Processor Load\n";
 	for (int i = 0; i < TotalProcessors; i++)
 	{
-		OutputFile << 'p' << i + 1 << '=' << round((float)(AllProcessors[i]->getBusy()*100)/(SumTRT-SumWT))<< "%	";
+		OutputFile << 'p' << i + 1 << '=' << round((float)(AllProcessors[i]->getBusy() * 100) / (SumTRT - SumWT)) << "%	";
 	}
 	OutputFile << "\n\nProcessor Utilization\n";
 	int SumUtil = 0;
@@ -297,7 +297,7 @@ void ProcessSch::ToReady(Process* p)
 void ProcessSch::ToReadyForking(Process* Process)
 {
 	int MinExp = INT_MAX;
-	int temp;
+	int temp = -1;
 	//ToDo: Enqueque data to suitable processor using scheduling algorithm
 
 	for (int i = 0; i < FCFS; i++)
@@ -312,13 +312,18 @@ void ProcessSch::ToReadyForking(Process* Process)
 			temp = i;
 		}
 	}
-	AllProcessors[temp]->AddProcess(Process);
+	if (temp == -1)
+	{
+		SignalKill(Process->getPID());
+	}
+	else
+		AllProcessors[temp]->AddProcess(Process);
 }
 
 void ProcessSch::Stealing()
 {
-	int MinExp = INT_MAX,MaxExp=0;
-	int Min=0,Max=0;
+	int MinExp = INT_MAX, MaxExp = 0;
+	int Min = 0, Max = 0;
 
 	for (int i = 0; i < TotalProcessors; i++)
 	{
@@ -340,7 +345,7 @@ void ProcessSch::Stealing()
 	while (((float)(MaxExp - MinExp) / MaxExp) > 0.4)
 	{
 		Process* temp = nullptr;
-		temp=AllProcessors[Max]->RemoveProcess();
+		temp = AllProcessors[Max]->RemoveProcess();
 		if (temp == nullptr)
 			break;
 		AllProcessors[Min]->AddProcess(temp);
@@ -511,7 +516,7 @@ bool ProcessSch::MigrateToSJF(Process* Prcs)
 	int MinExp = INT_MAX;
 	int temp = -1;
 
-	for (int i = FCFS; i < FCFS+SJF; i++)
+	for (int i = FCFS; i < FCFS + SJF; i++)
 	{
 		if (AllProcessors[i]->isOverHeated()) {
 			continue;
@@ -552,5 +557,5 @@ ProcessSch::~ProcessSch() {
 }
 
 int ProcessSch::getn() {
-	return n;
+	return OH;
 }

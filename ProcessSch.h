@@ -17,7 +17,7 @@ private:
 	int TS_RR; //Time slice for RR
 	int RTF, MAXW; //Process Migration related
 	int STL, FP; // Steal limit and Forking Probabiltity
-	int n; //Stop timesteps
+	int OH; //Stop timesteps
 	int NumOfProcess; //Number of process
 	int TotalProcessors; //Total number of processors
 	int countKill; //number of processes killed sucessfully
