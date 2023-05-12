@@ -18,6 +18,7 @@ ProcessSch::ProcessSch()
 	TS_RR = 0;
 	RTF = 0;
 	MAXW = 0;
+	n = 0;
 	NumOfProcess = 0;
 	TotalProcessors = 0;
 	CountRTF = 0;
@@ -234,6 +235,10 @@ void ProcessSch::ToReady(LinkedQueue<Process*>& List)
 
 	for (int i = 0; i < TotalProcessors; i++)
 	{
+		if (AllProcessors[i]->isOverHeated()) {
+			continue;
+		}
+
 		if (AllProcessors[i]->getExpectedFinishTime() <= MinExp)
 		{
 			MinExp = AllProcessors[i]->getExpectedFinishTime();
@@ -241,6 +246,51 @@ void ProcessSch::ToReady(LinkedQueue<Process*>& List)
 		}
 	}
 	AllProcessors[temp]->AddProcess(temp2);
+
+}
+
+void ProcessSch::ToReady(PriQueue<Process*>& List)
+{
+	Process* temp2 = nullptr;  //Temporary value to hold the data while transfer
+	List.dequeue(temp2);
+	int MinExp = INT_MAX;
+	int temp;
+	//ToDo: Enqueque data to suitable processor using scheduling algorithm
+
+	for (int i = 0; i < TotalProcessors; i++)
+	{
+		if (AllProcessors[i]->isOverHeated()) {
+			continue;
+		}
+
+		if (AllProcessors[i]->getExpectedFinishTime() <= MinExp)
+		{
+			MinExp = AllProcessors[i]->getExpectedFinishTime();
+			temp = i;
+		}
+	}
+	AllProcessors[temp]->AddProcess(temp2);
+
+}
+
+void ProcessSch::ToReady(Process* p)
+{
+	int MinExp = INT_MAX;
+	int temp;
+
+	for (int i = 0; i < TotalProcessors; i++)
+	{
+		if (AllProcessors[i]->isOverHeated()) {
+			continue;
+		}
+
+		if (AllProcessors[i]->getExpectedFinishTime() <= MinExp)
+		{
+			MinExp = AllProcessors[i]->getExpectedFinishTime();
+			temp = i;
+		}
+	}
+	AllProcessors[temp]->AddProcess(p);
 
 }
 
@@ -252,6 +302,10 @@ void ProcessSch::ToReadyForking(Process* Process)
 
 	for (int i = 0; i < FCFS; i++)
 	{
+		if (AllProcessors[i]->isOverHeated()) {
+			continue;
+		}
+
 		if (AllProcessors[i]->getExpectedFinishTime() <= MinExp)
 		{
 			MinExp = AllProcessors[i]->getExpectedFinishTime();
@@ -268,6 +322,10 @@ void ProcessSch::Stealing()
 
 	for (int i = 0; i < TotalProcessors; i++)
 	{
+		if (AllProcessors[i]->isOverHeated()) {
+			continue;
+		}
+
 		if (AllProcessors[i]->getExpectedFinishTime() <= MinExp)
 		{
 			MinExp = AllProcessors[i]->getExpectedFinishTime();
@@ -431,6 +489,10 @@ bool ProcessSch::MigrateToRR(Process* Prcs)
 
 	for (int i = FCFS + SJF + EDF; i < TotalProcessors; i++)
 	{
+		if (AllProcessors[i]->isOverHeated()) {
+			continue;
+		}
+
 		if (AllProcessors[i]->getExpectedFinishTime() <= MinExp)
 		{
 			MinExp = AllProcessors[i]->getExpectedFinishTime();
@@ -451,6 +513,10 @@ bool ProcessSch::MigrateToSJF(Process* Prcs)
 
 	for (int i = FCFS; i < FCFS+SJF; i++)
 	{
+		if (AllProcessors[i]->isOverHeated()) {
+			continue;
+		}
+
 		if (AllProcessors[i]->getExpectedFinishTime() <= MinExp)
 		{
 			MinExp = AllProcessors[i]->getExpectedFinishTime();
@@ -483,4 +549,8 @@ ProcessSch::~ProcessSch() {
 
 	}
 
+}
+
+int ProcessSch::getn() {
+	return n;
 }

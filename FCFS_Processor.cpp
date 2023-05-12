@@ -121,6 +121,10 @@ void FCFS_Processor::ScheduleAlgo(int time)
 		IdealT++;
 		return;
 	}
+
+	if (OverHeated) {
+		return;
+	}
 	
 	if (running == nullptr)
 	{
@@ -203,6 +207,43 @@ void FCFS_Processor::Forking(int time)
 			running->Forked();
 		}
 	}
+}
+
+bool FCFS_Processor::OverHeated() {
+
+	if (currentState == STOP) {
+
+		stopTimesteps--;
+
+		if (stopTimesteps == 0) {
+			currentState = IDLE;
+		}
+
+		return true;
+
+	}
+
+	bool toSTOPState = rand() % 100 <= 5;
+
+	if (toSTOPState) {
+
+		currentState == STOP;
+		stopTimesteps = SchPtr->getn();
+		stopTimesteps--;
+
+		for (int i = 0; i < Ready.getCount(); i++) {
+			SchPtr->ToReady(Ready);
+		}
+		running->setStatus(RDY);
+		SchPtr->ToReady(running);
+
+	}
+	else {
+
+		return false;
+
+	}
+
 }
 
 

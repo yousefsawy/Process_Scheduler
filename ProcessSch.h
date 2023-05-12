@@ -17,6 +17,7 @@ private:
 	int TS_RR; //Time slice for RR
 	int RTF, MAXW; //Process Migration related
 	int STL, FP; // Steal limit and Forking Probabiltity
+	int n; //Stop timesteps
 	int NumOfProcess; //Number of process
 	int TotalProcessors; //Total number of processors
 	int countKill; //number of processes killed sucessfully
@@ -34,6 +35,8 @@ public:
 	bool InputF(void);
 	void OutputF();
 	void ToReady(LinkedQueue<Process*>& List);
+	void ToReady(PriQueue<Process*>&);
+	void ToReady(Process*);
 	void ToReadyForking(Process* Process);
 	void Stealing();
 	void Simulate();
@@ -49,6 +52,7 @@ public:
 	void SignalKill(int);
 	bool MigrateToRR(Process*);
 	bool MigrateToSJF(Process*);
+	int getn();
 	~ProcessSch();
 
 };

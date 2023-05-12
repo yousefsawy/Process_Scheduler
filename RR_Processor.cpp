@@ -72,6 +72,10 @@ void RR_Processor::ScheduleAlgo(int time) {
 		return;
 	}
 
+	if (OverHeated) {
+		return;
+	}
+
 	if (running == nullptr) {
 
 		Ready.dequeue(running);
@@ -124,5 +128,42 @@ void RR_Processor::ScheduleAlgo(int time) {
 
 
 RR_Processor::~RR_Processor() {
+
+}
+
+bool RR_Processor::OverHeated() {
+
+	if (currentState == STOP) {
+
+		stopTimesteps--;
+
+		if (stopTimesteps == 0) {
+			currentState = IDLE;
+		}
+
+		return true;
+
+	}
+
+	bool toSTOPState = rand() % 100 <= 5;
+
+	if (toSTOPState) {
+
+		currentState == STOP;
+		stopTimesteps = SchPtr->getn();
+		stopTimesteps--;
+
+		for (int i = 0; i < Ready.getCount(); i++) {
+			SchPtr->ToReady(Ready);
+		}
+		running->setStatus(RDY);
+		SchPtr->ToReady(running);
+
+	}
+	else {
+
+		return false;
+
+	}
 
 }

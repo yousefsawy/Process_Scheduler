@@ -54,6 +54,10 @@ void SJF_Processor::ScheduleAlgo(int time)
 		return;
 	}
 
+	if (OverHeated) {
+		return;
+	}
+
 	if (running == nullptr) {
 
 		Ready.dequeue(running);
@@ -81,5 +85,42 @@ void SJF_Processor::ScheduleAlgo(int time)
 }
 
 SJF_Processor::~SJF_Processor() {
+
+}
+
+bool SJF_Processor::OverHeated() {
+
+	if (currentState == STOP) {
+
+		stopTimesteps--;
+
+		if (stopTimesteps == 0) {
+			currentState = IDLE;
+		}
+
+		return true;
+
+	}
+
+	bool toSTOPState = rand() % 100 <= 5;
+
+	if (toSTOPState) {
+
+		currentState == STOP;
+		stopTimesteps = SchPtr->getn();
+		stopTimesteps--;
+
+		for (int i = 0; i < Ready.getCount(); i++) {
+			SchPtr->ToReady(Ready);
+		}
+		running->setStatus(RDY);
+		SchPtr->ToReady(running);
+
+	}
+	else {
+
+		return false;
+
+	}
 
 }

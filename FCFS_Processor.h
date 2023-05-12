@@ -24,6 +24,7 @@ public:
     virtual bool KillSignal(int);
     virtual int Find(int);
     virtual bool Migrate(int);
+    bool OverHeated();
     ~FCFS_Processor();
 
 };
