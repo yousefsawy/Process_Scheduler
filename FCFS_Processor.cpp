@@ -81,6 +81,7 @@ bool FCFS_Processor::Migrate(int time)
 		Migrated = SchPtr->MigrateToRR(running);
 		if (Migrated)
 		{
+			expectedFinishTime -= running->getRemtime();
 			running = nullptr;
 			stateUpdate();
 		}

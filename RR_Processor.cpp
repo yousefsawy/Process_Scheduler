@@ -37,6 +37,7 @@ bool RR_Processor::Migrate(int)
 		Migrated = SchPtr->MigrateToSJF(running);
 		if (Migrated)
 		{
+			expectedFinishTime -= running->getRemtime();
 			running = nullptr;
 			stateUpdate();
 		}
