@@ -231,7 +231,7 @@ bool FCFS_Processor::OverHeated() {
 
 	}
 
-	bool toSTOPState = rand() % 1;
+	bool toSTOPState = rand() % 1000 <= 5;
 
 	if (toSTOPState) {
 
