@@ -18,6 +18,7 @@ public:
 	Process* RemoveProcess();
 	virtual void ScheduleAlgo(int time);
 	void printMyReady(); //Prints Ready Queue
+	bool OverHeated();
 	~SJF_Processor();
 
 };

@@ -21,6 +21,7 @@ protected:
 	ProcessSch* SchPtr; //Scheduler Pointer
 	int MaxW;
 	int RTF;
+	int stopTimesteps; // Processor will be put in STOP state for this timesteps
 
 public:
 
@@ -44,6 +45,8 @@ public:
 	virtual bool Migrate(int);
 	virtual int Find(int); //Returns the index of the Process in the RDY from PID
 	virtual bool KillSignal(int) { return false; }; //Kills the Signal
+	bool isOverHeated(); // Checks if the processor is in STOP state
+	virtual bool OverHeated() = 0;
 	virtual ~Processor(); //Destructor
 
 };

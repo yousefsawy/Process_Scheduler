@@ -1,4 +1,6 @@
 #include"Processor.h"
+#include <cstdlib>
+#include <ctime>
 
 int Processor::counter = 0;
 
@@ -15,6 +17,8 @@ Processor::Processor(ProcessSch* SchedulerPointer, int MaxW, int RTF){
 	IdealT = 0;
 	this->MaxW = MaxW;
 	this->RTF = RTF;
+	stopTimesteps = 0;
+	srand(time(NULL));
 }
 
 bool Processor::isRunning() const {
@@ -95,4 +99,10 @@ int Processor::getID() const {
 void Processor::setSchPtr(ProcessSch* SchedulerPointer)
 {
 	SchPtr = SchedulerPointer;
+}
+
+bool Processor::isOverHeated() {
+
+	return currentState == STOP;
+
 }

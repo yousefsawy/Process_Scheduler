@@ -42,6 +42,7 @@ inline bool ModifiedQueue<T>::deleteMid(int n, T& Object)
             this->front = temp->getNext();
         }
         delete temp;
+        this->size--;
         return true;
     }
 
@@ -61,6 +62,7 @@ inline bool ModifiedQueue<T>::deleteMid(int n, T& Object)
             }
 
             delete deleteTemp; //ET3ADEL
+            this->size--;
             return true;
         }
         temp = temp->getNext();

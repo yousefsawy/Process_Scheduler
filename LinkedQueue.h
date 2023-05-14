@@ -16,7 +16,7 @@ protected:
 	int size;
 
 public:
-
+	
 	LinkedQueue();
 	bool isEmpty() const;
 	bool enqueue(const T&);

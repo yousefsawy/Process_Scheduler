@@ -16,7 +16,8 @@ enum Status
 enum State
 {
 	IDLE,
-	BUSY//,STOP
+	BUSY,
+	STOP
 };
 
 struct IO_Request //QUESTION: IS THE REQUEST SORTED?

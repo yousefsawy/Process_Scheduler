@@ -1,10 +1,8 @@
 #include "ProcessSch.h"
 
-int main(void)
+int main()
 {
-	ProcessSch M;
-	M.Simulate();
-
+	ProcessSch scheduler;
+	scheduler.Simulate();
 	return 0;
-
 }

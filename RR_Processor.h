@@ -21,6 +21,7 @@ public:
 	void ScheduleAlgo(int time); //Execute process
 	void printMyReady(); //Prints Ready Queue
 	virtual bool Migrate(int);
+	bool OverHeated();
 	~RR_Processor(); //Destructor
 
 };
