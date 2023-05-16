@@ -29,7 +29,7 @@ public:
 	virtual void AddProcess(Process*) = 0; //Adds Process to Processor 
 	virtual Process* RemoveProcess() = 0;
 	bool isIdle() const; //Returns true if the processor has no processes
-	virtual void stateUpdate() = 0; //Updates the state of processor
+	virtual void stateUpdate(bool) = 0; //Updates the state of processor
 	int getExpectedFinishTime() const; //Returns expected time to finish all process
 	int pUtil() const;
 	int getBusy() const;

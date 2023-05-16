@@ -6,15 +6,17 @@ FCFS_Processor::FCFS_Processor(ProcessSch* SchedulerPointer, int FP, int MaxW, i
 {
 }
 
-void FCFS_Processor::stateUpdate() {
+void FCFS_Processor::stateUpdate(bool t = true) {
 
 	if (running == nullptr && Ready.isEmpty()) {
 		currentState = IDLE;
-		IdealT++; //3ayzeen nsheel de
+		if(t)
+			IdealT++; //3ayzeen nsheel de
 	}
 	else {
 		currentState = BUSY;
-		BusyT++; //3ayzeen nsheel de
+		if(t)
+			BusyT++; //3ayzeen nsheel de
 	}
 
 }
@@ -91,7 +93,7 @@ bool FCFS_Processor::Migrate(int time)
 		{
 			expectedFinishTime -= running->getRemtime();
 			running = nullptr;
-			stateUpdate();
+			stateUpdate(false);
 		}
 	}
 	return Migrated;

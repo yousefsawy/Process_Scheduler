@@ -15,7 +15,7 @@ private:
 public:
 
 	RR_Processor(ProcessSch* SchedulerPointer,int TS, int MaxW, int RTF);
-	void stateUpdate(); //Updates processor state
+	void stateUpdate(bool); //Updates processor state
 	void AddProcess(Process*); //Adds process to ready queue "RDY"
 	Process* RemoveProcess();
 	void ScheduleAlgo(int time); //Execute process

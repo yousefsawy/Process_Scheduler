@@ -13,7 +13,7 @@ private:
 public:
 
 	SJF_Processor(ProcessSch* SchedulerPointer, int MaxW, int RTF);
-	void stateUpdate();
+	void stateUpdate(bool);
 	virtual void AddProcess(Process*);
 	Process* RemoveProcess();
 	virtual void ScheduleAlgo(int time);
