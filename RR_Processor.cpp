@@ -8,22 +8,24 @@ RR_Processor::RR_Processor(ProcessSch* SchedulerPointer,int TS, int MaxW, int RT
 
 
 
-void RR_Processor::stateUpdate() {
+void RR_Processor::stateUpdate(bool t = true) {
 
 	if (running == nullptr && Ready.isEmpty()) {
 		currentState = IDLE;
-		IdealT++;
+		if(t)
+			IdealT++;
 	}
 	else {
 		currentState = BUSY;
-		BusyT++;
+		if(t)
+			BusyT++;
 	}
 
 }
 
 void RR_Processor::printMyReady() {
 
-	std::cout << "processor " << getID() << "[ RR ]: " << Ready.getCount() << " RDY: ";
+	std::cout << "processor " << getID() << "[RR  ]: " << Ready.getCount() << " RDY: ";
 	if (isOverHeated())
 	{
 		std::cout << "OVERHEATED!!!";
@@ -46,7 +48,7 @@ bool RR_Processor::Migrate(int)
 		{
 			expectedFinishTime -= running->getRemtime();
 			running = nullptr;
-			stateUpdate();
+			stateUpdate(false);
 		}
 	}
 	return Migrated;

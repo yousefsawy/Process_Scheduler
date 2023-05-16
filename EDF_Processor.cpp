@@ -6,7 +6,7 @@ EDF_Processor::EDF_Processor(ProcessSch* SchedulerPointer, int MaxW, int RTF) :P
 
 }
 
-void EDF_Processor::stateUpdate() {
+void EDF_Processor::stateUpdate(bool t = true) {
 
 	if (running == nullptr && Ready.isEmpty()) {
 		currentState = IDLE;

@@ -14,7 +14,7 @@ private:
 public:
 
 	EDF_Processor(ProcessSch* SchedulerPointer, int MaxW, int RTF);
-	void stateUpdate();
+	void stateUpdate(bool t);
 	virtual void AddProcess(Process*);
 	Process* RemoveProcess();
 	virtual void ScheduleAlgo(int time);
