@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PROCESS_SCHEDULER_H
+#define PROCESS_SCHEDULER_H
 
 #include "LinkedQueue.h"
 #include "Process.h"
@@ -56,3 +57,5 @@ public:
 	~ProcessSch();
 
 };
+
+#endif

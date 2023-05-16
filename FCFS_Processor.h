@@ -1,4 +1,5 @@
-#pragma once
+#ifndef FCFS_PROCESSOR_H
+#define FCFS_PROCESSOR_H
 
 #include "Processor.h"
 #include "ModifiedQueue.h"
@@ -29,3 +30,4 @@ public:
 
 };
 
+#endif

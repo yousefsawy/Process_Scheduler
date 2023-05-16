@@ -2,9 +2,9 @@
 #ifndef EDF_PROCESSOR
 #define EDF_PROCESSOR
 
-
 #include "Processor.h"
 #include "PriQueue.h"
+
 class EDF_Processor : public Processor
 {
 private:

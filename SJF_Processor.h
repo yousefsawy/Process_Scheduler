@@ -1,5 +1,5 @@
-#ifndef SJF_PROCESSOR
-#define SJF_PROCESSOR
+#ifndef SJF_PROCESSOR_H
+#define SJF_PROCESSOR_H
 
 #include"Processor.h"
 #include"PriQueue.h"

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef UI_CLASS_H
+#define UI_CLASS_H
+
 #include "DEFS.h"
 #include <iostream>
 #include <Windows.h>
@@ -18,3 +20,5 @@ public:
 	void Interactive_StepMode();
 	void SilentMode();
 };
+
+#endif
