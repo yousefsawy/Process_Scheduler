@@ -1,6 +1,5 @@
 #include"Processor.h"
-#include <cstdlib>
-#include <ctime>
+
 
 int Processor::counter = 0;
 
@@ -18,7 +17,6 @@ Processor::Processor(ProcessSch* SchedulerPointer, int MaxW, int RTF){
 	this->MaxW = MaxW;
 	this->RTF = RTF;
 	stopTimesteps = 0;
-	srand(time(NULL));
 }
 
 bool Processor::isRunning() const {

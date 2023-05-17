@@ -178,12 +178,14 @@ void ProcessSch::Simulate()
 		int ID_KillSig;
 		SigKill* temp3 = nullptr;
 		Kill.peek(temp3);
-		if (temp3 && temp3->time == timestep)
+		while (temp3 && temp3->time == timestep)
 		{
 			ID_KillSig = temp3->PID;
 			SignalKill(ID_KillSig);
 			Kill.dequeue(temp3);
 			delete temp3;
+			temp3 = nullptr;
+			Kill.peek(temp3);
 		}
 
 		//check if process in Run goes to blocked or terminatted

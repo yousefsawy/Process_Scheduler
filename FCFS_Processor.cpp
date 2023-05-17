@@ -141,7 +141,7 @@ void FCFS_Processor::ScheduleAlgo(int time)
 		
 		Process* temp;
 		Ready.peek(temp);
-		if (temp->getAT() >= time) //Leeh?
+		if (temp->getAT() >= time)
 		{
 			return;
 		}
