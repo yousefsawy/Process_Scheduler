@@ -115,9 +115,8 @@ bool SJF_Processor::OverHeated() {
 
 		currentState = STOP;
 		stopTimesteps = SchPtr->getn();
-		stopTimesteps--;
 
-		while(!Ready.isEmpty()){
+		while (!Ready.isEmpty()) {
 
 			Process* temp = nullptr;
 			Ready.dequeue(temp);

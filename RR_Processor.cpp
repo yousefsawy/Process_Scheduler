@@ -160,7 +160,6 @@ bool RR_Processor::OverHeated() {
 
 		currentState = STOP;
 		stopTimesteps = SchPtr->getn();
-		stopTimesteps--;
 
 		while (!Ready.isEmpty()) {
 
