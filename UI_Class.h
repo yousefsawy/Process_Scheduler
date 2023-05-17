@@ -10,15 +10,19 @@ class ProcessSch;
 class UI_Class
 {
 private:
-	UI_Mode Mode;
-	ProgramState State; //True if program is finished
+
 	int TimeStep;
+	UI_Mode Mode;
+	ProgramState State;
 	ProcessSch* PtrSchd;
+
 public:
+
 	UI_Class(ProcessSch*);
 	void ExecuteUI();
 	void Interactive_StepMode();
 	void SilentMode();
+
 };
 
 #endif

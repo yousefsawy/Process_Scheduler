@@ -45,7 +45,6 @@ public:
 	void setPID(int id);
 	void setTT(int t);
 	void Forked();
-
 	void setMigrateRTF();
 	void setMigrateMaxW();
 	void setRT(int n);

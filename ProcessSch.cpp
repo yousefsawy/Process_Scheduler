@@ -249,29 +249,6 @@ void ProcessSch::ToReady(LinkedQueue<Process*>& List)
 
 }
 
-void ProcessSch::ToReady(PriQueue<Process*>& List)
-{
-	Process* temp2 = nullptr;  //Temporary value to hold the data while transfer
-	List.dequeue(temp2);
-	int MinExp = INT_MAX;
-	int temp;
-	//ToDo: Enqueque data to suitable processor using scheduling algorithm
-
-	for (int i = 0; i < TotalProcessors; i++)
-	{
-		if (AllProcessors[i]->isOverHeated()) {
-			continue;
-		}
-
-		if (AllProcessors[i]->getExpectedFinishTime() <= MinExp)
-		{
-			MinExp = AllProcessors[i]->getExpectedFinishTime();
-			temp = i;
-		}
-	}
-	AllProcessors[temp]->AddProcess(temp2);
-
-}
 
 void ProcessSch::ToReady(Process* p)
 {

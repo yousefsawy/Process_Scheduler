@@ -3,11 +3,10 @@
 
 #include "LinkedQueue.h"
 #include "Process.h"
-#include "Processor.h"
 #include "FCFS_Processor.h"
-#include "RR_Processor.h"
 #include "SJF_Processor.h"
 #include "EDF_Processor.h"
+#include "RR_Processor.h"
 
 class ProcessSch
 {
@@ -36,7 +35,6 @@ public:
 	bool InputF(void);
 	void OutputF();
 	void ToReady(LinkedQueue<Process*>& List);
-	void ToReady(PriQueue<Process*>&);
 	void ToReady(Process*);
 	void ToReadyForking(Process* Process);
 	void Stealing();

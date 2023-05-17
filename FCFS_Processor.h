@@ -14,7 +14,6 @@ private:
 
 public:
 
-
     FCFS_Processor(ProcessSch* SchedulerPointer,int FP, int MaxW, int RTF);
     void stateUpdate(bool);
     virtual void AddProcess(Process*);

@@ -233,7 +233,7 @@ bool FCFS_Processor::OverHeated() {
 
 	}
 
-	bool toSTOPState = rand() % 1;
+	bool toSTOPState = rand() % 1000 <= 5;
 
 	if (toSTOPState) {
 
@@ -243,38 +243,37 @@ bool FCFS_Processor::OverHeated() {
 
 		while (!Ready.isEmpty())
 		{
-			Process*temp=nullptr;
-			Ready.peek(temp);
-			if (temp)
+			Process* temp = nullptr;
+			Ready.dequeue(temp);
+
+			if (temp->getIschild())
 			{
-				if (!temp->getIschild())
-				{
-					SchPtr->ToReady(Ready);
-				}
-				else
-				{
-					Ready.dequeue(temp);
-					SchPtr->ToReadyForking(temp);
-				}
+				SchPtr->ToReadyForking(temp);
 			}
-			
+			else
+			{
+				SchPtr->ToReady(temp);
+			}
 		}
+
 		if (running)
 		{
 			running->setStatus(RDY);
-			if (!running->getIschild())
+			if (running->getIschild())
 			{
-				SchPtr->ToReady(running);
+				SchPtr->ToReadyForking(running);
 
 			}
 			else
 			{
-				SchPtr->ToReadyForking(running);
+				SchPtr->ToReady(running);
 			}
+			running = nullptr;
 		}
-		running = nullptr;
+
 		this->expectedFinishTime = 0;
 		return true;
+
 	}
 	else {
 

@@ -138,14 +138,20 @@ bool EDF_Processor::OverHeated() {
 		stopTimesteps--;
 
 		while (!Ready.isEmpty()) {
-			SchPtr->ToReady(Ready);
+
+			Process* temp = nullptr;
+			Ready.dequeue(temp);
+			SchPtr->ToReady(temp);
+
 		}
+
 		if (running)
 		{
 			running->setStatus(RDY);
 			SchPtr->ToReady(running);
+			running = nullptr;
 		}
-		running = nullptr;
+
 		this->expectedFinishTime = 0;
 		return true;
 

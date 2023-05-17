@@ -3,23 +3,16 @@
 
 #include "Process.h"
 #include "LinkedQueue.h"
-#include "Node.h"
 
 template <typename T>
-class ModifiedQueue :
-    public LinkedQueue<T>
+class ModifiedQueue : public LinkedQueue<T>
 {
 public:
     bool deleteMid(int, T&); //Deletes from the Queue using the index and returns the Object
 };
 
-
-
-
-
-
-
-//-------------------IMPLEMENTATION---------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//IMPLEMENTATIONS
 
 template <typename T>
 inline bool ModifiedQueue<T>::deleteMid(int n, T& Object)
@@ -71,7 +64,5 @@ inline bool ModifiedQueue<T>::deleteMid(int n, T& Object)
     return false;
 
 }
-
-
 
 #endif

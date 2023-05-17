@@ -5,7 +5,7 @@
 #include "PriNode.h"
 
 template<typename T>
-class PriQueue :public QueueADT<T> {
+class PriQueue : public QueueADT<T> {
 
 private:
 
