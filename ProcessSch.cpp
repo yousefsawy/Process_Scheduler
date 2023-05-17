@@ -141,7 +141,7 @@ void ProcessSch::OutputF()
 	OutputFile << "Processes: " << NumOfProcess << endl << endl;
 	OutputFile << "Avg WT=" << AvgWT << ",		Avg RT=" << AvgRT << ",		Avg TRT=" << AvgTRT << endl;
 	OutputFile << "Migration:		" << "RTF = " << CountRTF * 100 / NumOfProcess << "%		MaxW = " << CountMaxW * 100 / NumOfProcess << "% \n";
-	OutputFile << "Work Steal: " << countSteal * 100 / NumOfProcess << "% \n";
+	OutputFile << "Work Steal: " << countSteal * 100 / (timestep / STL) << "% \n";
 	OutputFile << "Forked Process: " << countF * 100 / NumOfProcess << "% \n";
 	OutputFile << "Killed Process: " << countKill * 100 / NumOfProcess << "% \n";
 	OutputFile << "Before Deadline: " << countED * 100 / NumOfProcess << "% \n";
@@ -321,6 +321,8 @@ void ProcessSch::Stealing()
 			Max = i;
 		}
 	}
+	if (((float)(MaxExp - MinExp) / MaxExp) > 0.4)
+		countSteal++;
 	while (((float)(MaxExp - MinExp) / MaxExp) > 0.4)
 	{
 		Process* temp = nullptr;
@@ -330,7 +332,6 @@ void ProcessSch::Stealing()
 		AllProcessors[Min]->AddProcess(temp);
 		MaxExp = AllProcessors[Max]->getExpectedFinishTime();
 		MinExp = AllProcessors[Min]->getExpectedFinishTime();
-		countSteal++;
 	}
 }
 
